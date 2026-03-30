@@ -320,7 +320,7 @@
 
         .schedule-option {
             flex: 1;
-            padding: 10px 16px;
+            padding: 12px 16px;
             border-radius: 8px;
             text-align: center;
             font-weight: 600;
@@ -328,6 +328,12 @@
             cursor: pointer;
             transition: all 0.3s ease;
             color: rgba(255, 255, 255, 0.6);
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .schedule-option * {
+            pointer-events: none;
         }
 
         .schedule-option.active {
@@ -1036,10 +1042,10 @@
                                     <i class="fas fa-clock text-[#F4B41A] mr-1.5"></i>Horario
                                 </label>
                                 <div class="schedule-toggle">
-                                    <div class="schedule-option active cursor-pointer" data-schedule="now" onclick="toggleSchedule('now', this)">
+                                    <div class="schedule-option active" data-schedule="now" onclick="toggleSchedule('now', this)">
                                         <i class="fas fa-bolt mr-1"></i>Ahora
                                     </div>
-                                    <div class="schedule-option cursor-pointer" data-schedule="scheduled" onclick="toggleSchedule('scheduled', this)">
+                                    <div class="schedule-option" data-schedule="scheduled" onclick="toggleSchedule('scheduled', this)">
                                         <i class="fas fa-calendar mr-1"></i>Programado
                                     </div>
                                 </div>
@@ -1185,10 +1191,10 @@
                             <i class="fas fa-clock text-[#F4B41A] mr-1.5"></i>Horario
                         </label>
                         <div class="schedule-toggle">
-                            <div class="schedule-option active cursor-pointer" data-schedule="now" onclick="toggleSchedule('now', this)">
+                            <div class="schedule-option active" data-schedule="now" onclick="toggleSchedule('now', this)">
                                 <i class="fas fa-bolt mr-1"></i>Ahora
                             </div>
-                            <div class="schedule-option cursor-pointer" data-schedule="scheduled" onclick="toggleSchedule('scheduled', this)">
+                            <div class="schedule-option" data-schedule="scheduled" onclick="toggleSchedule('scheduled', this)">
                                 <i class="fas fa-calendar mr-1"></i>Programado
                             </div>
                         </div>
@@ -1774,7 +1780,7 @@
     </section>
 
     <!-- Footer -->
-    <footer class="bg-brand-black py-12 px-4 border-t border-gray-900 pb-24 md:pb-12">
+    <footer class="bg-brand-black py-12 px-4 border-t border-gray-900 pb-20 md:pb-12">
         <div class="max-w-7xl mx-auto">
             <div class="grid md:grid-cols-3 gap-8 mb-8">
                 <div>
@@ -1844,14 +1850,6 @@
             <i class="fas fa-bolt mr-1"></i>Activar demo
         </span>
     </a>
-
-    <!-- Sticky Mobile CTA -->
-    <div class="fixed bottom-0 left-0 right-0 z-50 md:hidden">
-        <a href="https://wa.me/51933667414?text=Hola%20vi%20la%20demo%20de%20QORI%20y%20quiero%20activar%20esta%20web%20para%20mi%20servicio%20de%20transporte.%0A%0A%C2%BFC%C3%B3mo%20empiezo%3F" class="btn-primary w-full py-4 rounded-t-2xl font-bold text-base flex items-center justify-center gap-2 shadow-2xl">
-            <i class="fab fa-whatsapp text-xl"></i>
-            Activar Esta Demo
-        </a>
-    </div>
 
     <!-- Scripts -->
     <script>
