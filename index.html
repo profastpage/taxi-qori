@@ -575,7 +575,7 @@
                     <a href="#beneficios" class="text-gray-400 hover:text-[#F4B41A] transition-colors text-sm font-medium">Beneficios</a>
                     <a href="#servicios" class="text-gray-400 hover:text-[#F4B41A] transition-colors text-sm font-medium">Servicios</a>
                     <a href="#como-funciona" class="text-gray-400 hover:text-[#F4B41A] transition-colors text-sm font-medium">Cómo Funciona</a>
-                    <a href="https://wa.me/51933667414?text=Hola%20vi%20la%20demo%20de%20QORI%20y%20me%20interesa%20el%20servicio%20de%20traslados%20ejecutivos.%0A%0AQuiero%20activar%20esta%20web%20para%20mi%20negocio%20de%20transporte.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F" class="btn-primary px-5 py-2.5 rounded-full text-sm">
+                    <a href="https://wa.me/51933667414?text=Hola%20vi%20la%20demo%20de%20QORI%20y%20me%20interesa%20el%20servicio%20de%20traslados%20ejecutivos.%0A%0AQuiero%20activar%20esta%20web%20para%20mi%20negocio%20de%20transporte.%20Me%20pueden%20dar%20mas%20informacion%3F" class="btn-primary px-5 py-2.5 rounded-full text-sm">
                         <i class="fab fa-whatsapp mr-2"></i>Activar Demo
                     </a>
                 </div>
@@ -1033,12 +1033,12 @@
                                     <div class="vehicle-option p-3 text-center cursor-pointer" data-vehicle="suv">
                                         <i class="fas fa-shuttle-van vehicle-icon text-xl mb-1"></i>
                                         <div class="text-white font-semibold text-xs">Camioneta</div>
-                                        <div class="text-[#F4B41A] text-xs font-bold">+S/15</div>
+                                        <div class="text-[#F4B41A] text-xs font-bold">Premium</div>
                                     </div>
                                     <div class="vehicle-option p-3 text-center cursor-pointer" data-vehicle="van">
                                         <i class="fas fa-bus vehicle-icon text-xl mb-1"></i>
                                         <div class="text-white font-semibold text-xs">Van</div>
-                                        <div class="text-[#F4B41A] text-xs font-bold">+S/25</div>
+                                        <div class="text-[#F4B41A] text-xs font-bold">Ejecutiva</div>
                                     </div>
                                 </div>
                             </div>
@@ -1087,7 +1087,7 @@
                             <div class="price-display p-4 text-center">
                                 <div class="text-gray-400 text-xs mb-1">Tarifa estimada</div>
                                 <div class="text-4xl font-extrabold text-[#F4B41A] mb-1">
-                                    <span id="price-prefix">S/ </span><span id="estimated-price">25</span>
+                                    S/ <span id="estimated-price">25</span>
                                 </div>
                                 <div class="text-gray-500 text-xs">
                                     <i class="fas fa-info-circle mr-1"></i>
@@ -1478,12 +1478,12 @@
                             <div class="vehicle-option p-3 text-center cursor-pointer" data-vehicle="suv">
                                 <i class="fas fa-shuttle-van vehicle-icon text-xl mb-1"></i>
                                 <div class="text-white font-semibold text-xs">Camioneta</div>
-                                <div class="text-[#F4B41A] text-xs font-bold">+S/15</div>
+                                <div class="text-[#F4B41A] text-xs font-bold">Premium</div>
                             </div>
                             <div class="vehicle-option p-3 text-center cursor-pointer" data-vehicle="van">
                                 <i class="fas fa-bus vehicle-icon text-xl mb-1"></i>
                                 <div class="text-white font-semibold text-xs">Van</div>
-                                <div class="text-[#F4B41A] text-xs font-bold">+S/25</div>
+                                <div class="text-[#F4B41A] text-xs font-bold">Ejecutiva</div>
                             </div>
                         </div>
                     </div>
@@ -1532,7 +1532,7 @@
                     <div class="price-display p-4 text-center">
                         <div class="text-gray-400 text-xs mb-1">Tarifa estimada</div>
                         <div class="text-4xl font-extrabold text-[#F4B41A] mb-1">
-                            <span id="price-prefix-mobile">S/ </span><span id="estimated-price-mobile">25</span>
+                            S/ <span id="estimated-price-mobile">25</span>
                         </div>
                         <div class="text-gray-500 text-xs">
                             <i class="fas fa-info-circle mr-1"></i>
@@ -2349,18 +2349,6 @@
         function updateAllPrices() {
             const priceDisplay = document.getElementById('estimated-price');
             const priceDisplayMobile = document.getElementById('estimated-price-mobile');
-            const pricePrefix = document.getElementById('price-prefix');
-            const pricePrefixMobile = document.getElementById('price-prefix-mobile');
-            
-            // Hide "Desde" when zone is selected (exact fare)
-            const showPrefix = !PRICING_BASE.isZoneSelected;
-            
-            if (pricePrefix) {
-                pricePrefix.style.display = showPrefix ? 'inline' : 'none';
-            }
-            if (pricePrefixMobile) {
-                pricePrefixMobile.style.display = showPrefix ? 'inline' : 'none';
-            }
             
             if (priceDisplay) {
                 priceDisplay.textContent = PRICING_BASE.basePrice;
@@ -2467,18 +2455,18 @@
                     scheduleDetail = `Programado: ${datetime}`;
                 }
 
-                // Build message with cotizador data
-                const message = `Hola 👋 vi la demo de la web de QORI y quiero activarla para mi negocio.
+                // Build message with cotizador data (text emojis for cross-device compatibility)
+                const message = `Hola *vi la demo de la web de QORI* y quiero activarla para mi negocio.
 
-Probé el cotizador con estos datos:
+Probe el cotizador con estos datos:
 
-📍 Punto de recogida: ${origen}
-📍 Destino: ${destino}
-🚘 Vehículo: ${vehicleNames[selectedVehicle]}
-🕒 Horario: ${scheduleDetail}
-💰 Tarifa: S/ ${price}
+*Ubicacion:* ${origen}
+*Destino:* ${destino}
+*Vehiculo:* ${vehicleNames[selectedVehicle]}
+*Horario:* ${scheduleDetail}
+*Tarifa:* S/ ${price}
 
-¿Me puedes dar más información?`;
+*Me pueden dar mas informacion?*`;
 
                 const encodedMessage = encodeURIComponent(message);
                 const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`;
