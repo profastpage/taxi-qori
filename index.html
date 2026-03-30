@@ -701,13 +701,18 @@
                                 Reservar por WhatsApp
                             </button>
 
-                            <p class="text-center text-gray-500 text-xs">
+                            <p class="text-center text-gray-500 text-xs mt-3">
+                                <i class="fas fa-info-circle mr-1"></i>
+                                Demo funcional • La activación final se personaliza para tu negocio
+                            </p>
+
+                            <p class="text-center text-gray-600 text-xs">
                                 <i class="fas fa-check-circle mr-1"></i>
                                 Sin compromiso • Respuesta inmediata
                             </p>
 
                             <!-- Trust Badges -->
-                            <div class="flex justify-center gap-4 text-xs text-gray-500 pt-2">
+                            <div class="flex justify-center gap-4 text-xs text-gray-500 pt-3">
                                 <span class="flex items-center gap-1">
                                     <i class="fas fa-clock text-[#F4B41A]"></i> 24/7
                                 </span>
@@ -820,13 +825,18 @@
                         Reservar por WhatsApp
                     </button>
 
-                    <p class="text-center text-gray-500 text-xs">
+                    <p class="text-center text-gray-500 text-xs mt-3">
+                        <i class="fas fa-info-circle mr-1"></i>
+                        Demo funcional • La activación final se personaliza para tu negocio
+                    </p>
+
+                    <p class="text-center text-gray-600 text-xs">
                         <i class="fas fa-check-circle mr-1"></i>
                         Sin compromiso • Respuesta inmediata
                     </p>
 
                     <!-- Trust Badges -->
-                    <div class="flex justify-center gap-4 text-xs text-gray-500 pt-2">
+                    <div class="flex justify-center gap-4 text-xs text-gray-500 pt-3">
                         <span class="flex items-center gap-1">
                             <i class="fas fa-clock text-[#F4B41A]"></i> 24/7
                         </span>
@@ -1310,11 +1320,10 @@
 
     <!-- Scripts -->
     <script>
-        // WhatsApp message for demo activation (URL encoded)
-        const DEMO_ACTIVATION_MESSAGE = "Hola vi la demo de mi web y quiero activarla para mi negocio.\n\n¿Me puedes dar más información?";
+        // WhatsApp message base for demo activation
         const WHATSAPP_NUMBER = "51933667414";
 
-        // Calculator Logic - Reusable Function (Demo Mode - redirects to activation)
+        // Calculator Logic - Reusable Function (Demo Mode - includes cotizador data)
         function initCalculator(formId, origenId, destinoId, priceId) {
             const form = document.getElementById(formId);
             const origenInput = document.getElementById(origenId);
@@ -1421,12 +1430,52 @@
             // Initialize price on load (ensure it shows base price)
             updatePrice();
 
-            // Form submission - DEMO MODE: Redirect to activation message
+            // Form submission - DEMO MODE: Redirect to activation with cotizador data
             form.addEventListener('submit', (e) => {
                 e.preventDefault();
 
-                // Redirect to demo activation WhatsApp
-                const encodedMessage = encodeURIComponent(DEMO_ACTIVATION_MESSAGE);
+                const origen = origenInput.value.trim();
+                const destino = destinoInput.value.trim();
+
+                if (!origen || !destino) {
+                    // Show error feedback
+                    if (!origen) origenInput.classList.add('border-red-500');
+                    if (!destino) destinoInput.classList.add('border-red-500');
+
+                    setTimeout(() => {
+                        origenInput.classList.remove('border-red-500');
+                        destinoInput.classList.remove('border-red-500');
+                    }, 2000);
+                    return;
+                }
+
+                const vehicleNames = {
+                    'sedan': 'Sedán Ejecutivo',
+                    'suv': 'SUV Premium',
+                    'van': 'Van Ejecutiva'
+                };
+
+                const scheduleNames = {
+                    'now': 'Inmediato',
+                    'scheduled': 'Programado'
+                };
+
+                const price = calculatePrice();
+
+                // Build message with cotizador data
+                const message = `Hola 👋 vi la demo de la web de QORI y quiero activarla para mi negocio.
+
+Probé el cotizador con estos datos:
+
+📍 Punto de recogida: ${origen}
+📍 Destino: ${destino}
+🚘 Vehículo ejecutivo: ${vehicleNames[selectedVehicle]}
+🕒 Horario: ${scheduleNames[selectedSchedule]}
+💰 Tarifa referencial: S/ ${price}
+
+¿Me puedes dar más información?`;
+
+                const encodedMessage = encodeURIComponent(message);
                 const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`;
 
                 window.open(whatsappUrl, '_blank');
