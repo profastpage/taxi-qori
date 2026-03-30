@@ -703,9 +703,9 @@
                                 <input
                                     type="text"
                                     id="origen"
-                                    placeholder="Ej: Aeropuerto Jorge Chávez, Hotel en Miraflores, Oficina en San Isidro..."
-                                    class="input-field w-full px-3.5 py-3 text-white text-sm"
-                                    autocomplete="off"
+                                    value="Aeropuerto Jorge Chávez"
+                                    readonly
+                                    class="input-field w-full px-3.5 py-3 text-white text-sm bg-[#1a1a1a] cursor-not-allowed"
                                 >
                             </div>
 
@@ -717,9 +717,9 @@
                                 <input
                                     type="text"
                                     id="destino"
-                                    placeholder="Ej: Manchay, Centro de Lima, Hotel, Oficina..."
-                                    class="input-field w-full px-3.5 py-3 text-white text-sm"
-                                    autocomplete="off"
+                                    placeholder="Selecciona tu destino de la lista"
+                                    readonly
+                                    class="input-field w-full px-3.5 py-3 text-white text-sm bg-[#1a1a1a] cursor-not-allowed"
                                 >
                                 
                                 <!-- Zonas Aeropuerto Desplegable -->
@@ -1141,9 +1141,9 @@
                         <input
                             type="text"
                             id="origen-mobile"
-                            placeholder="Ej: Aeropuerto Jorge Chávez, Hotel en Miraflores..."
-                            class="input-field w-full px-3.5 py-3 text-white text-sm"
-                            autocomplete="off"
+                            value="Aeropuerto Jorge Chávez"
+                            readonly
+                            class="input-field w-full px-3.5 py-3 text-white text-sm bg-[#1a1a1a] cursor-not-allowed"
                         >
                     </div>
 
@@ -1155,9 +1155,9 @@
                         <input
                             type="text"
                             id="destino-mobile"
-                            placeholder="Ej: Manchay, Centro de Lima, Hotel, Oficina..."
-                            class="input-field w-full px-3.5 py-3 text-white text-sm"
-                            autocomplete="off"
+                            placeholder="Selecciona tu destino de la lista"
+                            readonly
+                            class="input-field w-full px-3.5 py-3 text-white text-sm bg-[#1a1a1a] cursor-not-allowed"
                         >
                         
                         <!-- Zonas Aeropuerto Desplegable -->
@@ -2340,22 +2340,6 @@
             function calculatePrice() {
                 let basePrice = PRICING_BASE.basePrice;
 
-                // If airport zone is selected, use those prices only for airport routes
-                if (PRICING_BASE.isAirportZone) {
-                    const origen = (origenInput.value || '').toLowerCase();
-                    const destino = (destinoInput.value || '').toLowerCase();
-                    
-                    // Check if route is to/from airport
-                    const isAirportRoute = 
-                        (origen.includes('aeropuerto') || origen.includes('jorge chavez')) ||
-                        (destino.includes('aeropuerto') || destino.includes('jorge chavez'));
-                    
-                    if (!isAirportRoute) {
-                        // Not an airport route, reset to base price
-                        basePrice = 25;
-                    }
-                }
-
                 // Add vehicle surcharge
                 basePrice += PRICING_BASE.vehicle[selectedVehicle] || 0;
 
@@ -2388,32 +2372,6 @@
                 option.addEventListener('click', function() {
                     // The onclick handler in HTML handles this
                 });
-            });
-
-            // Real-time price update on input
-            origenInput.addEventListener('input', () => {
-                updatePrice();
-                // Reset airport zone if user changes origin manually
-                if (PRICING_BASE.isAirportZone) {
-                    const origen = origenInput.value.toLowerCase();
-                    if (!origen.includes('aeropuerto') && !origen.includes('jorge chavez')) {
-                        PRICING_BASE.isAirportZone = false;
-                        PRICING_BASE.basePrice = 25;
-                        updateAllPrices();
-                    }
-                }
-            });
-            destinoInput.addEventListener('input', () => {
-                updatePrice();
-                // Reset airport zone if user changes destination manually
-                if (PRICING_BASE.isAirportZone) {
-                    const destino = destinoInput.value.toLowerCase();
-                    if (!destino.includes('aeropuerto') && !destino.includes('jorge chavez')) {
-                        PRICING_BASE.isAirportZone = false;
-                        PRICING_BASE.basePrice = 25;
-                        updateAllPrices();
-                    }
-                }
             });
 
             // Initialize price on load (ensure it shows base price)
@@ -2457,13 +2415,6 @@
                     const datetime = getSelectedDateTime(formId);
                     scheduleDetail = `Programado: ${datetime}`;
                 }
-                
-                // Determine trip type
-                const origen = origenInput.value.trim();
-                const destino = destinoInput.value.trim();
-                const isAirportRoute = (origen.toLowerCase().includes('aeropuerto') || origen.toLowerCase().includes('jorge chavez')) ||
-                                       (destino.toLowerCase().includes('aeropuerto') || destino.toLowerCase().includes('jorge chavez'));
-                const tripType = isAirportRoute ? 'Traslado Aeropuerto' : 'Traslado Ejecutivo';
 
                 // Build message with cotizador data
                 const message = `Hola 👋 vi la demo de la web de QORI y quiero activarla para mi negocio.
@@ -2474,8 +2425,7 @@ Probé el cotizador con estos datos:
 📍 Destino: ${destino}
 🚘 Vehículo: ${vehicleNames[selectedVehicle]}
 🕒 Horario: ${scheduleDetail}
-💰 Tarifa referencial: S/ ${price}
-🎯 Tipo: ${tripType}
+💰 Tarifa: S/ ${price}
 
 ¿Me puedes dar más información?`;
 
