@@ -142,9 +142,18 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: url('https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?q=80&w=2070&auto=format&fit=crop') center/cover;
-            opacity: 0.12;
+            background: 
+                linear-gradient(
+                    to right,
+                    rgba(0,0,0,0.85) 0%,
+                    rgba(0,0,0,0.7) 40%,
+                    rgba(0,0,0,0.5) 70%,
+                    rgba(0,0,0,0.3) 100%
+                ),
+                url('https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?q=80&w=2070&auto=format&fit=crop') center/cover;
+            opacity: 1;
             pointer-events: none;
+            transition: background-image 0.8s ease-in-out;
         }
 
         .hero-bg::after {
@@ -154,8 +163,19 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: radial-gradient(ellipse at 50% 30%, rgba(244, 180, 26, 0.1), transparent 70%);
+            background: radial-gradient(ellipse at 50% 30%, rgba(244, 180, 26, 0.08), transparent 70%);
             pointer-events: none;
+        }
+
+        /* Hero Text Shadow for Better Readability */
+        .hero-text-shadow {
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8),
+                         0 0 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .hero-text-shadow-light {
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.9),
+                         0 0 20px rgba(0, 0, 0, 0.6);
         }
 
         /* Calculator Card */
@@ -565,7 +585,7 @@
 
     <!-- Hero Section -->
     <section class="hero-bg min-h-screen flex items-center pt-8 pb-16 px-4">
-        <div class="max-w-7xl mx-auto w-full">
+        <div class="max-w-7xl mx-auto w-full relative z-10">
             <div class="grid lg:grid-cols-2 gap-12 items-center">
                 <!-- Left: Content -->
                 <div class="text-center lg:text-left fade-in-up">
@@ -574,11 +594,11 @@
                         <span class="text-[#F4B41A] text-sm font-semibold">Lima y Manchay - 24/7</span>
                     </div>
 
-                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white leading-tight mb-6">
+                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white leading-tight mb-6 hero-text-shadow">
                         Lujo sobre ruedas, <span class="text-[#F4B41A]">confort y elegancia</span> en cada viaje
                     </h1>
 
-                    <p class="text-lg text-gray-400 mb-6 max-w-xl mx-auto lg:mx-0">
+                    <p class="text-lg text-gray-300 mb-6 max-w-xl mx-auto lg:mx-0 hero-text-shadow-light">
                         Servicio de traslado A1 y Courier. Confort y la elegancia se encuentran en cada viaje.
                     </p>
 
@@ -1624,6 +1644,82 @@ Probé el cotizador con estos datos:
             el.style.animationFillMode = 'forwards';
             observer.observe(el);
         });
+
+        // Hero Background Image Slider - Professional Executive Transport Images
+        const heroImages = [
+            'https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?q=80&w=2070&auto=format&fit=crop', // Auto ejecutivo noche
+            'https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?q=80&w=2070&auto=format&fit=crop', // Chofer abriendo puerta
+            'https://images.unsplash.com/photo-1558981806-ec527fa84c3d?q=80&w=2070&auto=format&fit=crop', // Auto ejecutivo carretera
+            'https://images.unsplash.com/photo-1562916172-26a5a9b2e0e9?q=80&w=2070&auto=format&fit=crop'  // Interior lujo auto
+        ];
+
+        let currentImageIndex = 0;
+        const heroBg = document.querySelector('.hero-bg::before');
+
+        function changeHeroImage() {
+            currentImageIndex = (currentImageIndex + 1) % heroImages.length;
+            const newImage = heroImages[currentImageIndex];
+            
+            // Create new pseudo-element background with gradient overlay
+            const heroSection = document.querySelector('.hero-bg');
+            
+            // We need to update the ::before pseudo-element via CSS variable or inline style
+            // Since we can't directly modify pseudo-elements, we'll use a different approach
+            heroSection.style.setProperty('--hero-image', `url('${newImage}')`);
+        }
+
+        // Alternative approach: Use a background element
+        const heroSection = document.querySelector('.hero-bg');
+        
+        // Create background slider element
+        const bgSlider = document.createElement('div');
+        bgSlider.id = 'hero-bg-slider';
+        bgSlider.style.cssText = `
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                linear-gradient(
+                    to right,
+                    rgba(0,0,0,0.85) 0%,
+                    rgba(0,0,0,0.7) 40%,
+                    rgba(0,0,0,0.5) 70%,
+                    rgba(0,0,0,0.3) 100%
+                ),
+                url('${heroImages[0]}') center/cover;
+            opacity: 1;
+            pointer-events: none;
+            transition: background-image 0.8s ease-in-out;
+            z-index: 0;
+        `;
+        heroSection.insertBefore(bgSlider, heroSection.firstChild);
+
+        // Remove the ::before pseudo-element background by overriding it
+        const style = document.createElement('style');
+        style.textContent = `
+            .hero-bg::before {
+                background: none !important;
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Change image every 3 seconds
+        setInterval(() => {
+            currentImageIndex = (currentImageIndex + 1) % heroImages.length;
+            const newImage = heroImages[currentImageIndex];
+            bgSlider.style.background = `
+                linear-gradient(
+                    to right,
+                    rgba(0,0,0,0.85) 0%,
+                    rgba(0,0,0,0.7) 40%,
+                    rgba(0,0,0,0.5) 70%,
+                    rgba(0,0,0,0.3) 100%
+                ),
+                url('${newImage}') center/cover
+            `;
+        }, 3000);
     </script>
 </body>
 </html>
