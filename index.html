@@ -620,8 +620,24 @@
                         Servicio de traslado A1 y Courier. Confort y la elegancia se encuentran en cada viaje.
                     </p>
 
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-6">
+                        <a href="#cotizador" class="btn-primary px-8 py-4 rounded-full text-base flex items-center justify-center gap-2 scroll-smooth-btn">
+                            <i class="fas fa-calculator"></i>
+                            Cotizar Traslado
+                        </a>
+                        <a href="#servicios" class="btn-secondary px-8 py-4 rounded-full text-base flex items-center justify-center gap-2">
+                            <i class="fas fa-car"></i>
+                            Ver Servicios
+                        </a>
+                    </div>
+
+                    <p class="text-[#F4B41A] text-sm font-semibold mb-4 flex items-center gap-2 justify-center lg:justify-start">
+                        <i class="fas fa-shield-alt"></i>
+                        Servicio A1 con choferes certificados
+                    </p>
+
                     <!-- Servicios destacados -->
-                    <div class="bg-gradient-to-br from-[#F4B41A]/10 to-[#F4B41A]/5 border border-[#F4B41A]/20 rounded-xl p-5 mb-8">
+                    <div class="bg-gradient-to-br from-[#F4B41A]/10 to-[#F4B41A]/5 border border-[#F4B41A]/20 rounded-xl p-5 mb-6">
                         <div class="grid sm:grid-cols-2 gap-4 text-sm">
                             <div class="flex items-start gap-3">
                                 <i class="fas fa-car text-[#F4B41A] text-lg mt-0.5 flex-shrink-0"></i>
@@ -653,22 +669,6 @@
                             </div>
                         </div>
                     </div>
-
-                    <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-6">
-                        <a href="#cotizador" class="btn-primary px-8 py-4 rounded-full text-base flex items-center justify-center gap-2 scroll-smooth-btn">
-                            <i class="fas fa-calculator"></i>
-                            Cotizar Traslado
-                        </a>
-                        <a href="#servicios" class="btn-secondary px-8 py-4 rounded-full text-base flex items-center justify-center gap-2">
-                            <i class="fas fa-car"></i>
-                            Ver Servicios
-                        </a>
-                    </div>
-
-                    <p class="text-[#F4B41A] text-sm font-semibold mb-6 flex items-center gap-2 justify-center lg:justify-start">
-                        <i class="fas fa-shield-alt"></i>
-                        Servicio A1 con choferes certificados
-                    </p>
 
                     <div class="flex flex-wrap justify-center lg:justify-start gap-6 text-sm text-gray-500">
                         <span class="flex items-center gap-2">
@@ -2249,12 +2249,14 @@
                 form.dataset.suvPrice = suvPrice;
                 form.dataset.vanPrice = vanPrice;
                 form.dataset.isZoneSelected = 'true';
+                form.dataset.isAirportZone = 'true';
             }
             if (formMobile) {
                 formMobile.dataset.autoPrice = autoPrice;
                 formMobile.dataset.suvPrice = suvPrice;
                 formMobile.dataset.vanPrice = vanPrice;
                 formMobile.dataset.isZoneSelected = 'true';
+                formMobile.dataset.isAirportZone = 'true';
             }
 
             // Update pricing configuration dynamically
@@ -2262,6 +2264,7 @@
             PRICING_BASE.vehicle.suv = suvPrice - autoPrice;
             PRICING_BASE.vehicle.van = vanPrice - autoPrice;
             PRICING_BASE.isZoneSelected = true;
+            PRICING_BASE.isAirportZone = true;
 
             // Update price display
             updateAllPrices();
@@ -2287,7 +2290,8 @@
                 'now': 0,
                 'scheduled': 5
             },
-            isZoneSelected: false
+            isZoneSelected: false,
+            isAirportZone: false
         };
 
         // Update all price displays
@@ -2336,6 +2340,22 @@
             function calculatePrice() {
                 let basePrice = PRICING_BASE.basePrice;
 
+                // If airport zone is selected, use those prices only for airport routes
+                if (PRICING_BASE.isAirportZone) {
+                    const origen = (origenInput.value || '').toLowerCase();
+                    const destino = (destinoInput.value || '').toLowerCase();
+                    
+                    // Check if route is to/from airport
+                    const isAirportRoute = 
+                        (origen.includes('aeropuerto') || origen.includes('jorge chavez')) ||
+                        (destino.includes('aeropuerto') || destino.includes('jorge chavez'));
+                    
+                    if (!isAirportRoute) {
+                        // Not an airport route, reset to base price
+                        basePrice = 25;
+                    }
+                }
+
                 // Add vehicle surcharge
                 basePrice += PRICING_BASE.vehicle[selectedVehicle] || 0;
 
@@ -2371,8 +2391,30 @@
             });
 
             // Real-time price update on input
-            origenInput.addEventListener('input', updatePrice);
-            destinoInput.addEventListener('input', updatePrice);
+            origenInput.addEventListener('input', () => {
+                updatePrice();
+                // Reset airport zone if user changes origin manually
+                if (PRICING_BASE.isAirportZone) {
+                    const origen = origenInput.value.toLowerCase();
+                    if (!origen.includes('aeropuerto') && !origen.includes('jorge chavez')) {
+                        PRICING_BASE.isAirportZone = false;
+                        PRICING_BASE.basePrice = 25;
+                        updateAllPrices();
+                    }
+                }
+            });
+            destinoInput.addEventListener('input', () => {
+                updatePrice();
+                // Reset airport zone if user changes destination manually
+                if (PRICING_BASE.isAirportZone) {
+                    const destino = destinoInput.value.toLowerCase();
+                    if (!destino.includes('aeropuerto') && !destino.includes('jorge chavez')) {
+                        PRICING_BASE.isAirportZone = false;
+                        PRICING_BASE.basePrice = 25;
+                        updateAllPrices();
+                    }
+                }
+            });
 
             // Initialize price on load (ensure it shows base price)
             updatePrice();
@@ -2415,6 +2457,13 @@
                     const datetime = getSelectedDateTime(formId);
                     scheduleDetail = `Programado: ${datetime}`;
                 }
+                
+                // Determine trip type
+                const origen = origenInput.value.trim();
+                const destino = destinoInput.value.trim();
+                const isAirportRoute = (origen.toLowerCase().includes('aeropuerto') || origen.toLowerCase().includes('jorge chavez')) ||
+                                       (destino.toLowerCase().includes('aeropuerto') || destino.toLowerCase().includes('jorge chavez'));
+                const tripType = isAirportRoute ? 'Traslado Aeropuerto' : 'Traslado Ejecutivo';
 
                 // Build message with cotizador data
                 const message = `Hola 👋 vi la demo de la web de QORI y quiero activarla para mi negocio.
@@ -2423,9 +2472,10 @@ Probé el cotizador con estos datos:
 
 📍 Punto de recogida: ${origen}
 📍 Destino: ${destino}
-🚘 Vehículo ejecutivo: ${vehicleNames[selectedVehicle]}
+🚘 Vehículo: ${vehicleNames[selectedVehicle]}
 🕒 Horario: ${scheduleDetail}
 💰 Tarifa referencial: S/ ${price}
+🎯 Tipo: ${tripType}
 
 ¿Me puedes dar más información?`;
 
