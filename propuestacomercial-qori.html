@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Propuesta Comercial | Fast Page Pro</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- html2pdf.js para exportar a PDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        brand: {
+                            primary: '#2563EB',
+                            secondary: '#1E40AF',
+                            accent: '#F59E0B',
+                            success: '#10B981',
+                            dark: '#0F172A',
+                            card: '#1E293B'
+                        }
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.6s ease-out forwards',
+                        'slide-up': 'slideUp 0.8s ease-out forwards',
+                        'float': 'float 6s ease-in-out infinite'
+                    },
+                    keyframes: {
+                        fadeIn: { '0%': { opacity: '0' }, '100%': { opacity: '1' } },
+                        slideUp: { '0%': { opacity: '0', transform: 'translateY(30px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } },
+                        float: { '0%,100%': { transform: 'translateY(0)' }, '50%': { transform: 'translateY(-8px)' } }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        body { 
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: #f8fafc;
+            overflow-x: hidden;
+        }
+        
+        .glass {
+            background: rgba(30, 41, 59, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #60A5FA, #F59E0B);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .stagger-item { opacity: 0; animation: slideUp 0.5s ease-out forwards; }
+        .stagger-item:nth-child(1) { animation-delay: 0.1s; }
+        .stagger-item:nth-child(2) { animation-delay: 0.2s; }
+        .stagger-item:nth-child(3) { animation-delay: 0.3s; }
+        .stagger-item:nth-child(4) { animation-delay: 0.4s; }
+        .stagger-item:nth-child(5) { animation-delay: 0.5s; }
+        .stagger-item:nth-child(6) { animation-delay: 0.6s; }
+        .stagger-item:nth-child(7) { animation-delay: 0.7s; }
+        .stagger-item:nth-child(8) { animation-delay: 0.8s; }
+        .stagger-item:nth-child(9) { animation-delay: 0.9s; }
+        
+        .feature-card {
+            transition: all 0.3s ease;
+            transform: translateY(0);
+        }
+        .feature-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            border-color: rgba(96, 165, 250, 0.4);
+        }
+        
+        /* Links que funcionan en PDF */
+        .pdf-link {
+            color: #60A5FA;
+            text-decoration: none;
+            border-bottom: 1px dashed #60A5FA;
+            transition: color 0.2s;
+        }
+        .pdf-link:hover { color: #93C5FD; }
+        
+        /* Optimización para PDF/Print - CRÍTICO */
+        @media print {
+            body { 
+                background: white !important; 
+                color: #0f172a !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+            .no-print, .download-btn { display: none !important; }
+            .glass { 
+                background: white !important; 
+                border: 1px solid #e2e8f0 !important;
+                backdrop-filter: none !important;
+                box-shadow: none !important;
+            }
+            .gradient-text { 
+                -webkit-text-fill-color: #1e40af !important; 
+                background: none !important;
+            }
+            .feature-card, .pricing-card { 
+                box-shadow: none !important; 
+                transform: none !important;
+                border: 1px solid #e2e8f0 !important;
+            }
+            .pdf-link { 
+                color: #1e40af !important; 
+                border-bottom: 1px solid #1e40af !important;
+                text-decoration: none !important;
+            }
+            a { text-decoration: none !important; color: inherit !important; }
+            .bg-brand-dark { background: white !important; }
+            .text-gray-400 { color: #64748b !important; }
+            .text-gray-300 { color: #475569 !important; }
+            .text-gray-500 { color: #64748b !important; }
+        }
+        
+        @media (max-width: 640px) {
+            .container { padding-left: 1rem; padding-right: 1rem; }
+            h1 { font-size: 1.75rem !important; }
+            .pricing-grid { grid-template-columns: 1fr !important; }
+        }
+    </style>
+</head>
+<body class="antialiased min-h-screen">
+
+    <!-- Botón flotante de descarga (solo en pantalla - se oculta en PDF) -->
+    <button onclick="generatePDF()" class="download-btn fixed bottom-6 right-6 z-50 no-print bg-gradient-to-r from-brand-primary to-brand-accent hover:from-blue-600 hover:to-yellow-500 text-white font-bold py-3 px-6 rounded-full shadow-2xl transition-all duration-300 transform hover:scale-105 flex items-center gap-2 animate-float">
+        <i class="fas fa-file-pdf text-lg"></i>
+        <span class="hidden sm:inline">Descargar PDF</span>
+    </button>
+
+    <!-- Contenido principal para PDF -->
+    <div id="proposal-content" class="max-w-4xl mx-auto px-4 py-8 sm:py-12">
+        
+        <!-- Header -->
+        <header class="text-center mb-10 animate-fade-in">
+            <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-brand-primary to-brand-secondary mb-4 shadow-lg shadow-blue-500/30">
+                <i class="fas fa-bolt text-2xl text-white"></i>
+            </div>
+            <h1 class="text-3xl sm:text-4xl font-extrabold mb-2">
+                Propuesta <span class="gradient-text">Comercial</span>
+            </h1>
+            <p class="text-gray-400 text-lg">Web de Reservas Automatizadas por WhatsApp</p>
+            <div class="mt-4 inline-flex items-center gap-2 px-4 py-2 rounded-full glass text-sm">
+                <i class="fas fa-check-circle text-brand-success"></i>
+                <span>Valida por 15 días</span>
+            </div>
+        </header>
+
+        <!-- Demo Section -->
+        <section class="glass rounded-2xl p-6 mb-8 border border-gray-700 animate-slide-up">
+            <h2 class="text-xl font-bold mb-4 flex items-center gap-2">
+                <i class="fas fa-globe text-brand-accent"></i>
+                🌐 Demo de referencia
+            </h2>
+            <a href="https://taxi-qori.pages.dev" target="_blank" 
+               class="pdf-link block glass rounded-xl p-4 hover:bg-white/5 transition-colors group">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-lg bg-brand-primary/20 flex items-center justify-center flex-shrink-0">
+                        <i class="fas fa-link text-brand-primary"></i>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <p class="font-medium truncate">https://taxi-qori.pages.dev</p>
+                        <p class="text-sm text-gray-500">Toca para visitar la demo interactiva</p>
+                    </div>
+                    <i class="fas fa-external-link-alt text-gray-500"></i>
+                </div>
+            </a>
+        </section>
+
+        <!-- Features Section -->
+        <section class="mb-10 animate-slide-up" style="animation-delay: 0.2s">
+            <h2 class="text-2xl font-bold mb-6 flex items-center gap-3">
+                <i class="fas fa-list-check text-brand-success"></i>
+                🚖 ¿Qué incluye la implementación?
+            </h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div class="feature-card glass rounded-xl p-4 border border-gray-700 stagger-item">
+                    <div class="flex items-start gap-3">
+                        <i class="fas fa-paintbrush text-brand-accent mt-1"></i>
+                        <span class="text-gray-300">Diseño web profesional adaptado a tu marca</span>
+                    </div>
+                </div>
+                <div class="feature-card glass rounded-xl p-4 border border-gray-700 stagger-item">
+                    <div class="flex items-start gap-3">
+                        <i class="fas fa-calculator text-brand-accent mt-1"></i>
+                        <span class="text-gray-300">Cotizador inteligente de viajes (origen, destino, vehículo, horario)</span>
+                    </div>
+                </div>
+                <div class="feature-card glass rounded-xl p-4 border border-gray-700 stagger-item">
+                    <div class="flex items-start gap-3">
+                        <i class="fab fa-whatsapp text-brand-success mt-1"></i>
+                        <span class="text-gray-300">Integración directa con WhatsApp para recibir pedidos</span>
+                    </div>
+                </div>
+                <div class="feature-card glass rounded-xl p-4 border border-gray-700 stagger-item">
+                    <div class="flex items-start gap-3">
+                        <i class="fas fa-mobile-screen-button text-brand-accent mt-1"></i>
+                        <span class="text-gray-300">Optimización para móviles, tablets y PC</span>
+                    </div>
+                </div>
+                <div class="feature-card glass rounded-xl p-4 border border-gray-700 stagger-item">
+                    <div class="flex items-start gap-3">
+                        <i class="fas fa-star text-brand-accent mt-1"></i>
+                        <span class="text-gray-300">Sección de servicios, beneficios y testimonios</span>
+                    </div>
+                </div>
+                <div class="feature-card glass rounded-xl p-4 border border-gray-700 stagger-item">
+                    <div class="flex items-start gap-3">
+                        <i class="fas fa-bullseye text-brand-accent mt-1"></i>
+                        <span class="text-gray-300">Botones estratégicos para generar más reservas</span>
+                    </div>
+                </div>
+                <div class="feature-card glass rounded-xl p-4 border border-gray-700 stagger-item">
+                    <div class="flex items-start gap-3">
+                        <i class="fas fa-bolt text-brand-accent mt-1"></i>
+                        <span class="text-gray-300">Hosting optimizado de alta velocidad</span>
+                    </div>
+                </div>
+                <div class="feature-card glass rounded-xl p-4 border border-gray-700 stagger-item">
+                    <div class="flex items-start gap-3">
+                        <i class="fas fa-globe text-brand-accent mt-1"></i>
+                        <span class="text-gray-300">Dominio (opcional o incluido según configuración)</span>
+                    </div>
+                </div>
+                <div class="feature-card glass rounded-xl p-4 border border-gray-700 stagger-item sm:col-span-2">
+                    <div class="flex items-start gap-3">
+                        <i class="fas fa-sliders text-brand-accent mt-1"></i>
+                        <span class="text-gray-300">Ajustes finales según tu negocio</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pricing Section -->
+        <section class="mb-10 animate-slide-up" style="animation-delay: 0.4s">
+            <h2 class="text-2xl font-bold mb-6 flex items-center gap-3">
+                <i class="fas fa-coins text-brand-accent"></i>
+                💰 Opciones de trabajo
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <!-- Option 1 -->
+                <div class="glass rounded-2xl p-6 border border-gray-700">
+                    <h3 class="text-lg font-bold mb-1">1️⃣ Implementación completa</h3>
+                    <p class="text-gray-500 text-sm mb-4">Pago único</p>
+                    <div class="text-4xl font-extrabold text-brand-success mb-4">S/1000</div>
+                    <p class="text-gray-300 text-sm mb-6">
+                        Web personalizada, lista y funcionando para empezar a recibir pedidos
+                    </p>
+                    <ul class="space-y-2 text-sm">
+                        <li class="flex items-center gap-2 text-gray-400">
+                            <i class="fas fa-check text-brand-success"></i> Diseño a medida
+                        </li>
+                        <li class="flex items-center gap-2 text-gray-400">
+                            <i class="fas fa-check text-brand-success"></i> Configuración completa
+                        </li>
+                        <li class="flex items-center gap-2 text-gray-400">
+                            <i class="fas fa-check text-brand-success"></i> Entrega en 48h
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Option 2 (Recommended) -->
+                <div class="glass rounded-2xl p-6 border-2 border-brand-primary relative">
+                    <div class="absolute top-4 right-4 bg-gradient-to-r from-brand-primary to-brand-accent text-white text-xs font-bold px-3 py-1 rounded-full">
+                        ⭐ RECOMENDADO
+                    </div>
+                    <h3 class="text-lg font-bold mb-1">2️⃣ Plan Flexible</h3>
+                    <p class="text-gray-500 text-sm mb-4">Más accesible y con soporte</p>
+                    <div class="mb-2">
+                        <span class="text-3xl font-extrabold text-brand-success">S/400</span>
+                        <span class="text-gray-400"> inicial</span>
+                    </div>
+                    <div class="text-xl font-bold text-brand-accent mb-4">+ S/70 mensual</div>
+                    <p class="text-gray-300 text-sm mb-4"><strong>Incluye:</strong></p>
+                    <ul class="space-y-2 text-sm">
+                        <li class="flex items-center gap-2 text-gray-300">
+                            <i class="fas fa-check-circle text-brand-success"></i> Todo lo del plan básico
+                        </li>
+                        <li class="flex items-center gap-2 text-gray-300">
+                            <i class="fas fa-check-circle text-brand-success"></i> Hosting rápido incluido
+                        </li>
+                        <li class="flex items-center gap-2 text-gray-300">
+                            <i class="fas fa-check-circle text-brand-success"></i> Soporte continuo prioritario
+                        </li>
+                        <li class="flex items-center gap-2 text-gray-300">
+                            <i class="fas fa-check-circle text-brand-success"></i> Ajustes y mejoras mensuales
+                        </li>
+                        <li class="flex items-center gap-2 text-gray-300">
+                            <i class="fas fa-check-circle text-brand-success"></i> Mantenimiento preventivo
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Delivery Time -->
+        <section class="glass rounded-2xl p-6 mb-8 text-center border border-gray-700 animate-slide-up" style="animation-delay: 0.6s">
+            <div class="inline-flex items-center justify-center w-14 h-14 rounded-full bg-brand-success/20 mb-4">
+                <i class="fas fa-stopwatch text-2xl text-brand-success"></i>
+            </div>
+            <h3 class="text-lg font-bold mb-2">⏱️ Tiempo de entrega</h3>
+            <p class="text-3xl font-extrabold text-white mb-1">24 – 48 horas</p>
+            <p class="text-gray-400 text-sm">una vez confirmado el proyecto</p>
+        </section>
+
+        <!-- CTA Final -->
+        <section class="glass rounded-2xl p-8 text-center border border-brand-primary/30 bg-gradient-to-br from-brand-primary/10 to-transparent animate-slide-up" style="animation-delay: 0.7s">
+            <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-r from-brand-success to-emerald-400 mb-5 shadow-lg shadow-green-500/30">
+                <i class="fas fa-rocket text-2xl text-white"></i>
+            </div>
+            <h3 class="text-2xl font-bold mb-4">🚀 ¡Empecemos tu proyecto!</h3>
+            <p class="text-gray-300 mb-6 max-w-lg mx-auto">
+                La idea es que tengas una web que no solo se vea bien, sino que te genere más clientes y reservas de forma automática por WhatsApp.
+            </p>
+            <p class="text-lg font-semibold text-brand-accent mb-6">
+                Si quieres, avanzamos y la dejamos lista con tu marca 👌
+            </p>
+            <a href="https://wa.me/51933667414?text=Hola,%20me%20interesa%20la%20propuesta%20de%20la%20web%20de%20reservas" 
+               target="_blank"
+               class="pdf-link inline-flex items-center gap-3 bg-gradient-to-r from-[#25D366] to-[#128C7E] hover:from-[#128C7E] hover:to-[#075E54] text-white font-bold py-4 px-8 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-xl shadow-green-500/25">
+                <i class="fab fa-whatsapp text-2xl"></i>
+                <span>Confirmar por WhatsApp</span>
+            </a>
+        </section>
+
+        <!-- Footer Actualizado - FUNCIONAL EN PDF -->
+        <footer class="mt-12 pt-8 border-t border-gray-800">
+            <div class="glass rounded-2xl p-6 text-center">
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
+                    
+                    <!-- Logo Fast Page Pro con link -->
+                    <a href="https://www.fastpagepro.com" target="_blank" 
+                       class="pdf-link flex items-center gap-2 group">
+                        <i class="fas fa-bolt text-brand-accent group-hover:scale-110 transition-transform"></i>
+                        <span class="font-bold text-lg">Fast Page Pro</span>
+                    </a>
+                    
+                    <!-- Separador -->
+                    <span class="hidden sm:block w-px h-6 bg-gray-700"></span>
+                    
+                    <!-- Website -->
+                    <a href="https://www.fastpagepro.com" target="_blank" 
+                       class="pdf-link flex items-center gap-2 text-sm">
+                        <i class="fas fa-globe text-gray-500"></i>
+                        <span>www.fastpagepro.com</span>
+                    </a>
+                    
+                    <!-- Separador -->
+                    <span class="hidden sm:block w-px h-6 bg-gray-700"></span>
+                    
+                    <!-- WhatsApp Contact -->
+                    <a href="https://wa.me/51933667414" target="_blank" 
+                       class="pdf-link flex items-center gap-2 text-sm">
+                        <i class="fab fa-whatsapp text-[#25D366]"></i>
+                        <span>+51 933 667 414</span>
+                    </a>
+                    
+                </div>
+                
+                <p class="text-gray-600 text-xs mt-6">
+                    <i class="fas fa-copyright mr-1"></i> 2024 Fast Page Pro - Todos los derechos reservados
+                    <br>
+                    Documento generado el <span id="current-date"></span> | Propuesta válida por 15 días
+                </p>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        // Fecha actual
+        document.getElementById('current-date').textContent = new Date().toLocaleDateString('es-PE', {
+            year: 'numeric', month: 'long', day: 'numeric'
+        });
+
+        // Generar PDF con html2pdf
+        function generatePDF() {
+            const element = document.getElementById('proposal-content');
+            const btn = document.querySelector('.download-btn');
+            const originalContent = btn.innerHTML;
+            
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generando...';
+            btn.disabled = true;
+            
+            const opt = {
+                margin: [0.4, 0.4, 0.4, 0.4],
+                filename: 'Propuesta_FastPagePro.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { 
+                    scale: 2, 
+                    useCORS: true, 
+                    backgroundColor: '#ffffff',
+                    logging: false
+                },
+                jsPDF: { 
+                    unit: 'in', 
+                    format: 'a4', 
+                    orientation: 'portrait'
+                }
+            };
+
+            html2pdf().set(opt).from(element).save().then(() => {
+                btn.innerHTML = originalContent;
+                btn.disabled = false;
+            }).catch(err => {
+                console.error('Error PDF:', err);
+                alert('💡 Tip: Usa Ctrl+P → "Guardar como PDF" para exportar');
+                btn.innerHTML = originalContent;
+                btn.disabled = false;
+            });
+        }
+
+        // Progressive animations
+        document.addEventListener('DOMContentLoaded', function() {
+            if ('IntersectionObserver' in window) {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.style.opacity = '1';
+                            entry.target.style.transform = 'translateY(0)';
+                        }
+                    });
+                }, { threshold: 0.1 });
+                
+                document.querySelectorAll('.animate-slide-up').forEach(el => {
+                    el.style.opacity = '0';
+                    el.style.transform = 'translateY(20px)';
+                    el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                    observer.observe(el);
+                });
+            }
+        });
+    </script>
+</body>
+</html>

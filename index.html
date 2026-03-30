@@ -715,6 +715,295 @@
                                     class="input-field w-full px-3.5 py-3 text-white text-sm"
                                     autocomplete="off"
                                 >
+                                
+                                <!-- Zonas Aeropuerto Desplegable -->
+                                <div class="mt-2">
+                                    <details class="group">
+                                        <summary class="flex items-center justify-between cursor-pointer text-xs text-[#F4B41A] font-semibold py-2 px-3 bg-[#F4B41A]/10 rounded-lg hover:bg-[#F4B41A]/15 transition-colors">
+                                            <span><i class="fas fa-plane mr-2"></i>Ver tarifas Aeropuerto</span>
+                                            <i class="fas fa-chevron-down group-open:rotate-180 transition-transform"></i>
+                                        </summary>
+                                        <div class="mt-2 max-h-64 overflow-y-auto bg-[#1a1a1a] rounded-lg border border-[#F4B41A]/20">
+                                            <div class="p-2">
+                                                <div class="text-xs text-gray-400 mb-2 px-2">Selecciona tu destino:</div>
+                                                
+                                                <!-- La Molina -->
+                                                <div class="mb-2">
+                                                    <div class="text-xs font-bold text-white px-2 py-1 bg-[#F4B41A]/20 rounded">LA MOLINA</div>
+                                                    <div class="space-y-1 mt-1">
+                                                        <button type="button" onclick="selectZone('Camacho', 85, 95, 160)" class="w-full text-left px-3 py-2 text-xs hover:bg-[#F4B41A]/10 rounded flex justify-between items-center">
+                                                            <span class="text-gray-300">Camacho</span>
+                                                            <span class="text-[#F4B41A] font-bold">S/ 85</span>
+                                                        </button>
+                                                        <button type="button" onclick="selectZone('Santa Patricia, Remanso y La Capilla', 90, 100, 160)" class="w-full text-left px-3 py-2 text-xs hover:bg-[#F4B41A]/10 rounded flex justify-between items-center">
+                                                            <span class="text-gray-300">Santa Patricia, Remanso y La Capilla</span>
+                                                            <span class="text-[#F4B41A] font-bold">S/ 90</span>
+                                                        </button>
+                                                        <button type="button" onclick="selectZone('Rinconada, Sol de La Molina y Planicie', 100, 110, 180)" class="w-full text-left px-3 py-2 text-xs hover:bg-[#F4B41A]/10 rounded flex justify-between items-center">
+                                                            <span class="text-gray-300">Rinconada, Sol de La Molina y Planicie</span>
+                                                            <span class="text-[#F4B41A] font-bold">S/ 100</span>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                
+                                                <!-- San Borja -->
+                                                <div class="mb-2">
+                                                    <div class="text-xs font-bold text-white px-2 py-1 bg-[#F4B41A]/20 rounded">SAN BORJA</div>
+                                                    <div class="space-y-1 mt-1">
+                                                        <button type="button" onclick="selectZone('Guardia Civil', 90, 100, 160)" class="w-full text-left px-3 py-2 text-xs hover:bg-[#F4B41A]/10 rounded flex justify-between items-center">
+                                                            <span class="text-gray-300">Guardia Civil</span>
+                                                            <span class="text-[#F4B41A] font-bold">S/ 90</span>
+                                                        </button>
+                                                        <button type="button" onclick="selectZone('S. Borja Norte', 90, 100, 160)" class="w-full text-left px-3 py-2 text-xs hover:bg-[#F4B41A]/10 rounded flex justify-between items-center">
+                                                            <span class="text-gray-300">S. Borja Norte</span>
+                                                            <span class="text-[#F4B41A] font-bold">S/ 90</span>
+                                                        </button>
+                                                        <button type="button" onclick="selectZone('Pentagonito', 90, 100, 160)" class="w-full text-left px-3 py-2 text-xs hover:bg-[#F4B41A]/10 rounded flex justify-between items-center">
+                                                            <span class="text-gray-300">Pentagonito</span>
+                                                            <span class="text-[#F4B41A] font-bold">S/ 90</span>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                
+                                                <!-- Surco -->
+                                                <div class="mb-2">
+                                                    <div class="text-xs font-bold text-white px-2 py-1 bg-[#F4B41A]/20 rounded">SURCO</div>
+                                                    <div class="space-y-1 mt-1">
+                                                        <button type="button" onclick="selectZone('Álamos, Golf Incas, Valle Hermoso y Casuarinas', 90, 100, 170)" class="w-full text-left px-3 py-2 text-xs hover:bg-[#F4B41A]/10 rounded flex justify-between items-center">
+                                                            <span class="text-gray-300">Álamos, Golf Incas, Valle Hermoso y Casuarinas</span>
+                                                            <span class="text-[#F4B41A] font-bold">S/ 90</span>
+                                                        </button>
+                                                        <button type="button" onclick="selectZone('Chacarilla, Higuereta, Chama', 90, 100, 180)" class="w-full text-left px-3 py-2 text-xs hover:bg-[#F4B41A]/10 rounded flex justify-between items-center">
+                                                            <span class="text-gray-300">Chacarilla, Higuereta, Chama</span>
+                                                            <span class="text-[#F4B41A] font-bold">S/ 90</span>
+                                                        </button>
+                                                        <button type="button" onclick="selectZone('Castellana, Palmas, Sagitario', 90, 100, 180)" class="w-full text-left px-3 py-2 text-xs hover:bg-[#F4B41A]/10 rounded flex justify-between items-center">
+                                                            <span class="text-gray-300">Castellana, Palmas, Sagitario</span>
+                                                            <span class="text-[#F4B41A] font-bold">S/ 90</span>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                
+                                                <!-- Surquillo -->
+                                                <div class="mb-2">
+                                                    <div class="text-xs font-bold text-white px-2 py-1 bg-[#F4B41A]/20 rounded">SURQUILLO</div>
+                                                    <div class="space-y-1 mt-1">
+                                                        <button type="button" onclick="selectZone('Aramburú', 85, 100, 160)" class="w-full text-left px-3 py-2 text-xs hover:bg-[#F4B41A]/10 rounded flex justify-between items-center">
+                                                            <span class="text-gray-300">Aramburú</span>
+                                                            <span class="text-[#F4B41A] font-bold">S/ 85</span>
+                                                        </button>
+                                                        <button type="button" onclick="selectZone('La Calera', 85, 100, 160)" class="w-full text-left px-3 py-2 text-xs hover:bg-[#F4B41A]/10 rounded flex justify-between items-center">
+                                                            <span class="text-gray-300">La Calera</span>
+                                                            <span class="text-[#F4B41A] font-bold">S/ 85</span>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                
+                                                <!-- San Isidro -->
+                                                <div class="mb-2">
+                                                    <div class="text-xs font-bold text-white px-2 py-1 bg-[#F4B41A]/20 rounded">SAN ISIDRO</div>
+                                                    <div class="space-y-1 mt-1">
+                                                        <button type="button" onclick="selectZone('Corpac, Arona', 85, 100, 160)" class="w-full text-left px-3 py-2 text-xs hover:bg-[#F4B41A]/10 rounded flex justify-between items-center">
+                                                            <span class="text-gray-300">Corpac, Arona</span>
+                                                            <span class="text-[#F4B41A] font-bold">S/ 85</span>
+                                                        </button>
+                                                        <button type="button" onclick="selectZone('Orrantía, Basadre y Golf Club', 85, 100, 160)" class="w-full text-left px-3 py-2 text-xs hover:bg-[#F4B41A]/10 rounded flex justify-between items-center">
+                                                            <span class="text-gray-300">Orrantía, Basadre y Golf Club</span>
+                                                            <span class="text-[#F4B41A] font-bold">S/ 85</span>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                
+                                                <!-- Miraflores -->
+                                                <div class="mb-2">
+                                                    <div class="text-xs font-bold text-white px-2 py-1 bg-[#F4B41A]/20 rounded">MIRAFLORES</div>
+                                                    <div class="space-y-1 mt-1">
+                                                        <button type="button" onclick="selectZone('Aurora', 85, 100, 160)" class="w-full text-left px-3 py-2 text-xs hover:bg-[#F4B41A]/10 rounded flex justify-between items-center">
+                                                            <span class="text-gray-300">Aurora</span>
+                                                            <span class="text-[#F4B41A] font-bold">S/ 85</span>
+                                                        </button>
+                                                        <button type="button" onclick="selectZone('Pucllana, Santa Cruz, Reducto', 85, 100, 160)" class="w-full text-left px-3 py-2 text-xs hover:bg-[#F4B41A]/10 rounded flex justify-between items-center">
+                                                            <span class="text-gray-300">Pucllana, Santa Cruz, Reducto</span>
+                                                            <span class="text-[#F4B41A] font-bold">S/ 85</span>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                
+                                                <!-- Barranco -->
+                                                <div class="mb-2">
+                                                    <div class="text-xs font-bold text-white px-2 py-1 bg-[#F4B41A]/20 rounded">BARRANCO</div>
+                                                    <div class="space-y-1 mt-1">
+                                                        <button type="button" onclick="selectZone('Barranco', 85, 100, 160)" class="w-full text-left px-3 py-2 text-xs hover:bg-[#F4B41A]/10 rounded flex justify-between items-center">
+                                                            <span class="text-gray-300">Barranco</span>
+                                                            <span class="text-[#F4B41A] font-bold">S/ 85</span>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                
+                                                <!-- Chorrillos -->
+                                                <div class="mb-2">
+                                                    <div class="text-xs font-bold text-white px-2 py-1 bg-[#F4B41A]/20 rounded">CHORRILLOS</div>
+                                                    <div class="space-y-1 mt-1">
+                                                        <button type="button" onclick="selectZone('Chorrillos / Huaylas', 90, 100, 150)" class="w-full text-left px-3 py-2 text-xs hover:bg-[#F4B41A]/10 rounded flex justify-between items-center">
+                                                            <span class="text-gray-300">Chorrillos / Huaylas</span>
+                                                            <span class="text-[#F4B41A] font-bold">S/ 90</span>
+                                                        </button>
+                                                        <button type="button" onclick="selectZone('Encantada / Delicia / Cedros', 100, 110, 160)" class="w-full text-left px-3 py-2 text-xs hover:bg-[#F4B41A]/10 rounded flex justify-between items-center">
+                                                            <span class="text-gray-300">Encantada / Delicia / Cedros</span>
+                                                            <span class="text-[#F4B41A] font-bold">S/ 100</span>
+                                                        </button>
+                                                        <button type="button" onclick="selectZone('Campiña', 100, 110, 170)" class="w-full text-left px-3 py-2 text-xs hover:bg-[#F4B41A]/10 rounded flex justify-between items-center">
+                                                            <span class="text-gray-300">Campiña</span>
+                                                            <span class="text-[#F4B41A] font-bold">S/ 100</span>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                
+                                                <!-- Jesús María -->
+                                                <div class="mb-2">
+                                                    <div class="text-xs font-bold text-white px-2 py-1 bg-[#F4B41A]/20 rounded">JESÚS MARÍA</div>
+                                                    <div class="space-y-1 mt-1">
+                                                        <button type="button" onclick="selectZone('San Felipe', 80, 90, 140)" class="w-full text-left px-3 py-2 text-xs hover:bg-[#F4B41A]/10 rounded flex justify-between items-center">
+                                                            <span class="text-gray-300">San Felipe</span>
+                                                            <span class="text-[#F4B41A] font-bold">S/ 80</span>
+                                                        </button>
+                                                        <button type="button" onclick="selectZone('San José', 80, 90, 140)" class="w-full text-left px-3 py-2 text-xs hover:bg-[#F4B41A]/10 rounded flex justify-between items-center">
+                                                            <span class="text-gray-300">San José</span>
+                                                            <span class="text-[#F4B41A] font-bold">S/ 80</span>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                
+                                                <!-- Lince -->
+                                                <div class="mb-2">
+                                                    <div class="text-xs font-bold text-white px-2 py-1 bg-[#F4B41A]/20 rounded">LINCE</div>
+                                                    <div class="space-y-1 mt-1">
+                                                        <button type="button" onclick="selectZone('Lince', 85, 100, 140)" class="w-full text-left px-3 py-2 text-xs hover:bg-[#F4B41A]/10 rounded flex justify-between items-center">
+                                                            <span class="text-gray-300">Lince</span>
+                                                            <span class="text-[#F4B41A] font-bold">S/ 85</span>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                
+                                                <!-- San Miguel -->
+                                                <div class="mb-2">
+                                                    <div class="text-xs font-bold text-white px-2 py-1 bg-[#F4B41A]/20 rounded">SAN MIGUEL</div>
+                                                    <div class="space-y-1 mt-1">
+                                                        <button type="button" onclick="selectZone('Pando', 65, 90, 120)" class="w-full text-left px-3 py-2 text-xs hover:bg-[#F4B41A]/10 rounded flex justify-between items-center">
+                                                            <span class="text-gray-300">Pando</span>
+                                                            <span class="text-[#F4B41A] font-bold">S/ 65</span>
+                                                        </button>
+                                                        <button type="button" onclick="selectZone('Leyendas', 65, 90, 120)" class="w-full text-left px-3 py-2 text-xs hover:bg-[#F4B41A]/10 rounded flex justify-between items-center">
+                                                            <span class="text-gray-300">Leyendas</span>
+                                                            <span class="text-[#F4B41A] font-bold">S/ 65</span>
+                                                        </button>
+                                                        <button type="button" onclick="selectZone('Maranga', 65, 90, 120)" class="w-full text-left px-3 py-2 text-xs hover:bg-[#F4B41A]/10 rounded flex justify-between items-center">
+                                                            <span class="text-gray-300">Maranga</span>
+                                                            <span class="text-[#F4B41A] font-bold">S/ 65</span>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                
+                                                <!-- La Victoria -->
+                                                <div class="mb-2">
+                                                    <div class="text-xs font-bold text-white px-2 py-1 bg-[#F4B41A]/20 rounded">LA VICTORIA</div>
+                                                    <div class="space-y-1 mt-1">
+                                                        <button type="button" onclick="selectZone('La Victoria', 80, 100, 140)" class="w-full text-left px-3 py-2 text-xs hover:bg-[#F4B41A]/10 rounded flex justify-between items-center">
+                                                            <span class="text-gray-300">La Victoria</span>
+                                                            <span class="text-[#F4B41A] font-bold">S/ 80</span>
+                                                        </button>
+                                                        <button type="button" onclick="selectZone('Santa Catalina', 80, 100, 140)" class="w-full text-left px-3 py-2 text-xs hover:bg-[#F4B41A]/10 rounded flex justify-between items-center">
+                                                            <span class="text-gray-300">Santa Catalina</span>
+                                                            <span class="text-[#F4B41A] font-bold">S/ 80</span>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                
+                                                <!-- Breña -->
+                                                <div class="mb-2">
+                                                    <div class="text-xs font-bold text-white px-2 py-1 bg-[#F4B41A]/20 rounded">BREÑA</div>
+                                                    <div class="space-y-1 mt-1">
+                                                        <button type="button" onclick="selectZone('Breña', 75, 95, 130)" class="w-full text-left px-3 py-2 text-xs hover:bg-[#F4B41A]/10 rounded flex justify-between items-center">
+                                                            <span class="text-gray-300">Breña</span>
+                                                            <span class="text-[#F4B41A] font-bold">S/ 75</span>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                
+                                                <!-- Rímac -->
+                                                <div class="mb-2">
+                                                    <div class="text-xs font-bold text-white px-2 py-1 bg-[#F4B41A]/20 rounded">RÍMAC</div>
+                                                    <div class="space-y-1 mt-1">
+                                                        <button type="button" onclick="selectZone('Rímac', 65, 80, 120)" class="w-full text-left px-3 py-2 text-xs hover:bg-[#F4B41A]/10 rounded flex justify-between items-center">
+                                                            <span class="text-gray-300">Rímac</span>
+                                                            <span class="text-[#F4B41A] font-bold">S/ 65</span>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                
+                                                <!-- Lima -->
+                                                <div class="mb-2">
+                                                    <div class="text-xs font-bold text-white px-2 py-1 bg-[#F4B41A]/20 rounded">LIMA</div>
+                                                    <div class="space-y-1 mt-1">
+                                                        <button type="button" onclick="selectZone('Sta. Beatriz', 80, 95, 120)" class="w-full text-left px-3 py-2 text-xs hover:bg-[#F4B41A]/10 rounded flex justify-between items-center">
+                                                            <span class="text-gray-300">Sta. Beatriz</span>
+                                                            <span class="text-[#F4B41A] font-bold">S/ 80</span>
+                                                        </button>
+                                                        <button type="button" onclick="selectZone('Cercado', 80, 95, 120)" class="w-full text-left px-3 py-2 text-xs hover:bg-[#F4B41A]/10 rounded flex justify-between items-center">
+                                                            <span class="text-gray-300">Cercado</span>
+                                                            <span class="text-[#F4B41A] font-bold">S/ 80</span>
+                                                        </button>
+                                                        <button type="button" onclick="selectZone('Barrios Altos', 80, 95, 120)" class="w-full text-left px-3 py-2 text-xs hover:bg-[#F4B41A]/10 rounded flex justify-between items-center">
+                                                            <span class="text-gray-300">Barrios Altos</span>
+                                                            <span class="text-[#F4B41A] font-bold">S/ 80</span>
+                                                        </button>
+                                                        <button type="button" onclick="selectZone('Industrial', 80, 95, 120)" class="w-full text-left px-3 py-2 text-xs hover:bg-[#F4B41A]/10 rounded flex justify-between items-center">
+                                                            <span class="text-gray-300">Industrial</span>
+                                                            <span class="text-[#F4B41A] font-bold">S/ 80</span>
+                                                        </button>
+                                                        <button type="button" onclick="selectZone('Palomino', 80, 95, 120)" class="w-full text-left px-3 py-2 text-xs hover:bg-[#F4B41A]/10 rounded flex justify-between items-center">
+                                                            <span class="text-gray-300">Palomino</span>
+                                                            <span class="text-[#F4B41A] font-bold">S/ 80</span>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                
+                                                <!-- Cieneguilla -->
+                                                <div class="mb-2">
+                                                    <div class="text-xs font-bold text-white px-2 py-1 bg-[#F4B41A]/20 rounded">CIENEGUILLA</div>
+                                                    <div class="space-y-1 mt-1">
+                                                        <button type="button" onclick="selectZone('Cieneguilla', 140, 160, 200)" class="w-full text-left px-3 py-2 text-xs hover:bg-[#F4B41A]/10 rounded flex justify-between items-center">
+                                                            <span class="text-gray-300">Cieneguilla</span>
+                                                            <span class="text-[#F4B41A] font-bold">S/ 140</span>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                
+                                                <!-- Salamanca -->
+                                                <div class="mb-2">
+                                                    <div class="text-xs font-bold text-white px-2 py-1 bg-[#F4B41A]/20 rounded">SALAMANCA</div>
+                                                    <div class="space-y-1 mt-1">
+                                                        <button type="button" onclick="selectZone('Salamanca', 80, 90, 140)" class="w-full text-left px-3 py-2 text-xs hover:bg-[#F4B41A]/10 rounded flex justify-between items-center">
+                                                            <span class="text-gray-300">Salamanca</span>
+                                                            <span class="text-[#F4B41A] font-bold">S/ 80</span>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                
+                                                <!-- San Luis -->
+                                                <div class="mb-2">
+                                                    <div class="text-xs font-bold text-white px-2 py-1 bg-[#F4B41A]/20 rounded">SAN LUIS</div>
+                                                    <div class="space-y-1 mt-1">
+                                                        <button type="button" onclick="selectZone('San Luis', 80, 90, 140)" class="w-full text-left px-3 py-2 text-xs hover:bg-[#F4B41A]/10 rounded flex justify-between items-center">
+                                                            <span class="text-gray-300">San Luis</span>
+                                                            <span class="text-[#F4B41A] font-bold">S/ 80</span>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </details>
+                                </div>
                             </div>
 
                             <!-- Tipo de Vehículo -->
@@ -1519,6 +1808,78 @@
         // WhatsApp message base for demo activation
         const WHATSAPP_NUMBER = "51933667414";
 
+        // Zone selection function for airport fares
+        function selectZone(zoneName, autoPrice, suvPrice, vanPrice) {
+            // Update destination input
+            const destinoInput = document.getElementById('destino');
+            const destinoInputMobile = document.getElementById('destino-mobile');
+            
+            if (destinoInput) {
+                destinoInput.value = zoneName;
+            }
+            if (destinoInputMobile) {
+                destinoInputMobile.value = zoneName;
+            }
+
+            // Store prices in data attributes
+            const form = document.getElementById('calculator-form');
+            const formMobile = document.getElementById('calculator-form-mobile');
+            
+            if (form) {
+                form.dataset.autoPrice = autoPrice;
+                form.dataset.suvPrice = suvPrice;
+                form.dataset.vanPrice = vanPrice;
+            }
+            if (formMobile) {
+                formMobile.dataset.autoPrice = autoPrice;
+                formMobile.dataset.suvPrice = suvPrice;
+                formMobile.dataset.vanPrice = vanPrice;
+            }
+
+            // Update pricing configuration dynamically
+            PRICING_BASE.basePrice = autoPrice;
+            PRICING_BASE.vehicle.suv = suvPrice - autoPrice;
+            PRICING_BASE.vehicle.van = vanPrice - autoPrice;
+
+            // Update price display
+            updateAllPrices();
+
+            // Close the dropdown
+            const details = document.querySelector('details');
+            if (details) {
+                details.removeAttribute('open');
+            }
+
+            console.log('Zone selected:', zoneName, 'Auto:', autoPrice, 'SUV:', suvPrice, 'Van:', vanPrice);
+        }
+
+        // Global pricing base for zone updates
+        let PRICING_BASE = {
+            basePrice: 25,
+            vehicle: {
+                'sedan': 0,
+                'suv': 15,
+                'van': 25
+            },
+            schedule: {
+                'now': 0,
+                'scheduled': 5
+            }
+        };
+
+        // Update all price displays
+        function updateAllPrices() {
+            const priceDisplay = document.getElementById('estimated-price');
+            const priceDisplayMobile = document.getElementById('estimated-price-mobile');
+            
+            if (priceDisplay) {
+                priceDisplay.textContent = PRICING_BASE.basePrice;
+            }
+            if (priceDisplayMobile) {
+                priceDisplayMobile.textContent = PRICING_BASE.basePrice;
+            }
+        }
+
         // Calculator Logic - Reusable Function (Demo Mode - includes cotizador data)
         function initCalculator(formId, origenId, destinoId, priceId) {
             const form = document.getElementById(formId);
@@ -1534,67 +1895,20 @@
             const vehicleOptions = form.querySelectorAll('.vehicle-option');
             const scheduleOptions = form.querySelectorAll('.schedule-option');
 
-            // Pricing configuration - Executive service
-            const PRICING = {
-                locations: {
-                    'jorge chavez': 35,
-                    'aeropuerto': 35,
-                    'manchay': 25,
-                    'centro': 20,
-                    'lima': 22,
-                    'hotel': 28,
-                    'plaza': 22,
-                    'mall': 24,
-                    'universidad': 22,
-                    'clinica': 26,
-                    'oficina': 25,
-                    'empresa': 25,
-                    'miraflores': 28,
-                    'san isidro': 30,
-                    'surco': 26,
-                    'la molina': 28,
-                    'callao': 32
-                },
-                basePrice: 25,
-                vehicle: {
-                    'sedan': 0,
-                    'suv': 15,
-                    'van': 25
-                },
-                schedule: {
-                    'now': 0,
-                    'scheduled': 5
-                }
-            };
-
             let selectedVehicle = 'sedan';
             let selectedSchedule = 'now';
 
-            // Calculate price based on inputs
+            // Calculate price based on inputs and zone selection
             function calculatePrice() {
-                let basePrice = PRICING.basePrice;
-
-                // Only check location keywords if inputs have values
-                if (origenInput.value || destinoInput.value) {
-                    const origen = origenInput.value.toLowerCase();
-                    const destino = destinoInput.value.toLowerCase();
-
-                    // Check for location keywords
-                    for (const [keyword, price] of Object.entries(PRICING.locations)) {
-                        if (origen.includes(keyword) || destino.includes(keyword)) {
-                            basePrice = Math.max(basePrice, price);
-                        }
-                    }
-                }
+                let basePrice = PRICING_BASE.basePrice;
 
                 // Add vehicle surcharge
-                basePrice += PRICING.vehicle[selectedVehicle] || 0;
+                basePrice += PRICING_BASE.vehicle[selectedVehicle] || 0;
 
                 // Add schedule surcharge
-                basePrice += PRICING.schedule[selectedSchedule] || 0;
+                basePrice += PRICING_BASE.schedule[selectedSchedule] || 0;
 
-                // Ensure we always return a valid number (minimum base price)
-                return Math.max(basePrice, PRICING.basePrice);
+                return Math.max(basePrice, PRICING_BASE.basePrice);
             }
 
             // Update price display
