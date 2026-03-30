@@ -2435,6 +2435,7 @@
             PRICING_BASE.vehicle.van = vanPrice - autoPrice;
             PRICING_BASE.isZoneSelected = true;
             PRICING_BASE.isAirportZone = true;
+            PRICING_BASE.isManualDestination = false;
 
             // Update price display
             updateAllPrices();
@@ -2444,6 +2445,219 @@
             details.forEach(d => d.removeAttribute('open'));
 
             console.log('Zone selected:', zoneName, 'Origen:', newOrigen, 'Destino:', newDestino, 'Auto:', autoPrice, 'SUV:', suvPrice, 'Van:', vanPrice);
+        }
+
+        // Database of zones with keywords for matching (districts, streets, landmarks)
+        const ZONE_DATABASE = {
+            // La Molina
+            'camacho': { price: 85, keywords: ['camacho', 'av camacho', 'camacho la molina'] },
+            'santa patricia': { price: 90, keywords: ['santa patricia', 'remanso', 'la capilla', 'patricia'] },
+            'rinconada': { price: 100, keywords: ['rinconada', 'sol de la molina', 'planicie', 'la rinconada'] },
+            
+            // San Borja
+            'guardia civil': { price: 90, keywords: ['guardia civil', 'cuartel guardia civil'] },
+            'san borja norte': { price: 90, keywords: ['san borja norte', 'norte san borja'] },
+            'pentagonito': { price: 90, keywords: ['pentagonito', 'el pentagonito'] },
+            
+            // Surco
+            'alamos': { price: 90, keywords: ['alamos', 'golf incas', 'valle hermoso', 'casuarinas', 'los alamos'] },
+            'chacarilla': { price: 90, keywords: ['chacarilla', 'higuereta', 'chama', 'la chacarilla'] },
+            'castellana': { price: 90, keywords: ['castellana', 'palmas', 'sagitario', 'la castellana'] },
+            
+            // Surquillo
+            'aramburu': { price: 85, keywords: ['aramburu', 'av aramburu'] },
+            'la calera': { price: 85, keywords: ['la calera', 'calera surquillo'] },
+            
+            // San Isidro
+            'corpac': { price: 85, keywords: ['corpac', 'arona', 'av arona'] },
+            'orrantia': { price: 85, keywords: ['orrantia', 'basadre', 'golf club', 'la orrantia'] },
+            
+            // Miraflores
+            'aurora': { price: 85, keywords: ['aurora', 'la aurora', 'miraflores aurora'] },
+            'pucllana': { price: 85, keywords: ['pucllana', 'santa cruz', 'reducto', 'huaca pucllana'] },
+            
+            // Barranco
+            'barranco': { price: 85, keywords: ['barranco', 'av barranco', 'plaza barranco'] },
+            
+            // Chorrillos
+            'huaylas': { price: 90, keywords: ['huaylas', 'chorrillos', 'av huaylas'] },
+            'encantada': { price: 100, keywords: ['encantada', 'delicia', 'cedros', 'la encantada'] },
+            'campiña': { price: 100, keywords: ['campiña', 'la campiña', 'chacarilla de la campiña'] },
+            
+            // Jesús María
+            'san felipe': { price: 80, keywords: ['san felipe', 'residencial san felipe'] },
+            'san jose': { price: 80, keywords: ['san jose', 'san josé', 'residencial san jose'] },
+            
+            // Lince
+            'lince': { price: 85, keywords: ['lince', 'av lince', 'plaza lince'] },
+            
+            // San Miguel
+            'pando': { price: 65, keywords: ['pando', 'av pando', 'plaza pando'] },
+            'leyendas': { price: 65, keywords: ['leyendas', 'circuito leyendas', 'av leyendas'] },
+            'maranga': { price: 65, keywords: ['maranga', 'huaca maranga', 'parque maranga'] },
+            
+            // La Victoria
+            'la victoria': { price: 80, keywords: ['la victoria', 'plaza victoria', 'av victoria'] },
+            'santa catalina': { price: 80, keywords: ['santa catalina', 'st catalina', 'catalina'] },
+            
+            // Breña
+            'brena': { price: 75, keywords: ['brena', 'la breña', 'av breña'] },
+            
+            // Rímac
+            'rimac': { price: 65, keywords: ['rimac', 'rímac', 'plaza rimac', 'puente piedra'] },
+            
+            // Lima (Cercado)
+            'sta beatriz': { price: 80, keywords: ['sta beatriz', 'santa beatriz', 'beatriz'] },
+            'cercado': { price: 80, keywords: ['cercado', 'cercado de lima', 'centro lima', 'plaza armas'] },
+            'barrios altos': { price: 80, keywords: ['barrios altos', 'barrio alto'] },
+            'industrial': { price: 80, keywords: ['industrial', 'zona industrial', 'av industrial'] },
+            'palomino': { price: 80, keywords: ['palomino', 'el palomino'] },
+            
+            // Cieneguilla
+            'cieneguilla': { price: 140, keywords: ['cieneguilla', 'la cieneguilla'] },
+            
+            // Salamanca
+            'salamanca': { price: 80, keywords: ['salamanca', 'av salamanca', 'residencial salamanca'] },
+            
+            // San Luis
+            'san luis': { price: 80, keywords: ['san luis', 'av san luis', 'residencial san luis'] }
+        };
+
+        // Districts for Google Maps Geocoding validation
+        const DISTRICTS = {
+            'la molina': ['camacho', 'santa patricia', 'rinconada', 'sol de la molina', 'planicie', 'la capilla', 'remanso'],
+            'san borja': ['guardia civil', 'san borja norte', 'pentagonito'],
+            'surco': ['alamos', 'golf incas', 'valle hermoso', 'casuarinas', 'chacarilla', 'higuereta', 'chama', 'castellana', 'palmas', 'sagitario'],
+            'surquillo': ['aramburu', 'la calera'],
+            'san isidro': ['corpac', 'arona', 'orrantia', 'basadre', 'golf club'],
+            'miraflores': ['aurora', 'pucllana', 'santa cruz', 'reducto'],
+            'barranco': ['barranco'],
+            'chorrillos': ['huaylas', 'encantada', 'delicia', 'cedros', 'campiña'],
+            'jesus maria': ['san felipe', 'san jose'],
+            'lince': ['lince'],
+            'san miguel': ['pando', 'leyendas', 'maranga'],
+            'la victoria': ['la victoria', 'santa catalina'],
+            'brena': ['brena'],
+            'rimac': ['rimac'],
+            'lima': ['sta beatriz', 'cercado', 'barrios altos', 'industrial', 'palomino'],
+            'cieneguilla': ['cieneguilla'],
+            'salamanca': ['salamanca'],
+            'san luis': ['san luis']
+        };
+
+        // Check if destination matches a zone in our database
+        function checkDestinationMatch(destination) {
+            if (!destination) return null;
+            
+            const destLower = destination.toLowerCase().trim();
+            
+            // Check exact matches first
+            for (const [zoneKey, zoneData] of Object.entries(ZONE_DATABASE)) {
+                if (destLower.includes(zoneKey)) {
+                    return {
+                        zone: zoneKey,
+                        price: zoneData.price,
+                        matched: true,
+                        type: 'exact'
+                    };
+                }
+                
+                // Check keywords
+                for (const keyword of zoneData.keywords) {
+                    if (destLower.includes(keyword)) {
+                        return {
+                            zone: zoneKey,
+                            price: zoneData.price,
+                            matched: true,
+                            type: 'keyword'
+                        };
+                    }
+                }
+            }
+            
+            // Check district names
+            for (const [district, zones] of Object.entries(DISTRICTS)) {
+                if (destLower.includes(district)) {
+                    // Return average price for district
+                    const avgPrice = Math.round(zones.reduce((sum, zone) => {
+                        const zoneData = ZONE_DATABASE[zone];
+                        return sum + (zoneData ? zoneData.price : 80);
+                    }, 0) / zones.length);
+                    
+                    return {
+                        zone: district,
+                        price: avgPrice,
+                        matched: true,
+                        type: 'district'
+                    };
+                }
+            }
+            
+            // No match found
+            return {
+                zone: null,
+                price: null,
+                matched: false,
+                type: 'unknown'
+            };
+        }
+
+        // Google Maps Geocoding validation (optional - requires API key)
+        async function validateWithGoogleMaps(destination) {
+            // NOTE: This requires a Google Maps API key
+            // Uncomment and add your API key to enable
+            
+            /*
+            const API_KEY = 'YOUR_GOOGLE_MAPS_API_KEY';
+            const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(destination)}&key=${API_KEY}`;
+            
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                
+                if (data.status === 'OK' && data.results.length > 0) {
+                    const result = data.results[0];
+                    const components = result.address_components;
+                    
+                    // Extract district from components
+                    for (const component of components) {
+                        if (component.types.includes('sublocality') || component.types.includes('neighborhood')) {
+                            const district = component.name.toLowerCase();
+                            if (DISTRICTS[district]) {
+                                return { valid: true, district: district };
+                            }
+                        }
+                    }
+                }
+            } catch (error) {
+                console.log('Google Maps validation not available:', error);
+            }
+            */
+            
+            return { valid: false, district: null };
+        }
+
+        // Handle manual destination input
+        function handleDestinationInput(destination) {
+            const match = checkDestinationMatch(destination);
+            
+            if (match && match.matched) {
+                // Found match in database - use automatic pricing
+                PRICING_BASE.basePrice = match.price;
+                PRICING_BASE.isZoneSelected = true;
+                PRICING_BASE.isAirportZone = true;
+                PRICING_BASE.isManualDestination = true;
+                PRICING_BASE.matchedZone = match.zone;
+            } else {
+                // No match - show "Por cotizar"
+                PRICING_BASE.basePrice = 25; // Base price
+                PRICING_BASE.isZoneSelected = false;
+                PRICING_BASE.isAirportZone = false;
+                PRICING_BASE.isManualDestination = true;
+                PRICING_BASE.matchedZone = null;
+            }
+            
+            updateAllPrices();
         }
 
         // Global pricing base for zone updates
@@ -2466,12 +2680,32 @@
         function updateAllPrices() {
             const priceDisplay = document.getElementById('estimated-price');
             const priceDisplayMobile = document.getElementById('estimated-price-mobile');
+            const priceLabel = document.querySelector('.price-display .text-gray-400');
             
-            if (priceDisplay) {
-                priceDisplay.textContent = PRICING_BASE.basePrice;
-            }
-            if (priceDisplayMobile) {
-                priceDisplayMobile.textContent = PRICING_BASE.basePrice;
+            if (PRICING_BASE.isManualDestination && !PRICING_BASE.isZoneSelected) {
+                // No match found - show "Por cotizar"
+                if (priceDisplay) {
+                    priceDisplay.textContent = 'Por cotizar';
+                    priceDisplay.classList.remove('text-4xl', 'font-extrabold');
+                    priceDisplay.classList.add('text-2xl', 'font-semibold');
+                }
+                if (priceDisplayMobile) {
+                    priceDisplayMobile.textContent = 'Por cotizar';
+                    priceDisplayMobile.classList.remove('text-4xl', 'font-extrabold');
+                    priceDisplayMobile.classList.add('text-2xl', 'font-semibold');
+                }
+            } else {
+                // Show normal price
+                if (priceDisplay) {
+                    priceDisplay.textContent = PRICING_BASE.basePrice;
+                    priceDisplay.classList.add('text-4xl', 'font-extrabold');
+                    priceDisplay.classList.remove('text-2xl', 'font-semibold');
+                }
+                if (priceDisplayMobile) {
+                    priceDisplayMobile.textContent = PRICING_BASE.basePrice;
+                    priceDisplayMobile.classList.add('text-4xl', 'font-extrabold');
+                    priceDisplayMobile.classList.remove('text-2xl', 'font-semibold');
+                }
             }
         }
 
@@ -2533,7 +2767,21 @@
             // Initialize price on load (ensure it shows base price)
             updatePrice();
 
-            // Form submission - DEMO MODE: Redirect to activation with cotizador data
+            // Handle manual destination input with intelligent matching
+            const handleManualDestination = (e) => {
+                const destination = e.target.value;
+                if (destination && destination.length > 2) {
+                    handleDestinationInput(destination);
+                } else {
+                    // Reset to base price if input is too short
+                    PRICING_BASE.isManualDestination = false;
+                    PRICING_BASE.isZoneSelected = false;
+                    updateAllPrices();
+                }
+            };
+
+            origenInput.addEventListener('input', updatePrice);
+            destinoInput.addEventListener('input', handleManualDestination);
             form.addEventListener('submit', (e) => {
                 e.preventDefault();
 
@@ -2573,6 +2821,10 @@
                 }
 
                 // Build message with cotizador data (text emojis for cross-device compatibility)
+                const priceDisplay = PRICING_BASE.isManualDestination && !PRICING_BASE.isZoneSelected 
+                    ? 'POR COTIZAR (direccion fuera de tarifario)' 
+                    : `S/ ${price}`;
+                
                 const message = `Hola *vi la demo de la web de QORI* y quiero activarla para mi negocio.
 
 Probe el cotizador con estos datos:
@@ -2581,7 +2833,7 @@ Probe el cotizador con estos datos:
 *Destino:* ${destino}
 *Vehiculo:* ${vehicleNames[selectedVehicle]}
 *Horario:* ${scheduleDetail}
-*Tarifa:* S/ ${price}
+*Tarifa:* ${priceDisplay}
 
 *Me pueden dar mas informacion?*`;
 
