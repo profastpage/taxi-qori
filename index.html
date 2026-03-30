@@ -1706,10 +1706,16 @@ Probé el cotizador con estos datos:
             ];
 
             const sliderContainer = document.getElementById('hero-slider');
-            if (!sliderContainer) return;
+            if (!sliderContainer) {
+                console.error('Hero slider container not found');
+                return;
+            }
 
+            console.log('Initializing hero slider...');
+            
             let currentSlideIndex = 0;
             let slides = [];
+            let loadedCount = 0;
 
             // Preload all images before showing slider
             function preloadImages() {
@@ -1717,14 +1723,26 @@ Probé el cotizador con estos datos:
                     return new Promise((resolve, reject) => {
                         const img = new Image();
                         img.onload = () => {
+                            loadedCount++;
+                            console.log(`Image ${loadedCount}/${heroImages.length} loaded`);
+                            
                             const slide = document.createElement('div');
                             slide.className = 'hero-slide' + (index === 0 ? ' active' : '');
                             slide.style.backgroundImage = `url('${src}')`;
                             sliderContainer.appendChild(slide);
                             slides.push(slide);
+                            
+                            if (loadedCount === heroImages.length) {
+                                console.log('All images loaded, starting slider');
+                                console.log('Total slides:', slides.length);
+                            }
+                            
                             resolve(slide);
                         };
-                        img.onerror = reject;
+                        img.onerror = (e) => {
+                            console.error('Failed to load image:', src, e);
+                            reject(e);
+                        };
                         img.src = src;
                     });
                 }));
@@ -1732,11 +1750,19 @@ Probé el cotizador con estos datos:
 
             // Change slide with crossfade effect
             function changeSlide() {
-                if (slides.length === 0) return;
+                if (slides.length === 0) {
+                    console.warn('No slides available');
+                    return;
+                }
 
                 const currentSlide = slides[currentSlideIndex];
                 currentSlideIndex = (currentSlideIndex + 1) % slides.length;
                 const nextSlide = slides[currentSlideIndex];
+
+                console.log('Changing slide from', currentSlideIndex, 'to', currentSlideIndex);
+                console.log('Slides:', slides);
+                console.log('Current slide element:', currentSlide);
+                console.log('Next slide element:', nextSlide);
 
                 currentSlide.classList.remove('active');
                 nextSlide.classList.add('active');
@@ -1746,10 +1772,14 @@ Probé el cotizador con estos datos:
             preloadImages()
                 .then(() => {
                     console.log('All hero images loaded successfully');
-                    setInterval(changeSlide, 4000);
+                    console.log('Starting slider with', slides.length, 'slides');
+                    // Start automatic slide changes every 4 seconds
+                    const intervalId = setInterval(changeSlide, 4000);
+                    console.log('Slider interval started:', intervalId);
                 })
                 .catch((error) => {
                     console.error('Error loading hero images:', error);
+                    // Fallback: show first image as static background
                     if (sliderContainer) {
                         sliderContainer.style.background = `
                             linear-gradient(
