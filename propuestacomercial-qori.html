@@ -14,6 +14,9 @@
             color: #f8fafc;
             line-height: 1.6;
             padding: 20px;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+            color-adjust: exact !important;
         }
         .container { max-width: 900px; margin: 0 auto; }
         
@@ -36,6 +39,7 @@
             background: linear-gradient(135deg, #60A5FA, #F59E0B);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
         .subtitle { color: #94a3b8; font-size: 1.1rem; }
         .badge {
@@ -54,12 +58,15 @@
         
         /* Cards */
         .glass {
-            background: rgba(30, 41, 59, 0.85);
+            background: rgba(30, 41, 59, 0.95) !important;
             backdrop-filter: blur(12px);
             border: 1px solid rgba(255,255,255,0.1);
             border-radius: 16px;
             padding: 24px;
             margin-bottom: 24px;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+            color-adjust: exact !important;
         }
         .section-title {
             font-size: 1.5rem;
@@ -74,24 +81,28 @@
         /* Demo Link */
         .demo-link {
             display: block;
-            background: rgba(30, 41, 59, 0.85);
+            background: rgba(30, 41, 59, 0.95) !important;
             padding: 16px;
             border-radius: 12px;
             color: #60A5FA;
             text-decoration: none;
             border: 1px solid rgba(255,255,255,0.1);
             transition: all 0.3s;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
         }
         .demo-link:hover { background: rgba(255,255,255,0.05); }
         .demo-link-content { display: flex; align-items: center; gap: 12px; }
         .demo-icon {
             width: 40px;
             height: 40px;
-            background: rgba(37, 99, 235, 0.2);
+            background: rgba(37, 99, 235, 0.2) !important;
             border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
         }
         .demo-icon i { color: #3B82F6; }
         
@@ -102,13 +113,16 @@
             gap: 12px;
         }
         .feature-card {
-            background: rgba(30, 41, 59, 0.85);
+            background: rgba(30, 41, 59, 0.95) !important;
             border: 1px solid rgba(255,255,255,0.1);
             border-radius: 12px;
             padding: 16px;
             transition: all 0.3s;
             animation: slideUp 0.5s ease-out forwards;
             opacity: 0;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+            color-adjust: exact !important;
         }
         .feature-card:nth-child(1) { animation-delay: 0.1s; }
         .feature-card:nth-child(2) { animation-delay: 0.2s; }
@@ -135,25 +149,30 @@
             gap: 20px;
         }
         .pricing-card {
-            background: rgba(30, 41, 59, 0.85);
+            background: rgba(30, 41, 59, 0.95) !important;
             border: 1px solid rgba(255,255,255,0.1);
             border-radius: 16px;
             padding: 24px;
             position: relative;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+            color-adjust: exact !important;
         }
         .pricing-card.recommended {
-            border: 2px solid #2563EB;
+            border: 2px solid #2563EB !important;
         }
         .badge-recommended {
             position: absolute;
             top: 16px;
             right: 16px;
-            background: linear-gradient(135deg, #2563EB, #F59E0B);
+            background: linear-gradient(135deg, #2563EB, #F59E0B) !important;
             color: white;
             padding: 4px 12px;
             border-radius: 9999px;
             font-size: 0.75rem;
             font-weight: bold;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
         }
         .pricing-title { font-size: 1.25rem; font-weight: bold; margin-bottom: 4px; }
         .pricing-subtitle { color: #64748b; font-size: 0.875rem; margin-bottom: 16px; }
@@ -174,21 +193,25 @@
         /* Delivery */
         .delivery {
             text-align: center;
-            background: rgba(30, 41, 59, 0.85);
+            background: rgba(30, 41, 59, 0.95) !important;
             border: 1px solid rgba(255,255,255,0.1);
             border-radius: 16px;
             padding: 24px;
             margin-bottom: 24px;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
         }
         .delivery-icon {
             width: 56px;
             height: 56px;
-            background: rgba(16, 185, 129, 0.2);
+            background: rgba(16, 185, 129, 0.2) !important;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             margin: 0 auto 16px;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
         }
         .delivery-icon i { font-size: 24px; color: #10B981; }
         .delivery-time { font-size: 2rem; font-weight: 800; margin: 8px 0; }
@@ -196,22 +219,26 @@
         /* CTA */
         .cta {
             text-align: center;
-            background: linear-gradient(135deg, rgba(37, 99, 235, 0.1), transparent);
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.15), rgba(30, 41, 59, 0.8)) !important;
             border: 1px solid rgba(37, 99, 235, 0.3);
             border-radius: 16px;
             padding: 32px;
             margin-bottom: 24px;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
         }
         .cta-icon {
             width: 64px;
             height: 64px;
-            background: linear-gradient(135deg, #10B981, #34D399);
+            background: linear-gradient(135deg, #10B981, #34D399) !important;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             margin: 0 auto 20px;
             box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
         }
         .cta-icon i { font-size: 28px; color: white; }
         .cta h3 { font-size: 1.75rem; margin-bottom: 16px; }
@@ -221,7 +248,7 @@
             display: inline-flex;
             align-items: center;
             gap: 12px;
-            background: linear-gradient(135deg, #25D366, #128C7E);
+            background: linear-gradient(135deg, #25D366, #128C7E) !important;
             color: white;
             padding: 16px 32px;
             border-radius: 12px;
@@ -230,6 +257,8 @@
             font-size: 1.1rem;
             transition: all 0.3s;
             box-shadow: 0 10px 25px rgba(37, 211, 102, 0.25);
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
         }
         .btn-whatsapp:hover { transform: scale(1.05); }
         .btn-whatsapp i { font-size: 24px; }
@@ -241,11 +270,13 @@
             border-top: 1px solid rgba(255,255,255,0.1);
         }
         .footer-content {
-            background: rgba(30, 41, 59, 0.85);
+            background: rgba(30, 41, 59, 0.95) !important;
             border: 1px solid rgba(255,255,255,0.1);
             border-radius: 16px;
             padding: 24px;
             text-align: center;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
         }
         .footer-links {
             display: flex;
@@ -277,7 +308,7 @@
             position: fixed;
             bottom: 24px;
             right: 24px;
-            background: linear-gradient(135deg, #2563EB, #F59E0B);
+            background: linear-gradient(135deg, #2563EB, #F59E0B) !important;
             color: white;
             padding: 12px 24px;
             border-radius: 9999px;
@@ -291,6 +322,8 @@
             transition: all 0.3s;
             animation: float 6s ease-in-out infinite;
             z-index: 1000;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
         }
         .download-btn:hover { transform: scale(1.05); }
         .download-btn:disabled { opacity: 0.7; cursor: not-allowed; }
@@ -306,28 +339,23 @@
             50% { transform: translateY(-8px); }
         }
         
-        /* Print/PDF Styles */
+        /* Print/PDF Styles - MANTENER COLORES ORIGINALES */
         @media print {
             body {
-                background: white !important;
-                color: #0f172a !important;
+                background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%) !important;
+                color: #f8fafc !important;
                 -webkit-print-color-adjust: exact !important;
                 print-color-adjust: exact !important;
+                color-adjust: exact !important;
             }
             .download-btn { display: none !important; }
-            .glass, .feature-card, .pricing-card, .footer-content {
-                background: white !important;
-                border: 1px solid #e2e8f0 !important;
-                backdrop-filter: none !important;
-                box-shadow: none !important;
+            .glass, .feature-card, .pricing-card, .footer-content, .demo-link, .demo-icon, 
+            .delivery, .cta, .cta-icon, .badge, .pricing-card.recommended, .badge-recommended, 
+            .delivery-icon, .btn-whatsapp {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                color-adjust: exact !important;
             }
-            .gradient-text {
-                -webkit-text-fill-color: #1e40af !important;
-                background: none !important;
-            }
-            .footer-link { color: #1e40af !important; border-color: #1e40af !important; }
-            .text-gray-400 { color: #64748b !important; }
-            .text-gray-500 { color: #64748b !important; }
         }
         
         @media (max-width: 640px) {
@@ -373,7 +401,7 @@
                     </div>
                     <div style="flex: 1;">
                         <p style="font-weight: 600; margin-bottom: 2px;">https://taxi-qori.pages.dev</p>
-                        <p style="font-size: 0.875rem; color: #64748b;">Toca para visitar la demo interactiva</p>
+                        <p style="font-size: 0.875rem; color: #94a3b8;">Toca para visitar la demo interactiva</p>
                     </div>
                     <i class="fas fa-external-link-alt" style="color: #64748b;"></i>
                 </div>
@@ -546,7 +574,7 @@
             year: 'numeric', month: 'long', day: 'numeric'
         });
 
-        // Generar PDF
+        // Generar PDF con configuración optimizada
         function generatePDF() {
             const element = document.getElementById('proposal-content');
             const btn = document.getElementById('downloadBtn');
@@ -556,20 +584,25 @@
             btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> <span>Generando...</span>';
             
             const opt = {
-                margin: [0.5, 0.5, 0.5, 0.5],
+                margin: [0.3, 0.3, 0.3, 0.3],
                 filename: 'Propuesta_FastPagePro.pdf',
-                image: { type: 'jpeg', quality: 0.98 },
+                image: { type: 'jpeg', quality: 1.0 },
                 html2canvas: { 
                     scale: 2, 
                     useCORS: true, 
-                    backgroundColor: '#ffffff',
-                    logging: false
+                    backgroundColor: '#0f172a',
+                    logging: false,
+                    letterRendering: true,
+                    allowTaint: false,
+                    imageTimeout: 0
                 },
                 jsPDF: { 
                     unit: 'in', 
                     format: 'a4', 
-                    orientation: 'portrait'
-                }
+                    orientation: 'portrait',
+                    compress: true
+                },
+                pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
             };
 
             html2pdf().set(opt).from(element).save().then(() => {
