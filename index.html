@@ -1019,7 +1019,7 @@
                                     </div>
                                     <div class="vehicle-option p-3 text-center cursor-pointer" data-vehicle="suv">
                                         <i class="fas fa-shuttle-van vehicle-icon text-xl mb-1"></i>
-                                        <div class="text-white font-semibold text-xs">SUV</div>
+                                        <div class="text-white font-semibold text-xs">Camioneta</div>
                                         <div class="text-[#F4B41A] text-xs font-bold">+S/15</div>
                                     </div>
                                     <div class="vehicle-option p-3 text-center cursor-pointer" data-vehicle="van">
@@ -1074,7 +1074,7 @@
                             <div class="price-display p-4 text-center">
                                 <div class="text-gray-400 text-xs mb-1">Tarifa estimada</div>
                                 <div class="text-4xl font-extrabold text-[#F4B41A] mb-1">
-                                    Desde S/ <span id="estimated-price">25</span>
+                                    <span id="price-prefix">S/ </span><span id="estimated-price">25</span>
                                 </div>
                                 <div class="text-gray-500 text-xs">
                                     <i class="fas fa-info-circle mr-1"></i>
@@ -1168,7 +1168,7 @@
                             </div>
                             <div class="vehicle-option p-3 text-center cursor-pointer" data-vehicle="suv">
                                 <i class="fas fa-shuttle-van vehicle-icon text-xl mb-1"></i>
-                                <div class="text-white font-semibold text-xs">SUV</div>
+                                <div class="text-white font-semibold text-xs">Camioneta</div>
                                 <div class="text-[#F4B41A] text-xs font-bold">+S/15</div>
                             </div>
                             <div class="vehicle-option p-3 text-center cursor-pointer" data-vehicle="van">
@@ -1223,7 +1223,7 @@
                     <div class="price-display p-4 text-center">
                         <div class="text-gray-400 text-xs mb-1">Tarifa estimada</div>
                         <div class="text-4xl font-extrabold text-[#F4B41A] mb-1">
-                            Desde S/ <span id="estimated-price-mobile">25</span>
+                            <span id="price-prefix-mobile">S/ </span><span id="estimated-price-mobile">25</span>
                         </div>
                         <div class="text-gray-500 text-xs">
                             <i class="fas fa-info-circle mr-1"></i>
@@ -1479,13 +1479,13 @@
                     </div>
                 </div>
 
-                <!-- SUV -->
+                <!-- Camioneta -->
                 <div class="feature-card overflow-hidden fade-in-up delay-1">
                     <div class="relative h-48 overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?q=80&w=800&auto=format&fit=crop" alt="SUV Premium" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
+                        <img src="https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?q=80&w=800&auto=format&fit=crop" alt="Camioneta Premium" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
                     </div>
                     <div class="p-6">
-                        <h3 class="text-xl font-bold text-white mb-2">SUV Premium</h3>
+                        <h3 class="text-xl font-bold text-white mb-2">Camioneta Premium</h3>
                         <p class="text-gray-400 text-sm mb-4">Toyota RAV4 o similar</p>
                         <div class="flex items-center justify-between text-xs text-gray-500 mb-4">
                             <span class="flex items-center gap-1">
@@ -1495,7 +1495,7 @@
                                 <i class="fas fa-suitcase text-[#F4B41A]"></i> 4 maletas
                             </span>
                         </div>
-                        <a href="https://wa.me/51933667414?text=Hola%20vi%20la%20demo%20de%20QORI%20y%20me%20interesa%20la%20SUV%20Premium%20(Toyota%20RAV4).%0A%0AQuiero%20activar%20esta%20web%20para%20mi%20servicio%20de%20transporte.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F" class="btn-primary w-full py-2.5 rounded-full text-sm font-bold flex items-center justify-center gap-2">
+                        <a href="https://wa.me/51933667414?text=Hola%20vi%20la%20demo%20de%20QORI%20y%20me%20interesa%20la%20Camioneta%20Premium%20(Toyota%20RAV4).%0A%0AQuiero%20activar%20esta%20web%20para%20mi%20servicio%20de%20transporte.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F" class="btn-primary w-full py-2.5 rounded-full text-sm font-bold flex items-center justify-center gap-2">
                             <i class="fab fa-whatsapp"></i>
                             Reservar
                         </a>
@@ -1935,6 +1935,17 @@
             const destinoInput = document.getElementById('destino');
             const destinoInputMobile = document.getElementById('destino-mobile');
             
+            // Update pickup point to Aeropuerto automatically
+            const origenInput = document.getElementById('origen');
+            const origenInputMobile = document.getElementById('origen-mobile');
+            
+            if (origenInput) {
+                origenInput.value = 'Aeropuerto Jorge Chávez';
+            }
+            if (origenInputMobile) {
+                origenInputMobile.value = 'Aeropuerto Jorge Chávez';
+            }
+            
             if (destinoInput) {
                 destinoInput.value = zoneName;
             }
@@ -1950,17 +1961,20 @@
                 form.dataset.autoPrice = autoPrice;
                 form.dataset.suvPrice = suvPrice;
                 form.dataset.vanPrice = vanPrice;
+                form.dataset.isZoneSelected = 'true';
             }
             if (formMobile) {
                 formMobile.dataset.autoPrice = autoPrice;
                 formMobile.dataset.suvPrice = suvPrice;
                 formMobile.dataset.vanPrice = vanPrice;
+                formMobile.dataset.isZoneSelected = 'true';
             }
 
             // Update pricing configuration dynamically
             PRICING_BASE.basePrice = autoPrice;
             PRICING_BASE.vehicle.suv = suvPrice - autoPrice;
             PRICING_BASE.vehicle.van = vanPrice - autoPrice;
+            PRICING_BASE.isZoneSelected = true;
 
             // Update price display
             updateAllPrices();
@@ -1985,13 +1999,26 @@
             schedule: {
                 'now': 0,
                 'scheduled': 5
-            }
+            },
+            isZoneSelected: false
         };
 
         // Update all price displays
         function updateAllPrices() {
             const priceDisplay = document.getElementById('estimated-price');
             const priceDisplayMobile = document.getElementById('estimated-price-mobile');
+            const pricePrefix = document.getElementById('price-prefix');
+            const pricePrefixMobile = document.getElementById('price-prefix-mobile');
+            
+            // Hide "Desde" when zone is selected (exact fare)
+            const showPrefix = !PRICING_BASE.isZoneSelected;
+            
+            if (pricePrefix) {
+                pricePrefix.style.display = showPrefix ? 'inline' : 'none';
+            }
+            if (pricePrefixMobile) {
+                pricePrefixMobile.style.display = showPrefix ? 'inline' : 'none';
+            }
             
             if (priceDisplay) {
                 priceDisplay.textContent = PRICING_BASE.basePrice;
@@ -2084,7 +2111,7 @@
 
                 const vehicleNames = {
                     'sedan': 'Sedán Ejecutivo',
-                    'suv': 'SUV Premium',
+                    'suv': 'Camioneta',
                     'van': 'Van Ejecutiva'
                 };
 
