@@ -1036,11 +1036,36 @@
                                     <i class="fas fa-clock text-[#F4B41A] mr-1.5"></i>Horario
                                 </label>
                                 <div class="schedule-toggle">
-                                    <div class="schedule-option active cursor-pointer" data-schedule="now">
+                                    <div class="schedule-option active cursor-pointer" data-schedule="now" onclick="toggleSchedule('now', this)">
                                         <i class="fas fa-bolt mr-1"></i>Ahora
                                     </div>
-                                    <div class="schedule-option cursor-pointer" data-schedule="scheduled">
+                                    <div class="schedule-option cursor-pointer" data-schedule="scheduled" onclick="toggleSchedule('scheduled', this)">
                                         <i class="fas fa-calendar mr-1"></i>Programado
+                                    </div>
+                                </div>
+                                
+                                <!-- Selector de Fecha y Hora (oculto por defecto) -->
+                                <div id="schedule-datetime-desktop" class="hidden mt-3 space-y-3">
+                                    <div>
+                                        <label class="block text-xs font-medium text-gray-400 mb-1.5">
+                                            <i class="fas fa-calendar-alt text-[#F4B41A] mr-1.5"></i>Fecha
+                                        </label>
+                                        <input
+                                            type="date"
+                                            id="pickup-date"
+                                            class="input-field w-full px-3.5 py-3 text-white text-sm"
+                                            min=""
+                                        >
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-medium text-gray-400 mb-1.5">
+                                            <i class="fas fa-clock text-[#F4B41A] mr-1.5"></i>Hora
+                                        </label>
+                                        <input
+                                            type="time"
+                                            id="pickup-time"
+                                            class="input-field w-full px-3.5 py-3 text-white text-sm"
+                                        >
                                     </div>
                                 </div>
                             </div>
@@ -1160,11 +1185,36 @@
                             <i class="fas fa-clock text-[#F4B41A] mr-1.5"></i>Horario
                         </label>
                         <div class="schedule-toggle">
-                            <div class="schedule-option active cursor-pointer" data-schedule="now">
+                            <div class="schedule-option active cursor-pointer" data-schedule="now" onclick="toggleSchedule('now', this)">
                                 <i class="fas fa-bolt mr-1"></i>Ahora
                             </div>
-                            <div class="schedule-option cursor-pointer" data-schedule="scheduled">
+                            <div class="schedule-option cursor-pointer" data-schedule="scheduled" onclick="toggleSchedule('scheduled', this)">
                                 <i class="fas fa-calendar mr-1"></i>Programado
+                            </div>
+                        </div>
+                        
+                        <!-- Selector de Fecha y Hora (oculto por defecto) -->
+                        <div id="schedule-datetime-mobile" class="hidden mt-3 space-y-3">
+                            <div>
+                                <label class="block text-xs font-medium text-gray-400 mb-1.5">
+                                    <i class="fas fa-calendar-alt text-[#F4B41A] mr-1.5"></i>Fecha
+                                </label>
+                                <input
+                                    type="date"
+                                    id="pickup-date-mobile"
+                                    class="input-field w-full px-3.5 py-3 text-white text-sm"
+                                    min=""
+                                >
+                            </div>
+                            <div>
+                                <label class="block text-xs font-medium text-gray-400 mb-1.5">
+                                    <i class="fas fa-clock text-[#F4B41A] mr-1.5"></i>Hora
+                                </label>
+                                <input
+                                    type="time"
+                                    id="pickup-time-mobile"
+                                    class="input-field w-full px-3.5 py-3 text-white text-sm"
+                                >
                             </div>
                         </div>
                     </div>
@@ -1808,6 +1858,77 @@
         // WhatsApp message base for demo activation
         const WHATSAPP_NUMBER = "51933667414";
 
+        // Toggle Schedule (Ahora / Programado)
+        function toggleSchedule(scheduleType, element) {
+            // Update all schedule options
+            document.querySelectorAll('.schedule-option').forEach(opt => {
+                opt.classList.remove('active');
+            });
+            element.classList.add('active');
+
+            // Show/hide datetime pickers
+            const datetimeDesktop = document.getElementById('schedule-datetime-desktop');
+            const datetimeMobile = document.getElementById('schedule-datetime-mobile');
+
+            if (scheduleType === 'scheduled') {
+                if (datetimeDesktop) datetimeDesktop.classList.remove('hidden');
+                if (datetimeMobile) datetimeMobile.classList.remove('hidden');
+            } else {
+                if (datetimeDesktop) datetimeDesktop.classList.add('hidden');
+                if (datetimeMobile) datetimeMobile.classList.add('hidden');
+            }
+
+            // Update global schedule state
+            selectedScheduleGlobal = scheduleType;
+            updateAllPrices();
+        }
+
+        // Global schedule state
+        let selectedScheduleGlobal = 'now';
+
+        // Set minimum date to today
+        function setMinDate() {
+            const today = new Date().toISOString().split('T')[0];
+            const dateInputs = document.querySelectorAll('input[type="date"]');
+            dateInputs.forEach(input => {
+                input.setAttribute('min', today);
+            });
+
+            // Set default time to next hour
+            const now = new Date();
+            const nextHour = new Date(now.getTime() + 60 * 60 * 1000);
+            const hours = String(nextHour.getHours()).padStart(2, '0');
+            const minutes = String(nextHour.getMinutes()).padStart(2, '0');
+            const defaultTime = `${hours}:${minutes}`;
+
+            const timeInputs = document.querySelectorAll('input[type="time"]');
+            timeInputs.forEach(input => {
+                input.value = defaultTime;
+            });
+        }
+
+        // Get selected datetime
+        function getSelectedDateTime(formId) {
+            const form = document.getElementById(formId);
+            const isMobile = formId.includes('mobile');
+            
+            const dateInput = document.getElementById(isMobile ? 'pickup-date-mobile' : 'pickup-date');
+            const timeInput = document.getElementById(isMobile ? 'pickup-time-mobile' : 'pickup-time');
+            
+            if (selectedScheduleGlobal === 'scheduled' && dateInput && timeInput) {
+                const date = dateInput.value;
+                const time = timeInput.value;
+                
+                if (date && time) {
+                    const dateObj = new Date(date + 'T' + time);
+                    const options = { weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' };
+                    return dateObj.toLocaleDateString('es-ES', options);
+                }
+                return 'Por definir';
+            }
+            return 'Inmediato';
+        }
+
         // Zone selection function for airport fares
         function selectZone(zoneName, autoPrice, suvPrice, vanPrice) {
             // Update destination input
@@ -1896,7 +2017,6 @@
             const scheduleOptions = form.querySelectorAll('.schedule-option');
 
             let selectedVehicle = 'sedan';
-            let selectedSchedule = 'now';
 
             // Calculate price based on inputs and zone selection
             function calculatePrice() {
@@ -1905,8 +2025,8 @@
                 // Add vehicle surcharge
                 basePrice += PRICING_BASE.vehicle[selectedVehicle] || 0;
 
-                // Add schedule surcharge
-                basePrice += PRICING_BASE.schedule[selectedSchedule] || 0;
+                // Add schedule surcharge (using global state)
+                basePrice += PRICING_BASE.schedule[selectedScheduleGlobal] || 0;
 
                 return Math.max(basePrice, PRICING_BASE.basePrice);
             }
@@ -1929,13 +2049,10 @@
                 });
             });
 
-            // Schedule selection with better feedback
+            // Schedule selection with better feedback (using global toggle function)
             scheduleOptions.forEach(option => {
                 option.addEventListener('click', function() {
-                    scheduleOptions.forEach(opt => opt.classList.remove('active'));
-                    this.classList.add('active');
-                    selectedSchedule = this.dataset.schedule || 'now';
-                    updatePrice();
+                    // The onclick handler in HTML handles this
                 });
             });
 
@@ -1977,6 +2094,13 @@
                 };
 
                 const price = calculatePrice();
+                
+                // Get datetime if scheduled
+                let scheduleDetail = scheduleNames[selectedScheduleGlobal];
+                if (selectedScheduleGlobal === 'scheduled') {
+                    const datetime = getSelectedDateTime(formId);
+                    scheduleDetail = `Programado: ${datetime}`;
+                }
 
                 // Build message with cotizador data
                 const message = `Hola 👋 vi la demo de la web de QORI y quiero activarla para mi negocio.
@@ -1986,7 +2110,7 @@ Probé el cotizador con estos datos:
 📍 Punto de recogida: ${origen}
 📍 Destino: ${destino}
 🚘 Vehículo ejecutivo: ${vehicleNames[selectedVehicle]}
-🕒 Horario: ${scheduleNames[selectedSchedule]}
+🕒 Horario: ${scheduleDetail}
 💰 Tarifa referencial: S/ ${price}
 
 ¿Me puedes dar más información?`;
@@ -2000,6 +2124,9 @@ Probé el cotizador con estos datos:
 
         // Initialize both calculators when DOM is ready
         document.addEventListener('DOMContentLoaded', () => {
+            // Set minimum date and default time
+            setMinDate();
+            
             // Desktop calculator
             initCalculator('calculator-form', 'origen', 'destino', 'estimated-price');
 
