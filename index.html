@@ -709,6 +709,13 @@
                                 >
                             </div>
 
+                            <!-- Swap Button -->
+                            <div class="flex justify-center -my-2 relative z-10">
+                                <button type="button" onclick="swapOriginDestino()" class="bg-[#F4B41A] hover:bg-[#D49A12] text-black rounded-full p-2 shadow-lg transition-all transform hover:scale-110 hover:rotate-180" title="Intercambiar origen y destino">
+                                    <i class="fas fa-exchange-alt text-sm"></i>
+                                </button>
+                            </div>
+
                             <!-- Destino -->
                             <div>
                                 <label class="block text-xs font-medium text-gray-400 mb-1.5">
@@ -1145,6 +1152,13 @@
                             readonly
                             class="input-field w-full px-3.5 py-3 text-white text-sm bg-[#1a1a1a] cursor-not-allowed"
                         >
+                    </div>
+
+                    <!-- Swap Button -->
+                    <div class="flex justify-center -my-2 relative z-10">
+                        <button type="button" onclick="swapOriginDestino()" class="bg-[#F4B41A] hover:bg-[#D49A12] text-black rounded-full p-2 shadow-lg transition-all transform hover:scale-110 hover:rotate-180" title="Intercambiar origen y destino">
+                            <i class="fas fa-exchange-alt text-sm"></i>
+                        </button>
                     </div>
 
                     <!-- Destino -->
@@ -2145,6 +2159,38 @@
         // WhatsApp message base for demo activation
         const WHATSAPP_NUMBER = "51933667414";
 
+        // Swap origin and destination
+        function swapOriginDestino() {
+            const origenInput = document.getElementById('origen');
+            const destinoInput = document.getElementById('destino');
+            const origenInputMobile = document.getElementById('origen-mobile');
+            const destinoInputMobile = document.getElementById('destino-mobile');
+            
+            if (!origenInput || !destinoInput) return;
+            
+            // Get current values
+            const origenValue = origenInput.value;
+            const destinoValue = destinoInput.value;
+            
+            // Swap values
+            origenInput.value = destinoValue;
+            destinoInput.value = origenValue;
+            
+            if (origenInputMobile) origenInputMobile.value = destinoValue;
+            if (destinoInputMobile) destinoInputMobile.value = origenValue;
+            
+            // Visual feedback - rotate animation
+            const swapButtons = document.querySelectorAll('button[onclick="swapOriginDestino()"]');
+            swapButtons.forEach(btn => {
+                btn.style.transform = 'rotate(180deg)';
+                setTimeout(() => {
+                    btn.style.transform = 'rotate(0deg)';
+                }, 300);
+            });
+            
+            console.log('Swapped:', 'Origen:', origenInput.value, 'Destino:', destinoInput.value);
+        }
+
         // Toggle Schedule (Ahora / Programado)
         function toggleSchedule(scheduleType, element) {
             // Update all schedule options
@@ -2218,27 +2264,34 @@
 
         // Zone selection function for airport fares
         function selectZone(zoneName, autoPrice, suvPrice, vanPrice) {
-            // Update destination input
+            // Get current origin value
+            const origenInput = document.getElementById('origen');
+            const origenInputMobile = document.getElementById('origen-mobile');
             const destinoInput = document.getElementById('destino');
             const destinoInputMobile = document.getElementById('destino-mobile');
             
-            // Update pickup point to Aeropuerto automatically
-            const origenInput = document.getElementById('origen');
-            const origenInputMobile = document.getElementById('origen-mobile');
+            // Get current origin text (could be Aeropuerto or the selected zone)
+            const currentOrigen = origenInput ? origenInput.value : 'Aeropuerto Jorge Chávez';
             
-            if (origenInput) {
-                origenInput.value = 'Aeropuerto Jorge Chávez';
-            }
-            if (origenInputMobile) {
-                origenInputMobile.value = 'Aeropuerto Jorge Chávez';
+            // Swap logic: if origin is Aeropuerto, destination becomes selected zone
+            // If origin is a zone, destination becomes Aeropuerto
+            let newOrigen, newDestino;
+            
+            if (currentOrigen.includes('Aeropuerto')) {
+                // Standard flow: Aeropuerto → Zone
+                newOrigen = 'Aeropuerto Jorge Chávez';
+                newDestino = zoneName;
+            } else {
+                // Reverse flow: Zone → Aeropuerto
+                newOrigen = zoneName;
+                newDestino = 'Aeropuerto Jorge Chávez';
             }
             
-            if (destinoInput) {
-                destinoInput.value = zoneName;
-            }
-            if (destinoInputMobile) {
-                destinoInputMobile.value = zoneName;
-            }
+            // Update inputs
+            if (origenInput) origenInput.value = newOrigen;
+            if (origenInputMobile) origenInputMobile.value = newOrigen;
+            if (destinoInput) destinoInput.value = newDestino;
+            if (destinoInputMobile) destinoInputMobile.value = newDestino;
 
             // Store prices in data attributes
             const form = document.getElementById('calculator-form');
@@ -2269,13 +2322,11 @@
             // Update price display
             updateAllPrices();
 
-            // Close the dropdown
-            const details = document.querySelector('details');
-            if (details) {
-                details.removeAttribute('open');
-            }
+            // Close the dropdown on both desktop and mobile
+            const details = document.querySelectorAll('details');
+            details.forEach(d => d.removeAttribute('open'));
 
-            console.log('Zone selected:', zoneName, 'Auto:', autoPrice, 'SUV:', suvPrice, 'Van:', vanPrice);
+            console.log('Zone selected:', zoneName, 'Origen:', newOrigen, 'Destino:', newDestino, 'Auto:', autoPrice, 'SUV:', suvPrice, 'Van:', vanPrice);
         }
 
         // Global pricing base for zone updates
