@@ -184,6 +184,68 @@
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
         }
 
+        /* Navbar Auth Buttons - Mobile */
+        .navbar-auth-mobile {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .navbar-login-btn {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 14px;
+            border-radius: 9999px;
+            border: 1px solid rgba(244, 180, 26, 0.3);
+            background: rgba(244, 180, 26, 0.05);
+            color: #F4B41A;
+            font-size: 13px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .navbar-login-btn:hover {
+            background: rgba(244, 180, 26, 0.1);
+            border-color: rgba(244, 180, 26, 0.5);
+        }
+
+        .navbar-register-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #F4B41A 0%, #D49A12 100%);
+            color: #0a0a0a;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(244, 180, 26, 0.3);
+        }
+
+        .navbar-register-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 12px rgba(244, 180, 26, 0.4);
+        }
+
+        @media (min-width: 768px) {
+            .navbar-auth-mobile {
+                display: none;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .navbar-login-btn span {
+                display: none;
+            }
+            .navbar-login-btn {
+                padding: 8px;
+                width: 36px;
+                height: 36px;
+                justify-content: center;
+            }
+        }
+
         /* Logo Styles */
         .logo-container {
             display: flex;
@@ -800,13 +862,17 @@
                     </div>
                 </div>
 
+                <!-- Desktop Navigation Links -->
                 <div class="hidden md:flex items-center gap-6">
                     <a href="#beneficios" class="text-gray-400 hover:text-[#F4B41A] transition-colors text-sm font-medium">Beneficios</a>
                     <a href="#servicios" class="text-gray-400 hover:text-[#F4B41A] transition-colors text-sm font-medium">Servicios</a>
                     <a href="#como-funciona" class="text-gray-400 hover:text-[#F4B41A] transition-colors text-sm font-medium">Cómo Funciona</a>
+                </div>
 
+                <!-- Auth Buttons - Always Visible (Desktop & Mobile) -->
+                <div class="flex items-center gap-3">
                     <!-- User Menu - Desktop (visible cuando logueado) -->
-                    <button id="desktop-user-menu-btn" onclick="openClientDashboard()" class="ml-4 pl-4 border-l border-gray-700 flex items-center gap-3 hover:opacity-80 transition-opacity" style="display: none;" aria-label="Mi Perfil">
+                    <button id="desktop-user-menu-btn" onclick="openClientDashboard()" class="hidden md:flex items-center gap-3 hover:opacity-80 transition-opacity" style="display: none;" aria-label="Mi Perfil">
                         <div class="w-8 h-8 rounded-full bg-gradient-to-br from-[#F4B41A] to-[#D49A12] flex items-center justify-center text-black font-bold text-sm">
                             JP
                         </div>
@@ -814,7 +880,7 @@
                     </button>
 
                     <!-- Auth Buttons - Desktop (visible cuando NO logueado) -->
-                    <div id="desktop-auth-buttons" class="ml-4 pl-6 border-l border-gray-700 flex items-center gap-3">
+                    <div id="desktop-auth-buttons" class="hidden md:flex items-center gap-3">
                         <button onclick="openLoginModal()" class="text-gray-400 hover:text-[#F4B41A] transition-colors font-medium text-sm flex items-center gap-2 group" aria-label="Iniciar Sesión">
                             <i class="fas fa-sign-in-alt text-[#F4B41A] group-hover:scale-110 transition-transform"></i>
                             <span>Iniciar Sesión</span>
@@ -823,11 +889,23 @@
                             <i class="fas fa-user-plus text-base group-hover:rotate-12 transition-transform"></i>
                         </button>
                     </div>
-                </div>
 
-                <button id="mobile-menu-btn" class="md:hidden text-gray-400 hover:text-white p-2 transition-colors" aria-label="Menu">
-                    <i class="fas fa-bars text-xl"></i>
-                </button>
+                    <!-- Auth Buttons - Mobile (visible cuando NO logueado) -->
+                    <div id="mobile-auth-buttons-navbar" class="navbar-auth-mobile md:hidden">
+                        <button onclick="openLoginModal()" class="navbar-login-btn" aria-label="Iniciar Sesión">
+                            <i class="fas fa-sign-in-alt"></i>
+                            <span>Iniciar Sesión</span>
+                        </button>
+                        <button onclick="openRegisterModal()" class="navbar-register-btn" aria-label="Registrarse">
+                            <i class="fas fa-user-plus text-sm"></i>
+                        </button>
+                    </div>
+
+                    <!-- Mobile Menu Button -->
+                    <button id="mobile-menu-btn" class="md:hidden text-gray-400 hover:text-white p-2 transition-colors" aria-label="Menu">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
             </div>
         </div>
     </nav>
@@ -3882,19 +3960,22 @@ Probe el cotizador con estos datos:
             const desktopAuthBtns = document.getElementById('desktop-auth-buttons');
             const desktopUserMenu = document.getElementById('desktop-user-menu-btn');
             const mobileAuthBtns = document.getElementById('mobile-auth-buttons');
+            const mobileAuthBtnsNavbar = document.getElementById('mobile-auth-buttons-navbar');
             const mobileUserMenu = document.getElementById('mobile-user-menu');
-            
+
             if (isLoggedIn) {
                 // Usuario logueado: mostrar menu de usuario, ocultar botones de auth
                 desktopAuthBtns.style.display = 'none';
                 desktopUserMenu.style.display = 'flex';
                 mobileAuthBtns.style.display = 'none';
+                mobileAuthBtnsNavbar.style.display = 'none';
                 mobileUserMenu.style.display = 'block';
             } else {
                 // Usuario NO logueado: mostrar botones de auth, ocultar menu de usuario
                 desktopAuthBtns.style.display = 'flex';
                 desktopUserMenu.style.display = 'none';
                 mobileAuthBtns.style.display = 'block';
+                mobileAuthBtnsNavbar.style.display = 'flex';
                 mobileUserMenu.style.display = 'none';
             }
         }
