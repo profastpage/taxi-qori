@@ -311,13 +311,14 @@
             setTimeout(() => {
                 // Validate credentials
                 if (email === 'admin@qori.com' && password === '1234') {
-                    // Success - Save admin session
+                    // Success - Save admin session (and clear user session)
+                    localStorage.removeItem('qori_user_logged_in'); // Clear user session
                     localStorage.setItem('qori_admin_logged_in', 'true');
                     localStorage.setItem('qori_admin_email', email);
                     localStorage.setItem('qori_admin_login_time', new Date().toISOString());
-                    
+
                     showAlert('¡Autenticación exitosa! Redirigiendo...', 'success');
-                    
+
                     // Redirect to admin dashboard after short delay
                     setTimeout(() => {
                         window.location.href = 'admin-dashboard.html';

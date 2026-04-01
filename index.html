@@ -235,6 +235,250 @@
             }
         }
 
+        /* Exit Intent Modal */
+        .exit-intent-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            z-index: 99999;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .exit-intent-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .exit-intent-modal {
+            background: linear-gradient(180deg, #1a1a1a 0%, #0f0f0f 100%);
+            border: 1px solid rgba(244, 180, 26, 0.4);
+            border-radius: 24px;
+            padding: 48px 40px;
+            max-width: 520px;
+            width: 90%;
+            text-align: center;
+            transform: scale(0.8) translateY(-40px);
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.6),
+                        0 0 0 1px rgba(244, 180, 26, 0.1),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .exit-intent-overlay.active .exit-intent-modal {
+            transform: scale(1) translateY(0);
+        }
+
+        .exit-intent-modal::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(244, 180, 26, 0.08) 0%, transparent 70%);
+            animation: pulse-glow 3s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+
+        .exit-intent-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 24px;
+            background: linear-gradient(135deg, #F4B41A 0%, #D49A12 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 8px 32px rgba(244, 180, 26, 0.4);
+            animation: icon-bounce 0.6s ease-out;
+        }
+
+        @keyframes icon-bounce {
+            0% { transform: scale(0) rotate(-180deg); }
+            50% { transform: scale(1.1) rotate(10deg); }
+            100% { transform: scale(1) rotate(0deg); }
+        }
+
+        .exit-intent-icon i {
+            font-size: 36px;
+            color: #0a0a0a;
+        }
+
+        .exit-intent-modal h2 {
+            font-size: 28px;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 12px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .exit-intent-modal h2 span {
+            background: linear-gradient(135deg, #F4B41A 0%, #D49A12 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .exit-intent-modal p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 32px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .exit-intent-offer {
+            background: linear-gradient(135deg, rgba(244, 180, 26, 0.15) 0%, rgba(244, 180, 26, 0.05) 100%);
+            border: 1px solid rgba(244, 180, 26, 0.3);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 28px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .exit-intent-offer .offer-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #F4B41A 0%, #D49A12 100%);
+            color: #0a0a0a;
+            font-size: 12px;
+            font-weight: 700;
+            padding: 4px 12px;
+            border-radius: 9999px;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .exit-intent-offer .offer-text {
+            color: #ffffff;
+            font-size: 18px;
+            font-weight: 600;
+            line-height: 1.5;
+        }
+
+        .exit-intent-offer .offer-text strong {
+            color: #F4B41A;
+        }
+
+        .exit-intent-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .exit-intent-primary {
+            background: linear-gradient(135deg, #F4B41A 0%, #D49A12 100%);
+            color: #0a0a0a;
+            font-weight: 700;
+            padding: 16px 32px;
+            border-radius: 12px;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 24px rgba(244, 180, 26, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .exit-intent-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 32px rgba(244, 180, 26, 0.4);
+        }
+
+        .exit-intent-primary:active {
+            transform: translateY(0);
+        }
+
+        .exit-intent-secondary {
+            background: transparent;
+            color: rgba(255, 255, 255, 0.5);
+            font-weight: 500;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .exit-intent-secondary:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: rgba(255, 255, 255, 0.7);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .exit-intent-close {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: rgba(255, 255, 255, 0.5);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            z-index: 2;
+        }
+
+        .exit-intent-close:hover {
+            background: rgba(244, 180, 26, 0.2);
+            color: #F4B41A;
+            transform: rotate(90deg);
+        }
+
+        .exit-intent-timer {
+            margin-top: 20px;
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.4);
+            position: relative;
+            z-index: 1;
+        }
+
+        .exit-intent-timer strong {
+            color: #F4B41A;
+        }
+
+        @media (max-width: 768px) {
+            .exit-intent-modal {
+                padding: 32px 24px;
+            }
+            .exit-intent-modal h2 {
+                font-size: 22px;
+            }
+            .exit-intent-offer .offer-text {
+                font-size: 16px;
+            }
+        }
+
         /* Logo Styles */
         .logo-container {
             display: flex;
@@ -3017,6 +3261,9 @@
                     &copy; 2024 QORI Traslados Ejecutivos. Todos los derechos reservados.
                 </p>
                 <div class="flex items-center gap-4">
+                    <a href="admin-login.html" class="text-gray-500 hover:text-[#F4B41A] transition-colors" title="Acceso Administradores">
+                        <i class="fas fa-shield-alt text-xl"></i>
+                    </a>
                     <a href="https://wa.me/51933667414?text=Hola%20vi%20la%20demo%20de%20QORI%20y%20quiero%20informaci%C3%B3n%20sobre%20sus%20servicios%20ejecutivos.%0A%0AQuiero%20activar%20esta%20web%20para%20mi%20negocio.%20%C2%BFPodr%C3%ADan%20ayudarme%3F" class="text-gray-500 hover:text-[#F4B41A] transition-colors">
                         <i class="fab fa-whatsapp text-xl"></i>
                     </a>
@@ -3032,14 +3279,19 @@
                 <p class="text-gray-600 text-xs">
                     Creado y desarrollado por <a href="https://wa.me/51933667414?text=Hola%20vi%20la%20demo%20de%20QORI%20y%20quiero%20desarrollar%20mi%20web%20profesional.%0A%0AQuiero%20activar%20esta%20demo%20para%20mi%20negocio.%20%C2%BFPodr%C3%ADan%20ayudarme%3F" target="_blank" class="text-[#F4B41A] font-bold hover:underline">Fast Page Pro</a>
                 </p>
-                <p class="text-gray-700 text-xs mt-2">
-                    <a href="admin-login.html" class="text-gray-600 hover:text-[#F4B41A] transition-colors">
-                        <i class="fas fa-shield-alt mr-1"></i>Acceso Admin
-                    </a>
-                </p>
             </div>
         </div>
     </footer>
+
+    <!-- Admin Login Quick Access (hidden, press 'A' key) -->
+    <script>
+        // Atajo de teclado: presionar 'A' para ir a admin login
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'A' && e.ctrlKey && e.shiftKey) {
+                window.location.href = 'admin-login.html';
+            }
+        });
+    </script>
 
     <!-- Floating WhatsApp Button -->
     <a href="https://wa.me/51933667414?text=Hola%20vi%20la%20demo%20de%20QORI%20y%20quiero%20activar%20esta%20web%20para%20mi%20servicio%20de%20transporte%20ejecutivo.%0A%0A%C2%BFC%C3%B3mo%20puedo%20empezar%3F" target="_blank" class="whatsapp-float w-14 h-14 rounded-full flex items-center justify-center animate-float group">
@@ -4007,6 +4259,7 @@ Probe el cotizador con estos datos:
 
         // Simular login exitoso (para demo)
         function simulateLogin() {
+            localStorage.removeItem('qori_admin_logged_in'); // Clear admin session
             localStorage.setItem('qori_user_logged_in', 'true');
             updateAuthUI(true);
         }
@@ -4034,7 +4287,8 @@ Probe el cotizador con estos datos:
         document.getElementById('login-form')?.addEventListener('submit', (e) => {
             e.preventDefault();
             showToast('¡Bienvenido de nuevo!', 'success');
-            // Simular login exitoso
+            // Simular login exitoso (limpiando session de admin)
+            localStorage.removeItem('qori_admin_logged_in');
             localStorage.setItem('qori_user_logged_in', 'true');
             setTimeout(() => {
                 window.location.href = 'dashboard.html';
@@ -4044,7 +4298,8 @@ Probe el cotizador con estos datos:
         document.getElementById('register-form')?.addEventListener('submit', (e) => {
             e.preventDefault();
             showToast('¡Cuenta creada exitosamente!', 'success');
-            // Simular registro exitoso
+            // Simular registro exitoso (limpiando session de admin)
+            localStorage.removeItem('qori_admin_logged_in');
             localStorage.setItem('qori_user_logged_in', 'true');
             setTimeout(() => {
                 window.location.href = 'dashboard.html';
@@ -4098,6 +4353,188 @@ Probe el cotizador con estos datos:
         document.querySelectorAll('.fade-in-up').forEach(el => {
             el.style.animationFillMode = 'forwards';
             observer.observe(el);
+        });
+
+    </script>
+
+    <!-- Exit Intent Modal (Desktop Only) -->
+    <div class="exit-intent-overlay" id="exit-intent-overlay" role="dialog" aria-modal="true" aria-labelledby="exit-intent-title">
+        <div class="exit-intent-modal">
+            <button class="exit-intent-close" onclick="closeExitIntentModal()" aria-label="Cerrar oferta">
+                <i class="fas fa-times"></i>
+            </button>
+
+            <!-- Icon with animation -->
+            <div class="exit-intent-icon">
+                <i class="fas fa-gift"></i>
+            </div>
+
+            <!-- Title -->
+            <h2 id="exit-intent-title">¡<span>Espera!</span> No te vayas!</h2>
+
+            <!-- Description -->
+            <p>
+                Tenemos una oferta especial solo para ti. Cotiza ahora y recibe un 
+                <strong style="color: #F4B41A;">beneficio exclusivo</strong> en tu primer traslado.
+            </p>
+
+            <!-- Offer Box -->
+            <div class="exit-intent-offer">
+                <span class="offer-badge">🎁 Oferta Limitada</span>
+                <p class="offer-text">
+                    <strong>15% DE DESCUENTO</strong><br>
+                    en tu primer viaje al aeropuerto
+                </p>
+            </div>
+
+            <!-- Buttons -->
+            <div class="exit-intent-buttons">
+                <button onclick="handleExitIntentCta()" class="exit-intent-primary">
+                    <i class="fas fa-calculator"></i>
+                    <span>Cotizar Ahora con Descuento</span>
+                </button>
+                <button onclick="closeExitIntentModal()" class="exit-intent-secondary">
+                    <span>Ver más tarde</span>
+                </button>
+            </div>
+
+            <!-- Timer -->
+            <div class="exit-intent-timer">
+                ⏱️ Oferta disponible por <strong id="offer-timer">30</strong> segundos
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Exit Intent Detection (Desktop Only)
+        let exitIntentShown = false;
+        let exitIntentTimer = null;
+        let countdownInterval = null;
+
+        function shouldShowExitIntent() {
+            // Only show on desktop
+            if (window.innerWidth < 1024) return false;
+            
+            // Only show once per session
+            if (exitIntentShown) return false;
+            
+            // Check if already shown in this session
+            if (sessionStorage.getItem('qori_exit_intent_shown') === 'true') return false;
+            
+            return true;
+        }
+
+        function showExitIntentModal() {
+            if (!shouldShowExitIntent()) return;
+
+            exitIntentShown = true;
+            sessionStorage.setItem('qori_exit_intent_shown', 'true');
+
+            const overlay = document.getElementById('exit-intent-overlay');
+            if (overlay) {
+                overlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+                
+                // Start countdown timer
+                startOfferTimer();
+            }
+        }
+
+        function closeExitIntentModal() {
+            const overlay = document.getElementById('exit-intent-overlay');
+            if (overlay) {
+                overlay.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+            
+            // Clear timer
+            if (countdownInterval) {
+                clearInterval(countdownInterval);
+            }
+        }
+
+        function handleExitIntentCta() {
+            closeExitIntentModal();
+            
+            // Scroll to calculator
+            const calculator = document.getElementById('cotizador');
+            if (calculator) {
+                calculator.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+            
+            // Highlight the calculator with animation
+            setTimeout(() => {
+                calculator.style.animation = 'pulse 2s ease-in-out infinite';
+            }, 500);
+        }
+
+        function startOfferTimer() {
+            let seconds = 30;
+            const timerElement = document.getElementById('offer-timer');
+            
+            countdownInterval = setInterval(() => {
+                seconds--;
+                if (timerElement) {
+                    timerElement.textContent = seconds;
+                    
+                    // Add urgency color when low
+                    if (seconds <= 10) {
+                        timerElement.style.color = '#ef4444';
+                    }
+                }
+                
+                if (seconds <= 0) {
+                    clearInterval(countdownInterval);
+                    // Auto close or show urgency message
+                    if (timerElement) {
+                        timerElement.textContent = '¡Expirada!';
+                    }
+                }
+            }, 1000);
+        }
+
+        // Mouse leave detection (top of viewport = exit intent)
+        document.addEventListener('mouseleave', (e) => {
+            if (e.clientY <= 0 && shouldShowExitIntent()) {
+                showExitIntentModal();
+            }
+        });
+
+        // Also detect when mouse moves towards browser navigation
+        let mousePosition = { x: 0, y: 0 };
+        let lastMousePosition = { x: 0, y: 0 };
+
+        document.addEventListener('mousemove', (e) => {
+            lastMousePosition = { ...mousePosition };
+            mousePosition = { x: e.clientX, y: e.clientY };
+
+            // Detect movement towards top-left (back button area) or top-right (close button area)
+            const isMovingToTopLeft = e.clientY < 80 && e.clientX < 100 && lastMousePosition.y > e.clientY;
+            const isMovingToTopRight = e.clientY < 80 && e.clientX > window.innerWidth - 100 && lastMousePosition.y > e.clientY;
+
+            if ((isMovingToTopLeft || isMovingToTopRight) && shouldShowExitIntent()) {
+                // Debounce - only show once
+                if (!exitIntentTimer) {
+                    exitIntentTimer = setTimeout(() => {
+                        showExitIntentModal();
+                        exitIntentTimer = null;
+                    }, 300);
+                }
+            }
+        });
+
+        // Close on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeExitIntentModal();
+            }
+        });
+
+        // Close on overlay click
+        document.getElementById('exit-intent-overlay')?.addEventListener('click', (e) => {
+            if (e.target === e.currentTarget) {
+                closeExitIntentModal();
+            }
         });
 
     </script>
