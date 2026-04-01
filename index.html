@@ -3785,6 +3785,9 @@ Probe el cotizador con estos datos:
             link.addEventListener('click', closeMenu);
         });
 
+        // Alias para closeMenu (usado en el dashboard)
+        window.closeMobileMenu = closeMenu;
+
         // Auth Modal Functions
         function openLoginModal() {
             document.getElementById('login-modal').classList.remove('hidden');
@@ -3924,15 +3927,22 @@ Probe el cotizador con estos datos:
         // Handle form submissions (demo)
         document.getElementById('login-form')?.addEventListener('submit', (e) => {
             e.preventDefault();
-            alert('Funcionalidad de login en desarrollo. Esto es una demo.');
+            // Simular login exitoso
+            simulateLogin();
             closeLoginModal();
+            openClientDashboard();
         });
 
         document.getElementById('register-form')?.addEventListener('submit', (e) => {
             e.preventDefault();
-            alert('Funcionalidad de registro en desarrollo. Esto es una demo.');
+            // Simular registro exitoso
+            simulateLogin();
             closeRegisterModal();
+            openClientDashboard();
         });
+
+        // Check login state on page load
+        checkLoginState();
 
         // Navbar Scroll Effect
         const navbar = document.getElementById('navbar');
