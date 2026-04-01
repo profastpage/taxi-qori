@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Background -->
+  <rect width="512" height="512" rx="102" fill="#0D3B4A"/>
+  
+  <!-- Text QORI -->
+  <text x="50%" y="55%" text-anchor="middle" fill="#F4B41A" font-size="280" font-weight="800" font-family="Arial, sans-serif" dominant-baseline="middle">QORI</text>
+  
+  <!-- Subtitle -->
+  <text x="50%" y="75%" text-anchor="middle" fill="#F4B41A" font-size="48" font-weight="500" font-family="Arial, sans-serif" dominant-baseline="middle" opacity="0.7">Traslados</text>
+</svg>
