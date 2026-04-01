@@ -68,6 +68,28 @@
     <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
 </head>
 <body>
+    <!-- Service Worker Update Force - Para actualizacion inmediata en moviles -->
+    <script>
+        // Forzar actualizacion del Service Worker inmediatamente al cargar
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.getRegistration('/').then(registration => {
+                    if (registration) {
+                        console.log('[SW] Verificando actualizacion al cargar...');
+                        registration.update();
+                        
+                        // Si hay un worker esperando, activarlo inmediatamente
+                        if (registration.waiting) {
+                            console.log('[SW] Hay version esperando, activando...');
+                            registration.waiting.postMessage({ action: 'skipWaiting' });
+                            registration.waiting.postMessage({ action: 'claimClients' });
+                        }
+                    }
+                }).catch(err => console.error('[SW] Error:', err));
+            });
+        }
+    </script>
+    
     <a href="#cotizador" class="skip-link">Saltar al cotizador</a>
 
     <!-- Tailwind diferido para no bloquear render -->
@@ -735,15 +757,32 @@
                     <a href="#beneficios" class="text-gray-400 hover:text-[#F4B41A] transition-colors text-sm font-medium">Beneficios</a>
                     <a href="#servicios" class="text-gray-400 hover:text-[#F4B41A] transition-colors text-sm font-medium">Servicios</a>
                     <a href="#como-funciona" class="text-gray-400 hover:text-[#F4B41A] transition-colors text-sm font-medium">Cómo Funciona</a>
-                    <a href="https://wa.me/51933667414?text=Hola%20vi%20la%20demo%20de%20QORI%20y%20me%20interesa%20el%20servicio%20de%20traslados%20ejecutivos.%0A%0AQuiero%20activar%20esta%20web%20para%20mi%20negocio%20de%20transporte.%20Me%20pueden%20dar%20mas%20informacion%3F" class="btn-primary px-5 py-2.5 rounded-full text-sm">
-                        <i class="fab fa-whatsapp mr-2"></i>Activar Demo
-                    </a>
+                    
+                    <!-- Auth Buttons - Desktop -->
+                    <div class="flex items-center gap-3 ml-4 pl-4 border-l border-gray-700">
+                        <button onclick="openLoginModal()" class="text-gray-400 hover:text-white transition-colors text-sm font-medium">
+                            Ingresar
+                        </button>
+                        <button onclick="openRegisterModal()" class="btn-primary px-5 py-2.5 rounded-full text-sm font-bold">
+                            Registrarse
+                        </button>
+                    </div>
                 </div>
 
                 <button id="mobile-menu-btn" class="md:hidden text-gray-400 hover:text-white p-2 transition-colors" aria-label="Menu">
                     <i class="fas fa-bars text-xl"></i>
                 </button>
             </div>
+        </div>
+
+        <!-- Mobile Auth Buttons -->
+        <div class="md:hidden px-4 py-3 border-t border-gray-800 flex gap-3">
+            <button onclick="openLoginModal()" class="flex-1 py-2.5 text-gray-400 hover:text-white border border-gray-700 rounded-full text-sm font-medium transition-colors">
+                Ingresar
+            </button>
+            <button onclick="openRegisterModal()" class="flex-1 btn-primary py-2.5 rounded-full text-sm font-bold">
+                Registrarse
+            </button>
         </div>
     </nav>
 
@@ -782,6 +821,185 @@
                 <a href="https://wa.me/51933667414?text=Hola%20vi%20la%20demo%20de%20QORI%20y%20me%20interesa%20el%20servicio%20de%20traslados%20ejecutivos.%0A%0AQuiero%20activar%20esta%20web%20para%20mi%20negocio%20de%20transporte.%20Me%20pueden%20dar%20mas%20informacion%3F" class="btn-primary w-full py-3 rounded-full font-bold flex items-center justify-center gap-2">
                     <i class="fab fa-whatsapp"></i>Activar Demo
                 </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login Modal -->
+    <div id="login-modal" class="fixed inset-0 z-[9999] hidden" role="dialog" aria-modal="true">
+        <!-- Overlay -->
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="closeLoginModal()"></div>
+        
+        <!-- Modal Content -->
+        <div class="relative min-h-screen flex items-center justify-center p-4">
+            <div class="relative bg-[#1a1a1a] rounded-3xl w-full max-w-md p-8 shadow-2xl border border-gray-800 animate-modal-slide">
+                <!-- Close Button -->
+                <button onclick="closeLoginModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors" aria-label="Cerrar">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+
+                <!-- Header -->
+                <div class="text-center mb-8">
+                    <div class="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-[#F4B41A] to-[#D49A12] rounded-2xl mb-4 shadow-lg">
+                        <i class="fas fa-user text-2xl text-black"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold text-white mb-2">Bienvenido de nuevo</h2>
+                    <p class="text-gray-400 text-sm">Ingresa tus datos para continuar</p>
+                </div>
+
+                <!-- Login Form -->
+                <form id="login-form" class="space-y-5">
+                    <!-- Email -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-300 mb-2">
+                            <i class="fas fa-envelope text-[#F4B41A] mr-2"></i>Email
+                        </label>
+                        <input type="email" required class="input-field w-full px-4 py-3 text-white bg-[#0a0a0a] border border-gray-700 rounded-xl focus:border-[#F4B41A] focus:ring-2 focus:ring-[#F4B41A]/20 transition-all" placeholder="tu@email.com">
+                    </div>
+
+                    <!-- Password -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-300 mb-2">
+                            <i class="fas fa-lock text-[#F4B41A] mr-2"></i>Contraseña
+                        </label>
+                        <input type="password" required class="input-field w-full px-4 py-3 text-white bg-[#0a0a0a] border border-gray-700 rounded-xl focus:border-[#F4B41A] focus:ring-2 focus:ring-[#F4B41A]/20 transition-all" placeholder="••••••••">
+                    </div>
+
+                    <!-- Forgot Password -->
+                    <div class="flex justify-end">
+                        <a href="#" class="text-sm text-[#F4B41A] hover:text-[#D49A12] transition-colors">
+                            ¿Olvidaste tu contraseña?
+                        </a>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" class="btn-primary w-full py-3.5 rounded-xl font-bold text-base flex items-center justify-center gap-2">
+                        <i class="fas fa-sign-in-alt"></i>
+                        Iniciar Sesión
+                    </button>
+                </form>
+
+                <!-- Divider -->
+                <div class="relative my-6">
+                    <div class="absolute inset-0 flex items-center">
+                        <div class="w-full border-t border-gray-700"></div>
+                    </div>
+                    <div class="relative flex justify-center text-sm">
+                        <span class="px-4 bg-[#1a1a1a] text-gray-400">o continúa con</span>
+                    </div>
+                </div>
+
+                <!-- Google Login -->
+                <button type="button" class="w-full py-3.5 px-4 bg-white hover:bg-gray-100 text-gray-800 rounded-xl font-bold flex items-center justify-center gap-3 transition-all shadow-lg">
+                    <i class="fab fa-google text-red-500"></i>
+                    <span>Iniciar sesión con Google</span>
+                </button>
+
+                <!-- Register Link -->
+                <p class="text-center mt-6 text-gray-400 text-sm">
+                    ¿No tienes cuenta?
+                    <button onclick="closeLoginModal(); openRegisterModal()" class="text-[#F4B41A] hover:text-[#D49A12] font-semibold transition-colors">
+                        Regístrate aquí
+                    </button>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div id="register-modal" class="fixed inset-0 z-[9999] hidden" role="dialog" aria-modal="true">
+        <!-- Overlay -->
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="closeRegisterModal()"></div>
+        
+        <!-- Modal Content -->
+        <div class="relative min-h-screen flex items-center justify-center p-4">
+            <div class="relative bg-[#1a1a1a] rounded-3xl w-full max-w-md p-8 shadow-2xl border border-gray-800 animate-modal-slide max-h-[90vh] overflow-y-auto">
+                <!-- Close Button -->
+                <button onclick="closeRegisterModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors" aria-label="Cerrar">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+
+                <!-- Header -->
+                <div class="text-center mb-8">
+                    <div class="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-[#F4B41A] to-[#D49A12] rounded-2xl mb-4 shadow-lg">
+                        <i class="fas fa-user-plus text-2xl text-black"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold text-white mb-2">Crear Cuenta</h2>
+                    <p class="text-gray-400 text-sm">Únete a QORI hoy mismo</p>
+                </div>
+
+                <!-- Register Form -->
+                <form id="register-form" class="space-y-5">
+                    <!-- Full Name -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-300 mb-2">
+                            <i class="fas fa-user text-[#F4B41A] mr-2"></i>Nombre Completo
+                        </label>
+                        <input type="text" required class="input-field w-full px-4 py-3 text-white bg-[#0a0a0a] border border-gray-700 rounded-xl focus:border-[#F4B41A] focus:ring-2 focus:ring-[#F4B41A]/20 transition-all" placeholder="Juan Pérez">
+                    </div>
+
+                    <!-- Email -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-300 mb-2">
+                            <i class="fas fa-envelope text-[#F4B41A] mr-2"></i>Email
+                        </label>
+                        <input type="email" required class="input-field w-full px-4 py-3 text-white bg-[#0a0a0a] border border-gray-700 rounded-xl focus:border-[#F4B41A] focus:ring-2 focus:ring-[#F4B41A]/20 transition-all" placeholder="tu@email.com">
+                    </div>
+
+                    <!-- Password -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-300 mb-2">
+                            <i class="fas fa-lock text-[#F4B41A] mr-2"></i>Contraseña
+                        </label>
+                        <input type="password" required minlength="8" class="input-field w-full px-4 py-3 text-white bg-[#0a0a0a] border border-gray-700 rounded-xl focus:border-[#F4B41A] focus:ring-2 focus:ring-[#F4B41A]/20 transition-all" placeholder="••••••••">
+                    </div>
+
+                    <!-- Confirm Password -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-300 mb-2">
+                            <i class="fas fa-lock text-[#F4B41A] mr-2"></i>Confirmar Contraseña
+                        </label>
+                        <input type="password" required minlength="8" class="input-field w-full px-4 py-3 text-white bg-[#0a0a0a] border border-gray-700 rounded-xl focus:border-[#F4B41A] focus:ring-2 focus:ring-[#F4B41A]/20 transition-all" placeholder="••••••••">
+                    </div>
+
+                    <!-- Terms and Conditions -->
+                    <div class="flex items-start gap-3">
+                        <input type="checkbox" required id="terms" class="mt-1 w-4 h-4 rounded border-gray-700 bg-[#0a0a0a] text-[#F4B41A] focus:ring-[#F4B41A] focus:ring-offset-0">
+                        <label for="terms" class="text-sm text-gray-400">
+                            Acepto los <a href="#" class="text-[#F4B41A] hover:text-[#D49A12] transition-colors">Términos y Condiciones</a> y la <a href="#" class="text-[#F4B41A] hover:text-[#D49A12] transition-colors">Política de Privacidad</a>
+                        </label>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" class="btn-primary w-full py-3.5 rounded-xl font-bold text-base flex items-center justify-center gap-2">
+                        <i class="fas fa-user-plus"></i>
+                        Crear Cuenta
+                    </button>
+                </form>
+
+                <!-- Divider -->
+                <div class="relative my-6">
+                    <div class="absolute inset-0 flex items-center">
+                        <div class="w-full border-t border-gray-700"></div>
+                    </div>
+                    <div class="relative flex justify-center text-sm">
+                        <span class="px-4 bg-[#1a1a1a] text-gray-400">o regístrate con</span>
+                    </div>
+                </div>
+
+                <!-- Google Register -->
+                <button type="button" class="w-full py-3.5 px-4 bg-white hover:bg-gray-100 text-gray-800 rounded-xl font-bold flex items-center justify-center gap-3 transition-all shadow-lg">
+                    <i class="fab fa-google text-red-500"></i>
+                    <span>Continuar con Google</span>
+                </button>
+
+                <!-- Login Link -->
+                <p class="text-center mt-6 text-gray-400 text-sm">
+                    ¿Ya tienes cuenta?
+                    <button onclick="closeRegisterModal(); openLoginModal()" class="text-[#F4B41A] hover:text-[#D49A12] font-semibold transition-colors">
+                        Inicia sesión
+                    </button>
+                </p>
             </div>
         </div>
     </div>
@@ -2929,15 +3147,57 @@ Probe el cotizador con estos datos:
             // Initialize Hero Slider
             initHeroSlider();
 
-            // Register Service Worker (PWA)
+            // Register Service Worker (PWA) - Con actualización inmediata en móviles
             if ('serviceWorker' in navigator) {
-                navigator.serviceWorker.register('/sw.js')
+                navigator.serviceWorker.register('/sw.js', { scope: '/' })
                     .then(registration => {
                         console.log('Service Worker registrado:', registration);
+                        
+                        // Forzar verificación de actualización inmediatamente
+                        registration.update();
+                        
+                        // Verificar si hay un nuevo service worker esperando
+                        registration.addEventListener('updatefound', () => {
+                            console.log('[SW] Nueva versión del Service Worker encontrada');
+                            const newWorker = registration.installing;
+                            
+                            newWorker.addEventListener('statechange', () => {
+                                console.log('[SW] Estado del nuevo worker:', newWorker.state);
+                                
+                                if (newWorker.state === 'installed') {
+                                    if (navigator.serviceWorker.controller) {
+                                        // Hay una nueva versión esperando - activar inmediatamente
+                                        console.log('[SW] Nueva versión disponible, activando...');
+                                        if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                                            const updateBtn = document.getElementById('update-app-btn');
+                                            if (updateBtn) {
+                                                updateBtn.style.display = 'flex';
+                                                updateBtn.addEventListener('click', () => {
+                                                    newWorker.postMessage({ action: 'skipWaiting' });
+                                                    window.location.reload();
+                                                });
+                                            }
+                                        }
+                                    } else {
+                                        // Primera carga, activar inmediatamente
+                                        console.log('[SW] Primera carga, activando service worker');
+                                        newWorker.postMessage({ action: 'skipWaiting' });
+                                        newWorker.postMessage({ action: 'claimClients' });
+                                    }
+                                }
+                            });
+                        });
                     })
                     .catch(error => {
-                        console.log('Error al registrar Service Worker:', error);
+                        console.error('Error al registrar Service Worker:', error);
                     });
+                
+                // Escuchar mensajes del service worker
+                navigator.serviceWorker.addEventListener('message', event => {
+                    if (event.data && event.data.type === 'SKIP_WAITING') {
+                        window.location.reload();
+                    }
+                });
             }
 
             // PWA Install Button Logic
@@ -2965,27 +3225,6 @@ Probe el cotizador con estos datos:
                 console.log('PWA instalada exitosamente');
                 installBtn.style.display = 'none';
             });
-
-            // Detectar actualizaciones del Service Worker
-            if ('serviceWorker' in navigator) {
-                navigator.serviceWorker.ready.then(registration => {
-                    registration.addEventListener('updatefound', () => {
-                        const newWorker = registration.installing;
-                        newWorker.addEventListener('statechange', () => {
-                            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                                // Nueva version disponible
-                                const updateBtn = document.getElementById('update-app-btn');
-                                updateBtn.style.display = 'flex';
-                                
-                                updateBtn.addEventListener('click', () => {
-                                    newWorker.postMessage({ action: 'skipWaiting' });
-                                    window.location.reload();
-                                });
-                            }
-                        });
-                    });
-                });
-            }
         });
 
         // Professional Hero Slider with Crossfade Effect and Preloading
