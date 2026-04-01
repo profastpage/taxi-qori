@@ -14,13 +14,19 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
     
-    <!-- PWA Meta Tags -->
+    <!-- PWA Meta Tags - Desktop & Mobile -->
     <meta name="theme-color" content="#0D3B4A">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="QORI">
-    <link rel="apple-touch-icon" href="icon-192.png">
+    <link rel="apple-touch-icon" href="icon-512.svg">
     <link rel="manifest" href="manifest.json">
+    
+    <!-- Desktop PWA Support -->
+    <meta name="application-name" content="QORI Traslados Ejecutivos">
+    <meta name="msapplication-TileColor" content="#0D3B4A">
+    <meta name="msapplication-TileImage" content="icon-512.svg">
+    <meta name="msapplication-config" content="none">
     
     <!-- Critical CSS Inline para FCP rapido -->
     <style>
@@ -4197,6 +4203,21 @@ Probe el cotizador con estos datos:
                 toast.classList.add('translate-x-full', 'opacity-0');
                 setTimeout(() => toast.remove(), 300);
             }, 3000);
+        }
+
+        // Share on WhatsApp Function
+        function shareOnWhatsApp() {
+            const shareText = encodeURIComponent(
+                '¡Recomiendo QORI Traslados Ejecutivos! 🚗✨\n\n' +
+                'Servicio premium de transporte en Lima. Lujo, seguridad y puntualidad en cada viaje.\n\n' +
+                '¡Cotiza tu traslado ahora! 👇\n' +
+                window.location.href
+            );
+            
+            const whatsappUrl = `https://wa.me/51933667414?text=${shareText}`;
+            window.open(whatsappUrl, '_blank');
+            
+            showToast('¡Gracias por compartir!', 'success');
         }
 
         // Google Auth Handler (Placeholder para Fase 2)
