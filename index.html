@@ -773,32 +773,17 @@
                     <a href="#beneficios" class="text-gray-400 hover:text-[#F4B41A] transition-colors text-sm font-medium">Beneficios</a>
                     <a href="#servicios" class="text-gray-400 hover:text-[#F4B41A] transition-colors text-sm font-medium">Servicios</a>
                     <a href="#como-funciona" class="text-gray-400 hover:text-[#F4B41A] transition-colors text-sm font-medium">Cómo Funciona</a>
-                    
-                    <!-- Auth Buttons - Desktop -->
-                    <div class="flex items-center gap-3 ml-4 pl-4 border-l border-gray-700">
-                        <button onclick="openLoginModal()" class="text-gray-400 hover:text-white transition-colors text-sm font-medium">
-                            Ingresar
-                        </button>
-                        <button onclick="openRegisterModal()" class="btn-primary px-5 py-2.5 rounded-full text-sm font-bold">
-                            Registrarse
-                        </button>
-                    </div>
+
+                    <!-- Auth Icon - Desktop -->
+                    <button onclick="openLoginModal()" class="ml-4 pl-4 border-l border-gray-700 text-gray-400 hover:text-[#F4B41A] transition-colors p-2" aria-label="Ingresar">
+                        <i class="fas fa-user text-lg"></i>
+                    </button>
                 </div>
 
                 <button id="mobile-menu-btn" class="md:hidden text-gray-400 hover:text-white p-2 transition-colors" aria-label="Menu">
                     <i class="fas fa-bars text-xl"></i>
                 </button>
             </div>
-        </div>
-
-        <!-- Mobile Auth Buttons -->
-        <div class="md:hidden px-4 py-3 border-t border-gray-800 flex gap-3">
-            <button onclick="openLoginModal()" class="flex-1 py-2.5 text-gray-400 hover:text-white border border-gray-700 rounded-full text-sm font-medium transition-colors">
-                Ingresar
-            </button>
-            <button onclick="openRegisterModal()" class="flex-1 btn-primary py-2.5 rounded-full text-sm font-bold">
-                Registrarse
-            </button>
         </div>
     </nav>
 
@@ -820,7 +805,17 @@
             <a href="#beneficios" class="mobile-menu-link"><i class="fas fa-star mr-3 text-[#F4B41A]"></i>Beneficios</a>
             <a href="#servicios" class="mobile-menu-link"><i class="fas fa-car mr-3 text-[#F4B41A]"></i>Servicios</a>
             <a href="#como-funciona" class="mobile-menu-link"><i class="fas fa-info-circle mr-3 text-[#F4B41A]"></i>Cómo Funciona</a>
-            
+
+            <!-- Auth Buttons - Mobile Menu -->
+            <div class="mt-6 pt-6 border-t border-gray-800">
+                <button onclick="openLoginModal()" class="w-full py-3 text-gray-400 hover:text-white border border-gray-700 rounded-full text-sm font-medium transition-colors mb-3">
+                    <i class="fas fa-sign-in-alt mr-2"></i>Ingresar
+                </button>
+                <button onclick="openRegisterModal()" class="w-full btn-primary py-3 rounded-full text-sm font-bold flex items-center justify-center gap-2">
+                    <i class="fas fa-user-plus"></i>
+                </button>
+            </div>
+
             <!-- Boton Instalar App PWA -->
             <button id="install-app-btn" class="w-full mt-4 py-3 px-4 bg-[#F4B41A] hover:bg-[#D49A12] text-black rounded-full font-bold flex items-center justify-center gap-2 transition-all" style="display: none;">
                 <i class="fas fa-download"></i>
