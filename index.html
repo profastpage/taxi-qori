@@ -3433,13 +3433,13 @@
             updateAllPrices();
         }
 
-        // Global pricing base for zone updates
+        // Global pricing base for zone updates (usando qori-config.js)
         let PRICING_BASE = {
-            basePrice: 25,
+            basePrice: window.QORI_CONFIG?.pricing?.basePrice || 25,
             vehicle: {
                 'sedan': 0,
-                'suv': 15,
-                'van': 25
+                'suv': Math.round(25 * ((window.QORI_CONFIG?.pricing?.vehicleTypes?.suv?.multiplier || 1.3) - 1)),
+                'van': Math.round(25 * ((window.QORI_CONFIG?.pricing?.vehicleTypes?.van?.multiplier || 1.6) - 1))
             },
             schedule: {
                 'now': 0,
