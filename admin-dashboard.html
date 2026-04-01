@@ -1,0 +1,1202 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Admin - QORI Panel Administrativo</title>
+    <meta name="description" content="Panel de administración QORI - Gestión de usuarios y reservas">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="theme-color" content="#0D3B4A">
+    
+    <!-- Cache Control -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+
+    <!-- Preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://cdn.tailwindcss.com">
+
+    <!-- Google Fonts -->
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"></noscript>
+
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            teal: '#0D3B4A',
+                            tealDark: '#082830',
+                            gold: '#F4B41A',
+                            goldDark: '#D49A12',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Styles -->
+    <style>
+        * {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: #0a0a0a;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        /* Glass Effect */
+        .glass {
+            background: rgba(26, 26, 26, 0.8);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .glass-nav {
+            background: rgba(10, 20, 30, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1a1a1a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #F4B41A;
+            border-radius: 4px;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background: linear-gradient(180deg, rgba(13, 59, 74, 0.95) 0%, rgba(10, 20, 30, 0.98) 100%);
+            border-right: 1px solid rgba(244, 180, 26, 0.1);
+        }
+
+        .sidebar-link {
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-link:hover,
+        .sidebar-link.active {
+            background: rgba(244, 180, 26, 0.1);
+            border-left: 3px solid #F4B41A;
+            color: #F4B41A;
+        }
+
+        /* Status Badges */
+        .status-active {
+            background: rgba(34, 197, 94, 0.2);
+            color: #22c55e;
+        }
+
+        .status-inactive {
+            background: rgba(107, 114, 128, 0.2);
+            color: #9ca3af;
+        }
+
+        .status-suspended {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+        }
+
+        .status-confirmed {
+            background: rgba(34, 197, 94, 0.2);
+            color: #22c55e;
+        }
+
+        .status-pending {
+            background: rgba(234, 179, 8, 0.2);
+            color: #eab308;
+        }
+
+        .status-cancelled {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+        }
+
+        /* Table Styles */
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .admin-table th {
+            background: rgba(244, 180, 26, 0.1);
+            color: #F4B41A;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+            padding: 12px 16px;
+            text-align: left;
+        }
+
+        .admin-table td {
+            padding: 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            vertical-align: middle;
+        }
+
+        .admin-table tbody tr {
+            transition: all 0.3s ease;
+        }
+
+        .admin-table tbody tr:hover {
+            background: rgba(244, 180, 26, 0.05);
+        }
+
+        /* Buttons */
+        .btn-primary {
+            background: linear-gradient(135deg, #F4B41A 0%, #D49A12 100%);
+            color: #0a0a0a;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(244, 180, 26, 0.4);
+        }
+
+        .btn-danger {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-danger:hover {
+            background: rgba(239, 68, 68, 0.3);
+            border-color: #ef4444;
+        }
+
+        .btn-success {
+            background: rgba(34, 197, 94, 0.2);
+            color: #22c55e;
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-success:hover {
+            background: rgba(34, 197, 94, 0.3);
+            border-color: #22c55e;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-fade-in {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+
+        /* Toggle Switch */
+        .toggle-switch {
+            position: relative;
+            width: 50px;
+            height: 26px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 13px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .toggle-switch.active {
+            background: #22c55e;
+        }
+
+        .toggle-switch::after {
+            content: '';
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .toggle-switch.active::after {
+            left: 27px;
+        }
+
+        /* Modal */
+        .modal-overlay {
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(4px);
+        }
+    </style>
+</head>
+<body class="flex">
+
+    <!-- Sidebar -->
+    <aside class="sidebar fixed left-0 top-0 h-screen w-64 z-40 hidden lg:block overflow-y-auto">
+        <div class="p-6">
+            <!-- Logo -->
+            <div class="flex items-center gap-3 mb-8">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-[#F4B41A] to-[#D49A12] flex items-center justify-center">
+                    <i class="fas fa-shield-alt text-black text-lg"></i>
+                </div>
+                <div>
+                    <p class="text-white font-bold">QORI</p>
+                    <p class="text-[#F4B41A] text-xs">Admin Panel</p>
+                </div>
+            </div>
+
+            <!-- Navigation -->
+            <nav class="space-y-2">
+                <a href="#" onclick="showSection('dashboard')" class="sidebar-link active flex items-center gap-3 px-4 py-3 rounded-lg text-gray-400 hover:text-white">
+                    <i class="fas fa-chart-line w-5"></i>
+                    <span class="font-medium">Dashboard</span>
+                </a>
+                <a href="#" onclick="showSection('users')" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg text-gray-400 hover:text-white">
+                    <i class="fas fa-users w-5"></i>
+                    <span class="font-medium">Usuarios</span>
+                </a>
+                <a href="#" onclick="showSection('reservations')" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg text-gray-400 hover:text-white">
+                    <i class="fas fa-calendar-check w-5"></i>
+                    <span class="font-medium">Reservas</span>
+                </a>
+                <a href="#" onclick="showSection('payments')" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg text-gray-400 hover:text-white">
+                    <i class="fas fa-credit-card w-5"></i>
+                    <span class="font-medium">Pagos</span>
+                </a>
+                <a href="#" onclick="showSection('settings')" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg text-gray-400 hover:text-white">
+                    <i class="fas fa-cog w-5"></i>
+                    <span class="font-medium">Configuración</span>
+                </a>
+            </nav>
+        </div>
+
+        <!-- Admin Info -->
+        <div class="absolute bottom-0 left-0 right-0 p-6 border-t border-gray-800">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-gradient-to-br from-[#F4B41A] to-[#D49A12] flex items-center justify-center text-black font-bold">
+                    AD
+                </div>
+                <div class="flex-1 min-w-0">
+                    <p class="text-white text-sm font-semibold truncate">Admin</p>
+                    <p class="text-gray-400 text-xs truncate">admin@qori.com</p>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="flex-1 lg:ml-64 min-h-screen">
+        
+        <!-- Top Navbar -->
+        <nav class="glass-nav sticky top-0 z-30 px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-4">
+                    <button onclick="toggleMobileSidebar()" class="lg:hidden text-gray-400 hover:text-white p-2">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                    <h1 id="page-title" class="text-xl font-bold text-white">Dashboard</h1>
+                </div>
+                <div class="flex items-center gap-4">
+                    <button class="relative text-gray-400 hover:text-white p-2">
+                        <i class="fas fa-bell text-lg"></i>
+                        <span class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+                    </button>
+                    <button onclick="logout()" class="text-gray-400 hover:text-red-400 p-2" title="Cerrar Sesión">
+                        <i class="fas fa-sign-out-alt text-lg"></i>
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Page Content -->
+        <main class="p-6">
+            
+            <!-- Dashboard Section -->
+            <section id="dashboard-section" class="animate-fade-in">
+                <!-- Stats Grid -->
+                <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                    <div class="glass border border-gray-800 rounded-2xl p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-12 h-12 rounded-xl bg-blue-500/20 flex items-center justify-center">
+                                <i class="fas fa-users text-blue-400 text-xl"></i>
+                            </div>
+                            <span class="text-green-400 text-sm font-semibold flex items-center gap-1">
+                                <i class="fas fa-arrow-up"></i> 12%
+                            </span>
+                        </div>
+                        <p class="text-gray-400 text-sm mb-1">Total Usuarios</p>
+                        <p class="text-3xl font-bold text-white" id="total-users">1,248</p>
+                    </div>
+
+                    <div class="glass border border-gray-800 rounded-2xl p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-12 h-12 rounded-xl bg-green-500/20 flex items-center justify-center">
+                                <i class="fas fa-car text-green-400 text-xl"></i>
+                            </div>
+                            <span class="text-green-400 text-sm font-semibold flex items-center gap-1">
+                                <i class="fas fa-arrow-up"></i> 8%
+                            </span>
+                        </div>
+                        <p class="text-gray-400 text-sm mb-1">Reservas Activas</p>
+                        <p class="text-3xl font-bold text-white" id="active-reservations">89</p>
+                    </div>
+
+                    <div class="glass border border-gray-800 rounded-2xl p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-12 h-12 rounded-xl bg-yellow-500/20 flex items-center justify-center">
+                                <i class="fas fa-clock text-yellow-400 text-xl"></i>
+                            </div>
+                            <span class="text-red-400 text-sm font-semibold flex items-center gap-1">
+                                <i class="fas fa-arrow-down"></i> 3%
+                            </span>
+                        </div>
+                        <p class="text-gray-400 text-sm mb-1">Pendientes</p>
+                        <p class="text-3xl font-bold text-white" id="pending-reservations">23</p>
+                    </div>
+
+                    <div class="glass border border-gray-800 rounded-2xl p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-12 h-12 rounded-xl bg-[#F4B41A]/20 flex items-center justify-center">
+                                <i class="fas fa-dollar-sign text-[#F4B41A] text-xl"></i>
+                            </div>
+                            <span class="text-green-400 text-sm font-semibold flex items-center gap-1">
+                                <i class="fas fa-arrow-up"></i> 24%
+                            </span>
+                        </div>
+                        <p class="text-gray-400 text-sm mb-1">Ingresos (Mes)</p>
+                        <p class="text-3xl font-bold text-white" id="monthly-revenue">S/ 45,280</p>
+                    </div>
+                </div>
+
+                <!-- Recent Activity & Quick Actions -->
+                <div class="grid lg:grid-cols-3 gap-6">
+                    <!-- Recent Users -->
+                    <div class="lg:col-span-2 glass border border-gray-800 rounded-2xl p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-white font-bold flex items-center gap-2">
+                                <i class="fas fa-user-clock text-[#F4B41A]"></i>
+                                Usuarios Recientes
+                            </h3>
+                            <button onclick="showSection('users')" class="text-xs text-[#F4B41A] hover:text-[#D49A12] transition-colors">Ver todos</button>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="admin-table">
+                                <thead>
+                                    <tr>
+                                        <th>Usuario</th>
+                                        <th>Email</th>
+                                        <th>Estado</th>
+                                        <th>Fecha</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="recent-users-table">
+                                    <!-- Populated by JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Quick Actions -->
+                    <div class="glass border border-gray-800 rounded-2xl p-6">
+                        <h3 class="text-white font-bold mb-4 flex items-center gap-2">
+                            <i class="fas fa-bolt text-[#F4B41A]"></i>
+                            Acciones Rápidas
+                        </h3>
+                        <div class="space-y-3">
+                            <button onclick="showSection('users')" class="w-full py-3 px-4 bg-[#1a1a1a] hover:bg-[#2a2a2a] border border-gray-700 hover:border-[#F4B41A] rounded-xl text-left flex items-center gap-3 transition-all group">
+                                <div class="w-10 h-10 rounded-lg bg-blue-500/20 flex items-center justify-center group-hover:bg-blue-500/30 transition-colors">
+                                    <i class="fas fa-user-plus text-blue-400"></i>
+                                </div>
+                                <div>
+                                    <p class="text-white font-semibold text-sm">Nuevo Usuario</p>
+                                    <p class="text-gray-400 text-xs">Crear cuenta manual</p>
+                                </div>
+                            </button>
+                            <button onclick="showSection('reservations')" class="w-full py-3 px-4 bg-[#1a1a1a] hover:bg-[#2a2a2a] border border-gray-700 hover:border-[#F4B41A] rounded-xl text-left flex items-center gap-3 transition-all group">
+                                <div class="w-10 h-10 rounded-lg bg-green-500/20 flex items-center justify-center group-hover:bg-green-500/30 transition-colors">
+                                    <i class="fas fa-calendar-plus text-green-400"></i>
+                                </div>
+                                <div>
+                                    <p class="text-white font-semibold text-sm">Nueva Reserva</p>
+                                    <p class="text-gray-400 text-xs">Crear reserva manual</p>
+                                </div>
+                            </button>
+                            <button class="w-full py-3 px-4 bg-[#1a1a1a] hover:bg-[#2a2a2a] border border-gray-700 hover:border-[#F4B41A] rounded-xl text-left flex items-center gap-3 transition-all group">
+                                <div class="w-10 h-10 rounded-lg bg-purple-500/20 flex items-center justify-center group-hover:bg-purple-500/30 transition-colors">
+                                    <i class="fas fa-file-export text-purple-400"></i>
+                                </div>
+                                <div>
+                                    <p class="text-white font-semibold text-sm">Exportar Datos</p>
+                                    <p class="text-gray-400 text-xs">Descargar reportes</p>
+                                </div>
+                            </button>
+                            <button class="w-full py-3 px-4 bg-[#1a1a1a] hover:bg-[#2a2a2a] border border-gray-700 hover:border-[#F4B41A] rounded-xl text-left flex items-center gap-3 transition-all group">
+                                <div class="w-10 h-10 rounded-lg bg-red-500/20 flex items-center justify-center group-hover:bg-red-500/30 transition-colors">
+                                    <i class="fas fa-bullhorn text-red-400"></i>
+                                </div>
+                                <div>
+                                    <p class="text-white font-semibold text-sm">Enviar Notificación</p>
+                                    <p class="text-gray-400 text-xs">Push o email masivo</p>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Users Section -->
+            <section id="users-section" class="hidden animate-fade-in">
+                <div class="glass border border-gray-800 rounded-2xl p-6">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+                        <div>
+                            <h3 class="text-white font-bold text-lg flex items-center gap-2">
+                                <i class="fas fa-users text-[#F4B41A]"></i>
+                                Gestión de Usuarios
+                            </h3>
+                            <p class="text-gray-400 text-sm mt-1">Administra cuentas, estados y permisos</p>
+                        </div>
+                        <div class="flex flex-wrap items-center gap-3">
+                            <div class="relative">
+                                <i class="fas fa-search text-gray-500 absolute left-3 top-1/2 -translate-y-1/2"></i>
+                                <input 
+                                    type="text" 
+                                    id="user-search"
+                                    placeholder="Buscar usuario..." 
+                                    class="input-field w-full pl-10 pr-4 py-2.5 text-white text-sm bg-[#1a1a1a] border-gray-700"
+                                    onkeyup="filterUsers()"
+                                >
+                            </div>
+                            <select id="user-filter" class="input-field px-4 py-2.5 text-white text-sm bg-[#1a1a1a] border-gray-700" onchange="filterUsers()">
+                                <option value="all">Todos los estados</option>
+                                <option value="active">Activos</option>
+                                <option value="inactive">Inactivos</option>
+                                <option value="suspended">Suspendidos</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="overflow-x-auto">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>Usuario</th>
+                                    <th>Email</th>
+                                    <th>Teléfono</th>
+                                    <th>Viajes</th>
+                                    <th>Estado</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="users-table-body">
+                                <!-- Populated by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Pagination -->
+                    <div class="flex items-center justify-between mt-6 pt-6 border-t border-gray-800">
+                        <p class="text-gray-400 text-sm">Mostrando <span id="showing-from">1-10</span> de <span id="total-users-count">0</span> usuarios</p>
+                        <div class="flex gap-2">
+                            <button class="px-4 py-2 bg-[#1a1a1a] border border-gray-700 rounded-lg text-gray-400 hover:text-white hover:border-[#F4B41A] transition-colors text-sm" disabled>
+                                <i class="fas fa-chevron-left"></i>
+                            </button>
+                            <button class="px-4 py-2 bg-[#F4B41A] border border-[#F4B41A] rounded-lg text-black font-semibold text-sm">
+                                1
+                            </button>
+                            <button class="px-4 py-2 bg-[#1a1a1a] border border-gray-700 rounded-lg text-gray-400 hover:text-white hover:border-[#F4B41A] transition-colors text-sm">
+                                2
+                            </button>
+                            <button class="px-4 py-2 bg-[#1a1a1a] border border-gray-700 rounded-lg text-gray-400 hover:text-white hover:border-[#F4B41A] transition-colors text-sm">
+                                3
+                            </button>
+                            <button class="px-4 py-2 bg-[#1a1a1a] border border-gray-700 rounded-lg text-gray-400 hover:text-white hover:border-[#F4B41A] transition-colors text-sm">
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Reservations Section -->
+            <section id="reservations-section" class="hidden animate-fade-in">
+                <div class="glass border border-gray-800 rounded-2xl p-6">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+                        <div>
+                            <h3 class="text-white font-bold text-lg flex items-center gap-2">
+                                <i class="fas fa-calendar-check text-[#F4B41A]"></i>
+                                Gestión de Reservas
+                            </h3>
+                            <p class="text-gray-400 text-sm mt-1">Todas las reservas de la plataforma</p>
+                        </div>
+                        <div class="flex flex-wrap items-center gap-3">
+                            <select id="reservation-filter" class="input-field px-4 py-2.5 text-white text-sm bg-[#1a1a1a] border-gray-700" onchange="filterReservations()">
+                                <option value="all">Todos los estados</option>
+                                <option value="confirmed">Confirmadas</option>
+                                <option value="pending">Pendientes</option>
+                                <option value="cancelled">Canceladas</option>
+                                <option value="completed">Completadas</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="overflow-x-auto">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>Reserva</th>
+                                    <th>Usuario</th>
+                                    <th>Ruta</th>
+                                    <th>Vehículo</th>
+                                    <th>Estado</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="reservations-table-body">
+                                <!-- Populated by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Payments Section -->
+            <section id="payments-section" class="hidden animate-fade-in">
+                <div class="glass border border-gray-800 rounded-2xl p-6">
+                    <div class="flex items-center justify-between mb-6">
+                        <div>
+                            <h3 class="text-white font-bold text-lg flex items-center gap-2">
+                                <i class="fas fa-credit-card text-[#F4B41A]"></i>
+                                Pagos y Transacciones
+                            </h3>
+                            <p class="text-gray-400 text-sm mt-1">Historial completo de pagos</p>
+                        </div>
+                    </div>
+
+                    <div class="overflow-x-auto">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>Transacción</th>
+                                    <th>Usuario</th>
+                                    <th>Método</th>
+                                    <th>Monto</th>
+                                    <th>Estado</th>
+                                    <th>Fecha</th>
+                                </tr>
+                            </thead>
+                            <tbody id="payments-table-body">
+                                <!-- Populated by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Settings Section -->
+            <section id="settings-section" class="hidden animate-fade-in">
+                <div class="grid lg:grid-cols-2 gap-6">
+                    <!-- General Settings -->
+                    <div class="glass border border-gray-800 rounded-2xl p-6">
+                        <h3 class="text-white font-bold mb-4 flex items-center gap-2">
+                            <i class="fas fa-sliders-h text-[#F4B41A]"></i>
+                            Configuración General
+                        </h3>
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-300 mb-2">Nombre del Sitio</label>
+                                <input type="text" value="QORI Traslados Ejecutivos" class="input-field w-full px-4 py-2.5 text-white bg-[#1a1a1a] border-gray-700">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-300 mb-2">Email de Contacto</label>
+                                <input type="email" value="contacto@qori.com" class="input-field w-full px-4 py-2.5 text-white bg-[#1a1a1a] border-gray-700">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-300 mb-2">Teléfono de Soporte</label>
+                                <input type="tel" value="+51 933 667 414" class="input-field w-full px-4 py-2.5 text-white bg-[#1a1a1a] border-gray-700">
+                            </div>
+                            <button class="btn-primary w-full py-3 rounded-xl font-semibold">
+                                <i class="fas fa-save mr-2"></i>Guardar Cambios
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Admin Settings -->
+                    <div class="glass border border-gray-800 rounded-2xl p-6">
+                        <h3 class="text-white font-bold mb-4 flex items-center gap-2">
+                            <i class="fas fa-user-shield text-[#F4B41A]"></i>
+                            Configuración de Admin
+                        </h3>
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-300 mb-2">Tu Email</label>
+                                <input type="email" value="admin@qori.com" disabled class="input-field w-full px-4 py-2.5 text-gray-400 bg-[#0a0a0a] border-gray-700 cursor-not-allowed">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-300 mb-2">Nueva Contraseña</label>
+                                <input type="password" placeholder="Dejar en blanco para no cambiar" class="input-field w-full px-4 py-2.5 text-white bg-[#1a1a1a] border-gray-700">
+                            </div>
+                            <div class="flex items-center justify-between p-4 bg-[#1a1a1a] rounded-xl border border-gray-700">
+                                <div>
+                                    <p class="text-white font-semibold text-sm">Modo Mantenimiento</p>
+                                    <p class="text-gray-400 text-xs">Desactivar acceso público</p>
+                                </div>
+                                <div class="toggle-switch" onclick="this.classList.toggle('active')"></div>
+                            </div>
+                            <button class="btn-primary w-full py-3 rounded-xl font-semibold">
+                                <i class="fas fa-key mr-2"></i>Actualizar Contraseña
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- User Detail Modal -->
+    <div id="user-modal" class="fixed inset-0 z-[9999] hidden">
+        <div class="modal-overlay absolute inset-0" onclick="closeUserModal()"></div>
+        <div class="relative min-h-screen flex items-center justify-center p-4">
+            <div class="relative bg-[#1a1a1a] rounded-3xl w-full max-w-2xl max-h-[90vh] overflow-y-auto shadow-2xl border border-gray-800">
+                <div class="sticky top-0 bg-[#1a1a1a] border-b border-gray-800 px-6 py-4 flex items-center justify-between">
+                    <h3 class="text-white font-bold text-lg">Detalle de Usuario</h3>
+                    <button onclick="closeUserModal()" class="text-gray-400 hover:text-white p-2">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+                <div class="p-6" id="user-modal-content">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirm Action Modal -->
+    <div id="confirm-modal" class="fixed inset-0 z-[9999] hidden">
+        <div class="modal-overlay absolute inset-0" onclick="closeConfirmModal()"></div>
+        <div class="relative min-h-screen flex items-center justify-center p-4">
+            <div class="relative bg-[#1a1a1a] rounded-3xl w-full max-w-md p-6 shadow-2xl border border-gray-800">
+                <div class="text-center">
+                    <div id="confirm-icon" class="w-16 h-16 rounded-full bg-yellow-500/20 flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-exclamation-triangle text-yellow-400 text-2xl"></i>
+                    </div>
+                    <h3 id="confirm-title" class="text-xl font-bold text-white mb-2">¿Estás seguro?</h3>
+                    <p id="confirm-message" class="text-gray-400 text-sm mb-6">Esta acción no se puede deshacer.</p>
+                    <div class="flex gap-3">
+                        <button onclick="closeConfirmModal()" class="flex-1 py-3 border border-gray-700 hover:border-gray-600 text-gray-400 hover:text-white rounded-xl font-semibold transition-colors">
+                            Cancelar
+                        </button>
+                        <button id="confirm-action-btn" class="flex-1 py-3 bg-red-500 hover:bg-red-600 text-white rounded-xl font-semibold transition-colors">
+                            Confirmar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Sidebar Overlay -->
+    <div id="mobile-sidebar-overlay" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-40 hidden lg:hidden" onclick="toggleMobileSidebar()"></div>
+
+    <!-- Mobile Sidebar -->
+    <aside id="mobile-sidebar" class="sidebar fixed left-0 top-0 h-screen w-64 z-50 transform -translate-x-full lg:hidden transition-transform duration-300">
+        <div class="p-6">
+            <div class="flex items-center justify-between mb-8">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-[#F4B41A] to-[#D49A12] flex items-center justify-center">
+                        <i class="fas fa-shield-alt text-black text-lg"></i>
+                    </div>
+                    <div>
+                        <p class="text-white font-bold">QORI</p>
+                        <p class="text-[#F4B41A] text-xs">Admin</p>
+                    </div>
+                </div>
+                <button onclick="toggleMobileSidebar()" class="text-gray-400 hover:text-white p-2">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+
+            <nav class="space-y-2">
+                <a href="#" onclick="showSection('dashboard'); toggleMobileSidebar()" class="sidebar-link active flex items-center gap-3 px-4 py-3 rounded-lg text-gray-400 hover:text-white">
+                    <i class="fas fa-chart-line w-5"></i>
+                    <span class="font-medium">Dashboard</span>
+                </a>
+                <a href="#" onclick="showSection('users'); toggleMobileSidebar()" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg text-gray-400 hover:text-white">
+                    <i class="fas fa-users w-5"></i>
+                    <span class="font-medium">Usuarios</span>
+                </a>
+                <a href="#" onclick="showSection('reservations'); toggleMobileSidebar()" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg text-gray-400 hover:text-white">
+                    <i class="fas fa-calendar-check w-5"></i>
+                    <span class="font-medium">Reservas</span>
+                </a>
+                <a href="#" onclick="showSection('payments'); toggleMobileSidebar()" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg text-gray-400 hover:text-white">
+                    <i class="fas fa-credit-card w-5"></i>
+                    <span class="font-medium">Pagos</span>
+                </a>
+                <a href="#" onclick="showSection('settings'); toggleMobileSidebar()" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg text-gray-400 hover:text-white">
+                    <i class="fas fa-cog w-5"></i>
+                    <span class="font-medium">Configuración</span>
+                </a>
+            </nav>
+        </div>
+    </aside>
+
+    <!-- FontAwesome -->
+    <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
+
+    <!-- Scripts -->
+    <script>
+        // Sample Data
+        const users = [
+            { id: 1, name: 'Juan Pérez', email: 'juan.perez@email.com', phone: '+51 987 654 321', trips: 24, status: 'active', joined: '2024-01-15' },
+            { id: 2, name: 'María García', email: 'maria.garcia@email.com', phone: '+51 976 543 210', trips: 18, status: 'active', joined: '2024-02-20' },
+            { id: 3, name: 'Carlos López', email: 'carlos.lopez@email.com', phone: '+51 965 432 109', trips: 0, status: 'inactive', joined: '2024-03-10' },
+            { id: 4, name: 'Ana Martínez', email: 'ana.martinez@email.com', phone: '+51 954 321 098', trips: 45, status: 'active', joined: '2023-11-05' },
+            { id: 5, name: 'Luis Rodríguez', email: 'luis.rodriguez@email.com', phone: '+51 943 210 987', trips: 8, status: 'suspended', joined: '2024-01-28' },
+            { id: 6, name: 'Patricia Sánchez', email: 'patricia.sanchez@email.com', phone: '+51 932 109 876', trips: 32, status: 'active', joined: '2023-12-12' },
+            { id: 7, name: 'Roberto Díaz', email: 'roberto.diaz@email.com', phone: '+51 921 098 765', trips: 12, status: 'active', joined: '2024-02-14' },
+            { id: 8, name: 'Carmen Torres', email: 'carmen.torres@email.com', phone: '+51 910 987 654', trips: 0, status: 'inactive', joined: '2024-03-25' },
+            { id: 9, name: 'Miguel Flores', email: 'miguel.flores@email.com', phone: '+51 909 876 543', trips: 56, status: 'active', joined: '2023-10-08' },
+            { id: 10, name: 'Elena Ramírez', email: 'elena.ramirez@email.com', phone: '+51 898 765 432', trips: 3, status: 'suspended', joined: '2024-03-01' },
+        ];
+
+        const reservations = [
+            { id: 'RES-2024-0892', user: 'Juan Pérez', from: 'Av. Larco 123, Miraflores', to: 'Jorge Chávez Airport', vehicle: 'SUV Premium', status: 'confirmed', price: 'S/ 120.00', date: '2024-04-26 09:00' },
+            { id: 'RES-2024-0891', user: 'María García', from: 'CC Jockey Plaza', to: 'San Isidro', vehicle: 'Sedán Ejecutivo', status: 'pending', price: 'S/ 45.00', date: '2024-04-25 14:30' },
+            { id: 'RES-2024-0890', user: 'Ana Martínez', from: 'Hotel Marriott', to: 'Centro de Lima', vehicle: 'Van VIP', status: 'completed', price: 'S/ 85.00', date: '2024-04-24 11:00' },
+            { id: 'RES-2024-0889', user: 'Patricia Sánchez', from: 'Aeropuerto', to: 'Miraflores', vehicle: 'SUV Premium', status: 'confirmed', price: 'S/ 120.00', date: '2024-04-26 16:00' },
+            { id: 'RES-2024-0888', user: 'Luis Rodríguez', from: 'San Borja', to: 'Surco', vehicle: 'Sedán Ejecutivo', status: 'cancelled', price: 'S/ 35.00', date: '2024-04-23 10:00' },
+        ];
+
+        const payments = [
+            { id: 'TXN-2024-5892', user: 'Juan Pérez', method: 'Visa •••• 4532', amount: 'S/ 120.00', status: 'completed', date: '2024-04-24' },
+            { id: 'TXN-2024-5891', user: 'María García', method: 'Yape', amount: 'S/ 45.00', status: 'completed', date: '2024-04-23' },
+            { id: 'TXN-2024-5890', user: 'Ana Martínez', method: 'Mastercard •••• 8921', amount: 'S/ 85.00', status: 'completed', date: '2024-04-22' },
+            { id: 'TXN-2024-5889', user: 'Patricia Sánchez', method: 'Visa •••• 1234', amount: 'S/ 120.00', status: 'pending', date: '2024-04-24' },
+        ];
+
+        let currentUserAction = null;
+
+        // Auth Check
+        function checkAuth() {
+            const isAdminLoggedIn = localStorage.getItem('qori_admin_logged_in') === 'true';
+            if (!isAdminLoggedIn) {
+                window.location.href = 'admin-login.html';
+            }
+        }
+
+        // Logout
+        function logout() {
+            if (confirm('¿Cerrar sesión de administrador?')) {
+                localStorage.removeItem('qori_admin_logged_in');
+                localStorage.removeItem('qori_admin_email');
+                window.location.href = 'admin-login.html?logged=out';
+            }
+        }
+
+        // Show Section
+        function showSection(section) {
+            // Hide all sections
+            ['dashboard', 'users', 'reservations', 'payments', 'settings'].forEach(s => {
+                document.getElementById(`${s}-section`).classList.add('hidden');
+            });
+            
+            // Show selected section
+            document.getElementById(`${section}-section`).classList.remove('hidden');
+            
+            // Update title
+            const titles = {
+                dashboard: 'Dashboard',
+                users: 'Usuarios',
+                reservations: 'Reservas',
+                payments: 'Pagos',
+                settings: 'Configuración'
+            };
+            document.getElementById('page-title').textContent = titles[section];
+            
+            // Update sidebar active state
+            document.querySelectorAll('.sidebar-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            event.target.closest('.sidebar-link')?.classList.add('active');
+            
+            // Load data
+            if (section === 'users') loadUsers();
+            if (section === 'reservations') loadReservations();
+            if (section === 'payments') loadPayments();
+        }
+
+        // Toggle Mobile Sidebar
+        function toggleMobileSidebar() {
+            const sidebar = document.getElementById('mobile-sidebar');
+            const overlay = document.getElementById('mobile-sidebar-overlay');
+            sidebar.classList.toggle('-translate-x-full');
+            overlay.classList.toggle('hidden');
+        }
+
+        // Load Users Table
+        function loadUsers() {
+            const tbody = document.getElementById('users-table-body');
+            tbody.innerHTML = users.map(user => `
+                <tr>
+                    <td>
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-[#F4B41A] to-[#D49A12] flex items-center justify-center text-black font-bold">
+                                ${user.name.split(' ').map(n => n[0]).join('').substring(0, 2)}
+                            </div>
+                            <div>
+                                <p class="text-white font-semibold">${user.name}</p>
+                                <p class="text-gray-400 text-xs">Desde ${new Date(user.joined).toLocaleDateString('es-ES', { month: 'short', year: 'numeric' })}</p>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="text-gray-400 text-sm">${user.email}</td>
+                    <td class="text-gray-400 text-sm">${user.phone}</td>
+                    <td><span class="text-white font-semibold">${user.trips}</span></td>
+                    <td>
+                        <span class="status-${user.status} px-3 py-1 rounded-full text-xs font-semibold">
+                            ${user.status === 'active' ? 'Activo' : user.status === 'inactive' ? 'Inactivo' : 'Suspendido'}
+                        </span>
+                    </td>
+                    <td>
+                        <div class="flex items-center gap-2">
+                            <button onclick="viewUser(${user.id})" class="text-blue-400 hover:text-blue-300 p-2" title="Ver detalle">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <button onclick="toggleUserStatus(${user.id})" class="text-gray-400 hover:text-white p-2" title="${user.status === 'active' ? 'Desactivar' : 'Activar'}">
+                                <i class="fas fa-${user.status === 'active' ? 'ban' : 'check'}"></i>
+                            </button>
+                            <button onclick="deleteUser(${user.id})" class="text-red-400 hover:text-red-300 p-2" title="Eliminar">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+            
+            document.getElementById('total-users-count').textContent = users.length;
+            document.getElementById('showing-from').textContent = `1-${users.length}`;
+        }
+
+        // Filter Users
+        function filterUsers() {
+            const search = document.getElementById('user-search').value.toLowerCase();
+            const filter = document.getElementById('user-filter').value;
+            
+            const filtered = users.filter(user => {
+                const matchesSearch = user.name.toLowerCase().includes(search) || user.email.toLowerCase().includes(search);
+                const matchesFilter = filter === 'all' || user.status === filter;
+                return matchesSearch && matchesFilter;
+            });
+            
+            const tbody = document.getElementById('users-table-body');
+            tbody.innerHTML = filtered.map(user => `
+                <tr>
+                    <td>
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-[#F4B41A] to-[#D49A12] flex items-center justify-center text-black font-bold">
+                                ${user.name.split(' ').map(n => n[0]).join('').substring(0, 2)}
+                            </div>
+                            <div>
+                                <p class="text-white font-semibold">${user.name}</p>
+                                <p class="text-gray-400 text-xs">Desde ${new Date(user.joined).toLocaleDateString('es-ES', { month: 'short', year: 'numeric' })}</p>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="text-gray-400 text-sm">${user.email}</td>
+                    <td class="text-gray-400 text-sm">${user.phone}</td>
+                    <td><span class="text-white font-semibold">${user.trips}</span></td>
+                    <td>
+                        <span class="status-${user.status} px-3 py-1 rounded-full text-xs font-semibold">
+                            ${user.status === 'active' ? 'Activo' : user.status === 'inactive' ? 'Inactivo' : 'Suspendido'}
+                        </span>
+                    </td>
+                    <td>
+                        <div class="flex items-center gap-2">
+                            <button onclick="viewUser(${user.id})" class="text-blue-400 hover:text-blue-300 p-2" title="Ver detalle">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <button onclick="toggleUserStatus(${user.id})" class="text-gray-400 hover:text-white p-2" title="${user.status === 'active' ? 'Desactivar' : 'Activar'}">
+                                <i class="fas fa-${user.status === 'active' ? 'ban' : 'check'}"></i>
+                            </button>
+                            <button onclick="deleteUser(${user.id})" class="text-red-400 hover:text-red-300 p-2" title="Eliminar">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // View User Detail
+        function viewUser(userId) {
+            const user = users.find(u => u.id === userId);
+            if (!user) return;
+            
+            const modalContent = document.getElementById('user-modal-content');
+            modalContent.innerHTML = `
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="w-20 h-20 rounded-full bg-gradient-to-br from-[#F4B41A] to-[#D49A12] flex items-center justify-center text-black font-bold text-2xl">
+                        ${user.name.split(' ').map(n => n[0]).join('').substring(0, 2)}
+                    </div>
+                    <div>
+                        <h4 class="text-white font-bold text-xl">${user.name}</h4>
+                        <p class="text-gray-400 text-sm">${user.email}</p>
+                        <span class="status-${user.status} px-3 py-1 rounded-full text-xs font-semibold mt-2 inline-block">
+                            ${user.status === 'active' ? 'Activo' : user.status === 'inactive' ? 'Inactivo' : 'Suspendido'}
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="grid sm:grid-cols-2 gap-4 mb-6">
+                    <div class="p-4 bg-[#1a1a1a] rounded-xl border border-gray-700">
+                        <p class="text-gray-400 text-xs mb-1"><i class="fas fa-phone mr-2 text-[#F4B41A]"></i>Teléfono</p>
+                        <p class="text-white font-semibold">${user.phone}</p>
+                    </div>
+                    <div class="p-4 bg-[#1a1a1a] rounded-xl border border-gray-700">
+                        <p class="text-gray-400 text-xs mb-1"><i class="fas fa-car mr-2 text-[#F4B41A]"></i>Viajes Totales</p>
+                        <p class="text-white font-semibold text-2xl">${user.trips}</p>
+                    </div>
+                    <div class="p-4 bg-[#1a1a1a] rounded-xl border border-gray-700">
+                        <p class="text-gray-400 text-xs mb-1"><i class="fas fa-calendar mr-2 text-[#F4B41A]"></i>Fecha de Registro</p>
+                        <p class="text-white font-semibold">${new Date(user.joined).toLocaleDateString('es-ES')}</p>
+                    </div>
+                    <div class="p-4 bg-[#1a1a1a] rounded-xl border border-gray-700">
+                        <p class="text-gray-400 text-xs mb-1"><i class="fas fa-dollar-sign mr-2 text-[#F4B41A]"></i>Gasto Total</p>
+                        <p class="text-white font-semibold text-2xl">S/ ${(user.trips * 65).toFixed(2)}</p>
+                    </div>
+                </div>
+                
+                <div class="flex gap-3">
+                    <button onclick="toggleUserStatus(${user.id}); closeUserModal();" class="flex-1 py-3 ${user.status === 'active' ? 'btn-danger' : 'btn-success'} rounded-xl font-semibold transition-colors">
+                        <i class="fas fa-${user.status === 'active' ? 'ban' : 'check'} mr-2"></i>${user.status === 'active' ? 'Suspender Usuario' : 'Activar Usuario'}
+                    </button>
+                    <button onclick="deleteUser(${user.id}); closeUserModal();" class="flex-1 py-3 bg-red-500/20 hover:bg-red-500/30 border border-red-500/50 text-red-400 rounded-xl font-semibold transition-colors">
+                        <i class="fas fa-trash mr-2"></i>Eliminar
+                    </button>
+                </div>
+            `;
+            
+            document.getElementById('user-modal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Close User Modal
+        function closeUserModal() {
+            document.getElementById('user-modal').classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+
+        // Toggle User Status
+        function toggleUserStatus(userId) {
+            const user = users.find(u => u.id === userId);
+            if (!user) return;
+            
+            const newStatus = user.status === 'active' ? 'suspended' : 'active';
+            user.status = newStatus;
+            loadUsers();
+            filterUsers();
+            
+            // Update recent users table too
+            loadRecentUsers();
+        }
+
+        // Delete User
+        function deleteUser(userId) {
+            currentUserAction = () => {
+                const index = users.findIndex(u => u.id === userId);
+                if (index > -1) {
+                    users.splice(index, 1);
+                    loadUsers();
+                    filterUsers();
+                    loadRecentUsers();
+                }
+                closeConfirmModal();
+            };
+            
+            document.getElementById('confirm-icon').innerHTML = '<i class="fas fa-trash text-red-400 text-2xl"></i>';
+            document.getElementById('confirm-title').textContent = '¿Eliminar usuario?';
+            document.getElementById('confirm-message').textContent = 'Esta acción no se puede deshacer. El usuario perderá acceso a la plataforma.';
+            document.getElementById('confirm-action-btn').className = 'flex-1 py-3 bg-red-500 hover:bg-red-600 text-white rounded-xl font-semibold transition-colors';
+            document.getElementById('confirm-action-btn').onclick = currentUserAction;
+            
+            document.getElementById('confirm-modal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Close Confirm Modal
+        function closeConfirmModal() {
+            document.getElementById('confirm-modal').classList.add('hidden');
+            document.body.style.overflow = '';
+            currentUserAction = null;
+        }
+
+        // Load Recent Users (for dashboard)
+        function loadRecentUsers() {
+            const tbody = document.getElementById('recent-users-table');
+            tbody.innerHTML = users.slice(0, 5).map(user => `
+                <tr>
+                    <td>
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-full bg-gradient-to-br from-[#F4B41A] to-[#D49A12] flex items-center justify-center text-black font-bold text-xs">
+                                ${user.name.split(' ').map(n => n[0]).join('').substring(0, 2)}
+                            </div>
+                            <span class="text-white text-sm font-medium">${user.name}</span>
+                        </div>
+                    </td>
+                    <td class="text-gray-400 text-sm">${user.email}</td>
+                    <td>
+                        <span class="status-${user.status} px-2 py-1 rounded-full text-xs font-semibold">
+                            ${user.status === 'active' ? 'Activo' : user.status === 'inactive' ? 'Inactivo' : 'Suspendido'}
+                        </span>
+                    </td>
+                    <td class="text-gray-400 text-sm">${new Date(user.joined).toLocaleDateString('es-ES', { day: 'numeric', month: 'short' })}</td>
+                </tr>
+            `).join('');
+        }
+
+        // Load Reservations
+        function loadReservations() {
+            const tbody = document.getElementById('reservations-table-body');
+            tbody.innerHTML = reservations.map(res => `
+                <tr>
+                    <td>
+                        <span class="text-white font-semibold">${res.id}</span>
+                        <p class="text-gray-400 text-xs">${res.date}</p>
+                    </td>
+                    <td class="text-white font-medium">${res.user}</td>
+                    <td>
+                        <p class="text-gray-400 text-xs"><i class="fas fa-map-marker-alt text-[#F4B41A] mr-1"></i>${res.from}</p>
+                        <p class="text-gray-400 text-xs"><i class="fas fa-location-arrow text-[#F4B41A] mr-1"></i>${res.to}</p>
+                    </td>
+                    <td class="text-white text-sm">${res.vehicle}</td>
+                    <td>
+                        <span class="status-${res.status} px-3 py-1 rounded-full text-xs font-semibold">
+                            ${res.status === 'confirmed' ? 'Confirmado' : res.status === 'pending' ? 'Pendiente' : res.status === 'cancelled' ? 'Cancelado' : 'Completado'}
+                        </span>
+                    </td>
+                    <td>
+                        <div class="flex items-center gap-2">
+                            <button class="text-blue-400 hover:text-blue-300 p-2" title="Ver detalle">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            ${res.status === 'pending' ? `
+                                <button class="text-green-400 hover:text-green-300 p-2" title="Confirmar">
+                                    <i class="fas fa-check"></i>
+                                </button>
+                                <button class="text-red-400 hover:text-red-300 p-2" title="Cancelar">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            ` : ''}
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // Filter Reservations
+        function filterReservations() {
+            const filter = document.getElementById('reservation-filter').value;
+            const filtered = filter === 'all' ? reservations : reservations.filter(r => r.status === filter);
+            
+            const tbody = document.getElementById('reservations-table-body');
+            tbody.innerHTML = filtered.map(res => `
+                <tr>
+                    <td>
+                        <span class="text-white font-semibold">${res.id}</span>
+                        <p class="text-gray-400 text-xs">${res.date}</p>
+                    </td>
+                    <td class="text-white font-medium">${res.user}</td>
+                    <td>
+                        <p class="text-gray-400 text-xs"><i class="fas fa-map-marker-alt text-[#F4B41A] mr-1"></i>${res.from}</p>
+                        <p class="text-gray-400 text-xs"><i class="fas fa-location-arrow text-[#F4B41A] mr-1"></i>${res.to}</p>
+                    </td>
+                    <td class="text-white text-sm">${res.vehicle}</td>
+                    <td>
+                        <span class="status-${res.status} px-3 py-1 rounded-full text-xs font-semibold">
+                            ${res.status === 'confirmed' ? 'Confirmado' : res.status === 'pending' ? 'Pendiente' : res.status === 'cancelled' ? 'Cancelado' : 'Completado'}
+                        </span>
+                    </td>
+                    <td>
+                        <div class="flex items-center gap-2">
+                            <button class="text-blue-400 hover:text-blue-300 p-2" title="Ver detalle">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            ${res.status === 'pending' ? `
+                                <button class="text-green-400 hover:text-green-300 p-2" title="Confirmar">
+                                    <i class="fas fa-check"></i>
+                                </button>
+                                <button class="text-red-400 hover:text-red-300 p-2" title="Cancelar">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            ` : ''}
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // Load Payments
+        function loadPayments() {
+            const tbody = document.getElementById('payments-table-body');
+            tbody.innerHTML = payments.map(pay => `
+                <tr>
+                    <td>
+                        <span class="text-white font-semibold">${pay.id}</span>
+                    </td>
+                    <td class="text-white font-medium">${pay.user}</td>
+                    <td class="text-gray-400 text-sm">${pay.method}</td>
+                    <td class="text-white font-semibold">${pay.amount}</td>
+                    <td>
+                        <span class="status-${pay.status} px-3 py-1 rounded-full text-xs font-semibold">
+                            ${pay.status === 'completed' ? 'Completado' : 'Pendiente'}
+                        </span>
+                    </td>
+                    <td class="text-gray-400 text-sm">${pay.date}</td>
+                </tr>
+            `).join('');
+        }
+
+        // Initialize
+        window.addEventListener('DOMContentLoaded', () => {
+            checkAuth();
+            loadRecentUsers();
+            
+            // Update stats
+            document.getElementById('total-users').textContent = users.length.toLocaleString();
+            document.getElementById('active-reservations').textContent = reservations.filter(r => r.status === 'confirmed').length;
+            document.getElementById('pending-reservations').textContent = reservations.filter(r => r.status === 'pending').length;
+        });
+    </script>
+</body>
+</html>
