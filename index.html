@@ -1102,34 +1102,32 @@
                     <a href="#como-funciona" class="text-gray-400 hover:text-[#F4B41A] transition-colors text-sm font-medium">Cómo Funciona</a>
                 </div>
 
-                <!-- Auth Buttons - Unified (Desktop & Mobile) -->
-                <div class="flex items-center gap-3">
+                <!-- Auth Buttons - Unified (Icon Only - All Devices) -->
+                <div class="flex items-center gap-2">
                     <!-- User Menu - Desktop (visible cuando logueado) -->
-                    <button id="desktop-user-menu-btn" onclick="openClientDashboard()" class="hidden lg:flex items-center gap-3 hover:opacity-80 transition-opacity" style="display: none;" aria-label="Mi Perfil">
+                    <button id="desktop-user-menu-btn" onclick="openClientDashboard()" class="hidden md:flex items-center gap-2 hover:opacity-80 transition-opacity" style="display: none;" aria-label="Mi Perfil">
                         <div class="w-8 h-8 rounded-full bg-gradient-to-br from-[#F4B41A] to-[#D49A12] flex items-center justify-center text-black font-bold text-sm">
                             <span class="user-avatar-initials">JP</span>
                         </div>
-                        <span class="text-white text-sm font-medium user-menu-name">Juan Pérez</span>
+                        <span class="text-white text-sm font-medium user-menu-name hidden lg:inline">Juan Pérez</span>
                     </button>
 
                     <!-- Auth Buttons - Desktop (visible cuando NO logueado) -->
-                    <div id="desktop-auth-buttons" class="hidden lg:flex items-center gap-3">
-                        <button onclick="openLoginModal()" class="text-gray-400 hover:text-[#F4B41A] transition-colors font-medium text-sm flex items-center gap-2 group" aria-label="Iniciar Sesión">
-                            <i class="fas fa-sign-in-alt text-[#F4B41A] group-hover:scale-110 transition-transform"></i>
-                            <span>Iniciar Sesión</span>
+                    <div id="desktop-auth-buttons" class="hidden md:flex items-center gap-2">
+                        <button onclick="openLoginModal()" class="w-9 h-9 rounded-full border border-gray-600 text-gray-400 hover:text-[#F4B41A] hover:border-[#F4B41A] transition-all flex items-center justify-center group" aria-label="Iniciar Sesión">
+                            <i class="fas fa-sign-in-alt text-sm group-hover:scale-110 transition-transform"></i>
                         </button>
-                        <button onclick="openRegisterModal()" class="bg-gradient-to-br from-[#F4B41A] to-[#D49A12] hover:from-[#FFC947] hover:to-[#F4B41A] text-black p-2.5 rounded-full transition-all shadow-lg hover:shadow-xl hover:scale-105 group" aria-label="Registrarse">
-                            <i class="fas fa-user-plus text-base group-hover:rotate-12 transition-transform"></i>
+                        <button onclick="openRegisterModal()" class="w-9 h-9 rounded-full bg-gradient-to-br from-[#F4B41A] to-[#D49A12] hover:from-[#FFC947] hover:to-[#F4B41A] text-black transition-all shadow-lg hover:shadow-xl hover:scale-105 flex items-center justify-center group" aria-label="Registrarse">
+                            <i class="fas fa-user-plus text-sm group-hover:rotate-12 transition-transform"></i>
                         </button>
                     </div>
 
-                    <!-- Auth Buttons - Mobile/Tablet (visible cuando NO logueado) -->
-                    <div id="mobile-auth-buttons-navbar" class="flex lg:hidden items-center gap-2">
-                        <button onclick="openLoginModal()" class="navbar-login-btn" aria-label="Iniciar Sesión">
-                            <i class="fas fa-sign-in-alt"></i>
-                            <span>Iniciar Sesión</span>
+                    <!-- Auth Buttons - Mobile (visible cuando NO logueado) -->
+                    <div id="mobile-auth-buttons-navbar" class="flex md:hidden items-center gap-2">
+                        <button onclick="openLoginModal()" class="w-9 h-9 rounded-full border border-gray-600 text-gray-400 hover:text-[#F4B41A] hover:border-[#F4B41A] transition-all flex items-center justify-center" aria-label="Iniciar Sesión">
+                            <i class="fas fa-sign-in-alt text-sm"></i>
                         </button>
-                        <button onclick="openRegisterModal()" class="navbar-register-btn" aria-label="Registrarse">
+                        <button onclick="openRegisterModal()" class="w-9 h-9 rounded-full bg-gradient-to-br from-[#F4B41A] to-[#D49A12] text-black transition-all shadow-lg flex items-center justify-center" aria-label="Registrarse">
                             <i class="fas fa-user-plus text-sm"></i>
                         </button>
                     </div>
@@ -3018,10 +3016,16 @@
             <p class="text-gray-400 mb-6">
                 Servicio premium con chofer profesional. Puntualidad y discreción garantizadas.
             </p>
-            <a href="https://wa.me/51933667414?text=Hola%20vi%20la%20demo%20de%20QORI%20y%20me%20interesan%20los%20traslados%20ejecutivos.%0A%0AQuiero%20activar%20esta%20web%20para%20mi%20servicio%20de%20transporte.%20%C2%BFC%C3%B3mo%20puedo%20empezar%3F" class="btn-primary inline-flex items-center gap-3 px-8 py-4 rounded-full text-base font-bold">
-                <i class="fab fa-whatsapp text-xl"></i>
-                Activar Esta Demo
-            </a>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                <a href="https://wa.me/51933667414?text=Hola%20vi%20la%20demo%20de%20QORI%20y%20me%20interesan%20los%20traslados%20ejecutivos.%0A%0AQuiero%20activar%20esta%20web%20para%20mi%20servicio%20de%20transporte.%20%C2%BFC%C3%B3mo%20puedo%20empezar%3F" class="btn-primary inline-flex items-center gap-3 px-8 py-4 rounded-full text-base font-bold">
+                    <i class="fab fa-whatsapp text-xl"></i>
+                    Activar Esta Demo
+                </a>
+                <button onclick="shareOnWhatsApp()" class="inline-flex items-center gap-3 px-8 py-4 rounded-full text-base font-bold bg-green-600 hover:bg-green-700 text-white transition-all transform hover:scale-105 shadow-lg">
+                    <i class="fab fa-whatsapp text-xl"></i>
+                    Compartir
+                </button>
+            </div>
         </div>
     </section>
 
@@ -3878,38 +3882,68 @@ Probe el cotizador con estos datos:
             // Initialize Hero Slider
             initHeroSlider();
 
-            // Register Service Worker (PWA) - Simple y robusto
+            // Register Service Worker (PWA) - Con actualizacion automatica en Desktop
             if ('serviceWorker' in navigator) {
-                navigator.serviceWorker.register('/sw.js')
+                // Registrar con scope completo
+                navigator.serviceWorker.register('/sw.js', { scope: '/' })
                     .then(registration => {
                         console.log('[SW] Service Worker registrado:', registration.scope);
                         
+                        // Forzar verificacion de actualizacion cada vez que se carga la pagina
+                        registration.update();
+
                         // Detectar cuando hay una nueva version
                         registration.addEventListener('updatefound', () => {
                             const newWorker = registration.installing;
                             console.log('[SW] Nueva version encontrada');
-                            
+
                             newWorker.addEventListener('statechange', () => {
                                 if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                                    // Mostrar boton de actualizar
+                                    // Nueva version disponible - mostrar boton de actualizar
                                     const updateBtn = document.getElementById('update-app-btn');
                                     if (updateBtn) {
                                         updateBtn.style.display = 'flex';
                                         updateBtn.onclick = () => {
                                             newWorker.postMessage({ action: 'skipWaiting' });
-                                            window.location.reload();
                                         };
                                     }
+                                    // Notificar al usuario
+                                    if ('Notification' in window && Notification.permission === 'granted') {
+                                        new Notification('Actualización disponible', {
+                                            body: 'Hay una nueva versión de QORI disponible. Recarga para actualizar.',
+                                            icon: '/icon-192.png',
+                                            badge: '/icon-192.png'
+                                        });
+                                    }
+                                } else if (newWorker.state === 'installed' && !navigator.serviceWorker.controller) {
+                                    // Primera instalacion - activar inmediatamente
+                                    console.log('[SW] Primera instalacion, activando');
+                                    newWorker.postMessage({ action: 'skipWaiting' });
                                 }
                             });
+                        });
+                        
+                        // Escuchar mensajes del service worker
+                        navigator.serviceWorker.addEventListener('message', event => {
+                            if (event.data && event.data.type === 'SW_UPDATED') {
+                                console.log('[SW] Nueva version detectada:', event.data.version);
+                                // Mostrar notificacion de actualizacion
+                                const updateBtn = document.getElementById('update-app-btn');
+                                if (updateBtn) {
+                                    updateBtn.style.display = 'flex';
+                                }
+                            }
                         });
                     })
                     .catch(error => {
                         console.error('[SW] Error al registrar:', error);
                     });
-                
-                // Recargar cuando el SW tome control
+
+                // Recargar automaticamente cuando el SW tome control
+                let refreshing = false;
                 navigator.serviceWorker.addEventListener('controllerchange', () => {
+                    if (refreshing) return;
+                    refreshing = true;
                     console.log('[SW] Service Worker actualizado, recargando...');
                     window.location.reload();
                 });
@@ -4289,45 +4323,95 @@ Probe el cotizador con estos datos:
             alert('Funcionalidad de reserva rápida en desarrollo. Esto es una demo.');
         });
 
-        // Handle form submissions (demo con toasts)
+        // Handle form submissions (demo con toasts y loading states)
         document.getElementById('login-form')?.addEventListener('submit', (e) => {
             e.preventDefault();
+            
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+            const originalContent = submitBtn.innerHTML;
             const email = e.target.querySelector('input[type="email"]').value.trim().toLowerCase();
             const password = e.target.querySelector('input[type="password"]').value;
-            
-            // Verificar si es login de administrador
-            if (email === 'admin@qori.com') {
-                // Validar contraseña de admin
-                if (password === '1234') {
-                    showToast('¡Autenticación exitosa! Redirigiendo...', 'success');
-                    localStorage.removeItem('qori_user_logged_in'); // Clear user session
-                    localStorage.setItem('qori_admin_logged_in', 'true');
-                    setTimeout(() => {
-                        window.location.href = 'admin-dashboard.html';
-                    }, 1500);
+
+            // Loading state
+            submitBtn.innerHTML = `
+                <svg class="animate-spin w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                <span>Verificando credenciales...</span>
+            `;
+            submitBtn.disabled = true;
+            submitBtn.classList.add('opacity-75', 'cursor-not-allowed');
+
+            // Simular proceso de autenticación
+            setTimeout(() => {
+                // Verificar si es login de administrador
+                if (email === 'admin@qori.com') {
+                    // Validar contraseña de admin
+                    if (password === '1234') {
+                        showToast('¡Autenticación exitosa! Redirigiendo...', 'success');
+                        localStorage.removeItem('qori_user_logged_in');
+                        localStorage.setItem('qori_admin_logged_in', 'true');
+                        setTimeout(() => {
+                            window.location.href = 'admin-dashboard.html';
+                        }, 1000);
+                    } else {
+                        showToast('Contraseña incorrecta', 'error');
+                        // Restaurar botón
+                        submitBtn.innerHTML = originalContent;
+                        submitBtn.disabled = false;
+                        submitBtn.classList.remove('opacity-75', 'cursor-not-allowed');
+                    }
                 } else {
-                    showToast('Contraseña incorrecta', 'error');
+                    // Login de usuario normal
+                    showToast('¡Bienvenido de nuevo!', 'success');
+                    localStorage.removeItem('qori_admin_logged_in');
+                    localStorage.setItem('qori_user_logged_in', 'true');
+                    
+                    // Restaurar botón
+                    submitBtn.innerHTML = originalContent;
+                    submitBtn.disabled = false;
+                    submitBtn.classList.remove('opacity-75', 'cursor-not-allowed');
+                    
+                    setTimeout(() => {
+                        window.location.href = 'dashboard.html';
+                    }, 1000);
                 }
-            } else {
-                // Login de usuario normal
-                showToast('¡Bienvenido de nuevo!', 'success');
-                localStorage.removeItem('qori_admin_logged_in'); // Clear admin session
-                localStorage.setItem('qori_user_logged_in', 'true');
-                setTimeout(() => {
-                    window.location.href = 'dashboard.html';
-                }, 1000);
-            }
+            }, 1500);
         });
 
         document.getElementById('register-form')?.addEventListener('submit', (e) => {
             e.preventDefault();
-            showToast('¡Cuenta creada exitosamente!', 'success');
+            
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+            const originalContent = submitBtn.innerHTML;
+            
+            // Loading state
+            submitBtn.innerHTML = `
+                <svg class="animate-spin w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                <span>Creando cuenta...</span>
+            `;
+            submitBtn.disabled = true;
+            submitBtn.classList.add('opacity-75', 'cursor-not-allowed');
+            
             // Simular registro exitoso (limpiando session de admin)
-            localStorage.removeItem('qori_admin_logged_in');
-            localStorage.setItem('qori_user_logged_in', 'true');
             setTimeout(() => {
-                window.location.href = 'dashboard.html';
-            }, 1000);
+                showToast('¡Cuenta creada exitosamente!', 'success');
+                localStorage.removeItem('qori_admin_logged_in');
+                localStorage.setItem('qori_user_logged_in', 'true');
+                
+                // Restaurar botón
+                submitBtn.innerHTML = originalContent;
+                submitBtn.disabled = false;
+                submitBtn.classList.remove('opacity-75', 'cursor-not-allowed');
+                
+                setTimeout(() => {
+                    window.location.href = 'dashboard.html';
+                }, 1000);
+            }, 1500);
         });
 
         // Check login state on page load

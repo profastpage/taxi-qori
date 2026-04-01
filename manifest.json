@@ -2,11 +2,13 @@
   "name": "QORI Traslados Ejecutivos",
   "short_name": "QORI",
   "description": "Servicio de transporte ejecutivo A1. Lujo, seguridad y puntualidad.",
-  "start_url": "/",
+  "start_url": "/index.html",
+  "scope": "/",
   "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone", "minimal-ui"],
   "background_color": "#0a0a0a",
   "theme_color": "#0D3B4A",
-  "orientation": "portrait-primary",
+  "orientation": "any",
   "icons": [
     {
       "src": "icon-512.svg",
@@ -15,13 +17,12 @@
       "purpose": "any maskable"
     }
   ],
-  "categories": ["travel", "business"],
   "screenshots": [
     {
-      "src": "screenshot-mobile.png",
-      "sizes": "1080x1920",
+      "src": "screenshot-desktop.png",
+      "sizes": "1920x1080",
       "type": "image/png",
-      "form_factor": "narrow"
+      "form_factor": "wide"
     }
   ],
   "shortcuts": [
@@ -30,23 +31,17 @@
       "short_name": "Cotizar",
       "description": "Cotizar traslado ejecutivo",
       "url": "/#cotizador",
-      "icons": [{ "src": "icon-192.png", "sizes": "192x192" }]
+      "icons": [{ "src": "icon-512.svg", "sizes": "512x512" }]
     },
     {
       "name": "Llamar Ahora",
       "short_name": "Llamar",
       "description": "Llamar a QORI",
       "url": "tel:+51933667414",
-      "icons": [{ "src": "icon-192.png", "sizes": "192x192" }]
+      "icons": [{ "src": "icon-512.svg", "sizes": "512x512" }]
     }
   ],
-  "share_target": {
-    "action": "/share",
-    "method": "GET",
-    "params": {
-      "title": "title",
-      "text": "text",
-      "url": "url"
-    }
-  }
+  "categories": ["travel", "business", "transport"],
+  "lang": "es",
+  "dir": "ltr"
 }
