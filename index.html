@@ -3920,14 +3920,11 @@ Probe el cotizador con estos datos:
                 btn.disabled = false;
                 btn.classList.remove('opacity-75');
 
-                // Mostrar mensaje de éxito y abrir dashboard
-                const successMessage = type === 'login'
-                    ? '✓ Conexión con Google exitosa (Demo)'
-                    : '✓ Cuenta creada con Google (Demo)';
-
-                alert(`${successMessage}\n\nAbriendo tu panel de cliente...`);
-                closeLoginModal();
-                openClientDashboard();
+                // Simular login exitoso y redirigir al dashboard
+                localStorage.setItem('qori_user_logged_in', 'true');
+                
+                // Redirigir a la página del dashboard
+                window.location.href = 'dashboard.html';
             }, 2000);
         }
 
@@ -4008,18 +4005,16 @@ Probe el cotizador con estos datos:
         // Handle form submissions (demo)
         document.getElementById('login-form')?.addEventListener('submit', (e) => {
             e.preventDefault();
-            // Simular login exitoso
-            simulateLogin();
-            closeLoginModal();
-            openClientDashboard();
+            // Simular login exitoso y redirigir al dashboard
+            localStorage.setItem('qori_user_logged_in', 'true');
+            window.location.href = 'dashboard.html';
         });
 
         document.getElementById('register-form')?.addEventListener('submit', (e) => {
             e.preventDefault();
-            // Simular registro exitoso
-            simulateLogin();
-            closeRegisterModal();
-            openClientDashboard();
+            // Simular registro exitoso y redirigir al dashboard
+            localStorage.setItem('qori_user_logged_in', 'true');
+            window.location.href = 'dashboard.html';
         });
 
         // Check login state on page load

@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Panel - QORI Traslados Ejecutivos</title>
+    <meta name="description" content="Panel de cliente QORI - Gestiona tus reservas y pagos">
+    <meta name="theme-color" content="#0D3B4A">
+    
+    <!-- Cache Control -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+
+    <!-- PWA Meta Tags -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="QORI Dashboard">
+
+    <!-- Preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://cdn.tailwindcss.com">
+
+    <!-- Google Fonts -->
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"></noscript>
+
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            teal: '#0D3B4A',
+                            tealDark: '#082830',
+                            tealLight: '#145263',
+                            gold: '#F4B41A',
+                            goldDark: '#D49A12',
+                            black: '#0a0a0a',
+                            dark: '#121212',
+                            gray: '#1a1a1a',
+                            light: '#f5f5f5'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Styles -->
+    <style>
+        * {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: #0a0a0a;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        /* Glass Effect */
+        .glass {
+            background: rgba(26, 26, 26, 0.8);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .glass-nav {
+            background: rgba(10, 20, 30, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1a1a1a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #F4B41A;
+            border-radius: 4px;
+        }
+
+        /* Buttons */
+        .btn-primary {
+            background: linear-gradient(135deg, #F4B41A 0%, #D49A12 100%);
+            color: #0a0a0a;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(244, 180, 26, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(244, 180, 26, 0.4);
+        }
+
+        /* Input Fields */
+        .input-field {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: #F4B41A;
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 0 0 3px rgba(244, 180, 26, 0.1);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-fade-in {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+
+        /* Status Badges */
+        .status-confirmed {
+            background: rgba(34, 197, 94, 0.2);
+            color: #22c55e;
+        }
+
+        .status-pending {
+            background: rgba(234, 179, 8, 0.2);
+            color: #eab308;
+        }
+
+        .status-cancelled {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+        }
+
+        .status-completed {
+            background: rgba(34, 197, 94, 0.2);
+            color: #22c55e;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 glass-nav transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <a href="index.html" class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-[#F4B41A] to-[#D49A12] flex items-center justify-center">
+                        <span class="text-black font-bold text-lg">Q</span>
+                    </div>
+                    <div class="hidden sm:block">
+                        <p class="text-white font-bold text-sm">QORI</p>
+                        <p class="text-[#F4B41A] text-xs">Traslados Ejecutivos</p>
+                    </div>
+                </a>
+
+                <div class="flex items-center gap-4">
+                    <div class="hidden md:flex items-center gap-3">
+                        <div class="w-9 h-9 rounded-full bg-gradient-to-br from-[#F4B41A] to-[#D49A12] flex items-center justify-center text-black font-bold text-sm">
+                            JP
+                        </div>
+                        <div>
+                            <p class="text-white text-sm font-semibold">Juan Pérez</p>
+                            <p class="text-gray-400 text-xs">Cliente Premium</p>
+                        </div>
+                    </div>
+                    <button onclick="logout()" class="text-gray-400 hover:text-red-400 transition-colors p-2" aria-label="Cerrar Sesión">
+                        <i class="fas fa-sign-out-alt text-lg"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="pt-24 pb-16 px-4 min-h-screen">
+        <div class="max-w-7xl mx-auto">
+            
+            <!-- Welcome Header -->
+            <div class="mb-8 animate-fade-in">
+                <h1 class="text-3xl sm:text-4xl font-extrabold text-white mb-2">
+                    ¡Bienvenido, <span class="text-[#F4B41A]">Juan</span>! 👋
+                </h1>
+                <p class="text-gray-400">Gestiona tus reservas y métodos de pago en un solo lugar.</p>
+            </div>
+
+            <div class="grid lg:grid-cols-4 gap-6">
+                
+                <!-- Left Sidebar - Quick Actions -->
+                <div class="lg:col-span-1 space-y-4">
+                    
+                    <!-- Quick Reserve Card -->
+                    <div class="glass border border-gray-800 rounded-2xl p-5 animate-fade-in delay-1">
+                        <h3 class="text-white font-bold mb-4 flex items-center gap-2">
+                            <i class="fas fa-plus-circle text-[#F4B41A]"></i>
+                            Reserva Rápida
+                        </h3>
+                        <form id="quick-reserve-form" class="space-y-3">
+                            <div>
+                                <label class="block text-xs text-gray-400 mb-1">Origen</label>
+                                <div class="relative">
+                                    <i class="fas fa-map-marker-alt text-[#F4B41A] absolute left-3 top-1/2 -translate-y-1/2"></i>
+                                    <input type="text" class="w-full bg-[#1a1a1a] border border-gray-700 rounded-xl py-2.5 pl-10 pr-3 text-white text-sm focus:border-[#F4B41A] focus:ring-1 focus:ring-[#F4B41A]" placeholder="Dirección de origen">
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-xs text-gray-400 mb-1">Destino</label>
+                                <div class="relative">
+                                    <i class="fas fa-location-arrow text-[#F4B41A] absolute left-3 top-1/2 -translate-y-1/2"></i>
+                                    <input type="text" class="w-full bg-[#1a1a1a] border border-gray-700 rounded-xl py-2.5 pl-10 pr-3 text-white text-sm focus:border-[#F4B41A] focus:ring-1 focus:ring-[#F4B41A]" placeholder="Dirección de destino">
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-xs text-gray-400 mb-1">Vehículo</label>
+                                <select class="w-full bg-[#1a1a1a] border border-gray-700 rounded-xl py-2.5 px-3 text-white text-sm focus:border-[#F4B41A] focus:ring-1 focus:ring-[#F4B41A]">
+                                    <option value="sedan">Sedán Ejecutivo</option>
+                                    <option value="suv">SUV Premium</option>
+                                    <option value="van">Van VIP</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="w-full btn-primary py-3 rounded-xl font-bold text-sm flex items-center justify-center gap-2">
+                                <i class="fas fa-car"></i>
+                                Cotizar Ahora
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Payment Method -->
+                    <div class="glass border border-gray-800 rounded-2xl p-5 animate-fade-in delay-2">
+                        <h3 class="text-white font-bold mb-4 flex items-center gap-2">
+                            <i class="fas fa-credit-card text-[#F4B41A]"></i>
+                            Método de Pago
+                        </h3>
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-between p-3 bg-[#1a1a1a] rounded-xl border border-gray-700">
+                                <div class="flex items-center gap-3">
+                                    <i class="fab fa-cc-visa text-2xl text-blue-400"></i>
+                                    <div>
+                                        <p class="text-white text-sm font-medium">Visa •••• 4532</p>
+                                        <p class="text-xs text-gray-500">Exp 12/2026</p>
+                                    </div>
+                                </div>
+                                <span class="text-xs bg-green-500/20 text-green-400 px-2 py-1 rounded-full">Activo</span>
+                            </div>
+                            <button class="w-full py-2.5 border border-dashed border-gray-700 rounded-xl text-gray-400 hover:text-[#F4B41A] hover:border-[#F4B41A] transition-all text-sm flex items-center justify-center gap-2">
+                                <i class="fas fa-plus"></i>
+                                Agregar método
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Notifications -->
+                    <div class="glass border border-gray-800 rounded-2xl p-5 animate-fade-in delay-3">
+                        <h3 class="text-white font-bold mb-4 flex items-center gap-2">
+                            <i class="fas fa-bell text-[#F4B41A]"></i>
+                            Notificaciones
+                            <span class="ml-auto bg-[#F4B41A] text-black text-xs font-bold px-2 py-0.5 rounded-full">2</span>
+                        </h3>
+                        <div class="space-y-3">
+                            <div class="p-3 bg-[#1a1a1a] rounded-xl border border-gray-700">
+                                <div class="flex items-start gap-3">
+                                    <div class="w-2 h-2 bg-[#F4B41A] rounded-full mt-1.5 flex-shrink-0"></div>
+                                    <div>
+                                        <p class="text-white text-sm">Reserva confirmada para mañana 9:00 AM</p>
+                                        <p class="text-xs text-gray-500 mt-1">Hace 5 min</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="p-3 bg-[#1a1a1a] rounded-xl border border-gray-700">
+                                <div class="flex items-start gap-3">
+                                    <div class="w-2 h-2 bg-blue-400 rounded-full mt-1.5 flex-shrink-0"></div>
+                                    <div>
+                                        <p class="text-white text-sm">Promoción: 15% OFF en tu próximo viaje</p>
+                                        <p class="text-xs text-gray-500 mt-1">Hace 2 horas</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main Content - Reservations & History -->
+                <div class="lg:col-span-3 space-y-6">
+                    
+                    <!-- Stats Cards -->
+                    <div class="grid sm:grid-cols-3 gap-4">
+                        <div class="glass border border-gray-800 rounded-2xl p-5">
+                            <div class="flex items-center gap-3">
+                                <div class="w-12 h-12 rounded-xl bg-green-500/20 flex items-center justify-center">
+                                    <i class="fas fa-check-circle text-green-400 text-xl"></i>
+                                </div>
+                                <div>
+                                    <p class="text-gray-400 text-xs">Viajes Completados</p>
+                                    <p class="text-2xl font-bold text-white">24</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="glass border border-gray-800 rounded-2xl p-5">
+                            <div class="flex items-center gap-3">
+                                <div class="w-12 h-12 rounded-xl bg-yellow-500/20 flex items-center justify-center">
+                                    <i class="fas fa-clock text-yellow-400 text-xl"></i>
+                                </div>
+                                <div>
+                                    <p class="text-gray-400 text-xs">Viajes Pendientes</p>
+                                    <p class="text-2xl font-bold text-white">2</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="glass border border-gray-800 rounded-2xl p-5">
+                            <div class="flex items-center gap-3">
+                                <div class="w-12 h-12 rounded-xl bg-[#F4B41A]/20 flex items-center justify-center">
+                                    <i class="fas fa-wallet text-[#F4B41A] text-xl"></i>
+                                </div>
+                                <div>
+                                    <p class="text-gray-400 text-xs">Gasto Total</p>
+                                    <p class="text-2xl font-bold text-white">S/ 1,240</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Active Reservations -->
+                    <div class="glass border border-gray-800 rounded-2xl p-5">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-white font-bold flex items-center gap-2">
+                                <i class="fas fa-calendar-check text-[#F4B41A]"></i>
+                                Reservas Activas
+                            </h3>
+                            <button class="text-xs text-[#F4B41A] hover:text-[#D49A12] transition-colors">Ver todas</button>
+                        </div>
+                        <div class="space-y-3">
+                            <!-- Active Reservation Card -->
+                            <div class="p-4 bg-[#1a1a1a] rounded-xl border border-gray-700 hover:border-gray-600 transition-colors">
+                                <div class="flex items-start justify-between mb-3">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-[#F4B41A] to-[#D49A12] flex items-center justify-center">
+                                            <i class="fas fa-car text-black"></i>
+                                        </div>
+                                        <div>
+                                            <p class="text-white font-semibold">SUV Premium</p>
+                                            <p class="text-xs text-gray-400">Reserva #RES-2024-0892</p>
+                                        </div>
+                                    </div>
+                                    <span class="status-confirmed px-3 py-1 rounded-full text-xs font-semibold flex items-center gap-1">
+                                        <i class="fas fa-check-circle"></i>
+                                        Confirmado
+                                    </span>
+                                </div>
+                                <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-3 text-sm">
+                                    <div class="flex items-center gap-2 text-gray-400">
+                                        <i class="fas fa-map-marker-alt text-[#F4B41A]"></i>
+                                        <span class="text-white">Av. Larco 123, Miraflores</span>
+                                    </div>
+                                    <div class="flex items-center gap-2 text-gray-400">
+                                        <i class="fas fa-location-arrow text-[#F4B41A]"></i>
+                                        <span class="text-white">Jorge Chávez Airport</span>
+                                    </div>
+                                    <div class="flex items-center gap-2 text-gray-400">
+                                        <i class="fas fa-calendar text-[#F4B41A]"></i>
+                                        <span class="text-white">Mañana, 9:00 AM</span>
+                                    </div>
+                                    <div class="flex items-center gap-2 text-gray-400">
+                                        <i class="fas fa-tag text-[#F4B41A]"></i>
+                                        <span class="text-white">S/ 120.00</span>
+                                    </div>
+                                </div>
+                                <div class="flex flex-wrap gap-2 mt-4">
+                                    <button class="flex-1 min-w-[140px] py-2 bg-[#F4B41A] hover:bg-[#D49A12] text-black rounded-lg font-semibold text-sm transition-colors">
+                                        <i class="fas fa-phone mr-2"></i>Contactar conductor
+                                    </button>
+                                    <button class="flex-1 min-w-[140px] py-2 border border-gray-700 hover:border-[#F4B41A] text-gray-400 hover:text-white rounded-lg font-semibold text-sm transition-colors">
+                                        <i class="fas fa-times mr-2"></i>Cancelar
+                                    </button>
+                                    <button class="flex-1 min-w-[140px] py-2 border border-gray-700 hover:border-[#F4B41A] text-gray-400 hover:text-white rounded-lg font-semibold text-sm transition-colors">
+                                        <i class="fas fa-map mr-2"></i>Ver ruta
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Pending Reservation Card -->
+                            <div class="p-4 bg-[#1a1a1a] rounded-xl border border-gray-700 hover:border-gray-600 transition-colors">
+                                <div class="flex items-start justify-between mb-3">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-10 h-10 rounded-lg bg-gray-700 flex items-center justify-center">
+                                            <i class="fas fa-car text-gray-400"></i>
+                                        </div>
+                                        <div>
+                                            <p class="text-white font-semibold">Sedán Ejecutivo</p>
+                                            <p class="text-xs text-gray-400">Reserva #RES-2024-0845</p>
+                                        </div>
+                                    </div>
+                                    <span class="status-pending px-3 py-1 rounded-full text-xs font-semibold flex items-center gap-1">
+                                        <i class="fas fa-clock"></i>
+                                        Pendiente
+                                    </span>
+                                </div>
+                                <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-3 text-sm">
+                                    <div class="flex items-center gap-2 text-gray-400">
+                                        <i class="fas fa-map-marker-alt text-[#F4B41A]"></i>
+                                        <span class="text-white">CC Jockey Plaza</span>
+                                    </div>
+                                    <div class="flex items-center gap-2 text-gray-400">
+                                        <i class="fas fa-location-arrow text-[#F4B41A]"></i>
+                                        <span class="text-white">San Isidro</span>
+                                    </div>
+                                    <div class="flex items-center gap-2 text-gray-400">
+                                        <i class="fas fa-calendar text-[#F4B41A]"></i>
+                                        <span class="text-white">25 Abr, 2:30 PM</span>
+                                    </div>
+                                    <div class="flex items-center gap-2 text-gray-400">
+                                        <i class="fas fa-tag text-[#F4B41A]"></i>
+                                        <span class="text-white">S/ 45.00</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Past Reservations -->
+                    <div class="glass border border-gray-800 rounded-2xl p-5">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-white font-bold flex items-center gap-2">
+                                <i class="fas fa-history text-[#F4B41A]"></i>
+                                Historial de Viajes
+                            </h3>
+                            <button class="text-xs text-[#F4B41A] hover:text-[#D49A12] transition-colors">Ver todo</button>
+                        </div>
+                        <div class="space-y-2">
+                            <!-- Past Trip Item -->
+                            <div class="flex items-center justify-between p-3 bg-[#1a1a1a] rounded-xl border border-gray-700 hover:border-gray-600 transition-colors">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded-lg bg-gray-700 flex items-center justify-center">
+                                        <i class="fas fa-car text-gray-400 text-sm"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-white text-sm font-medium">Sedán Ejecutivo</p>
+                                        <p class="text-xs text-gray-500">15 Abr 2024 • S/ 65.00</p>
+                                    </div>
+                                </div>
+                                <span class="status-completed px-2 py-1 rounded-full text-xs font-semibold">Completado</span>
+                            </div>
+                            <!-- Past Trip Item -->
+                            <div class="flex items-center justify-between p-3 bg-[#1a1a1a] rounded-xl border border-gray-700 hover:border-gray-600 transition-colors">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded-lg bg-gray-700 flex items-center justify-center">
+                                        <i class="fas fa-car text-gray-400 text-sm"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-white text-sm font-medium">SUV Premium</p>
+                                        <p class="text-xs text-gray-500">10 Abr 2024 • S/ 150.00</p>
+                                    </div>
+                                </div>
+                                <span class="status-completed px-2 py-1 rounded-full text-xs font-semibold">Completado</span>
+                            </div>
+                            <!-- Cancelled Trip Item -->
+                            <div class="flex items-center justify-between p-3 bg-[#1a1a1a] rounded-xl border border-gray-700 hover:border-gray-600 transition-colors">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded-lg bg-gray-700 flex items-center justify-center">
+                                        <i class="fas fa-car text-gray-400 text-sm"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-white text-sm font-medium">Van VIP</p>
+                                        <p class="text-xs text-gray-500">5 Abr 2024 • S/ 200.00</p>
+                                    </div>
+                                </div>
+                                <span class="status-cancelled px-2 py-1 rounded-full text-xs font-semibold">Cancelado</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Payment History / Invoices -->
+                    <div class="glass border border-gray-800 rounded-2xl p-5">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-white font-bold flex items-center gap-2">
+                                <i class="fas fa-file-invoice-dollar text-[#F4B41A]"></i>
+                                Facturas y Pagos
+                            </h3>
+                            <button class="text-xs text-[#F4B41A] hover:text-[#D49A12] transition-colors">Descargar todas</button>
+                        </div>
+                        <div class="space-y-2">
+                            <!-- Invoice Item -->
+                            <div class="flex items-center justify-between p-3 bg-[#1a1a1a] rounded-xl border border-gray-700 hover:border-gray-600 transition-colors">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded-lg bg-[#F4B41A]/20 flex items-center justify-center">
+                                        <i class="fas fa-file-pdf text-[#F4B41A] text-sm"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-white text-sm font-medium">Factura F001-2589</p>
+                                        <p class="text-xs text-gray-500">15 Abr 2024</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-3">
+                                    <span class="text-white text-sm font-semibold">S/ 65.00</span>
+                                    <button class="text-[#F4B41A] hover:text-[#D49A12] p-2">
+                                        <i class="fas fa-download"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <!-- Invoice Item -->
+                            <div class="flex items-center justify-between p-3 bg-[#1a1a1a] rounded-xl border border-gray-700 hover:border-gray-600 transition-colors">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded-lg bg-[#F4B41A]/20 flex items-center justify-center">
+                                        <i class="fas fa-file-pdf text-[#F4B41A] text-sm"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-white text-sm font-medium">Factura F001-2456</p>
+                                        <p class="text-xs text-gray-500">10 Abr 2024</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-3">
+                                    <span class="text-white text-sm font-semibold">S/ 150.00</span>
+                                    <button class="text-[#F4B41A] hover:text-[#D49A12] p-2">
+                                        <i class="fas fa-download"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Logout Confirmation Modal -->
+    <div id="logout-modal" class="fixed inset-0 z-[9999] hidden">
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="closeLogoutModal()"></div>
+        <div class="relative min-h-screen flex items-center justify-center p-4">
+            <div class="relative bg-[#1a1a1a] rounded-3xl w-full max-w-md p-8 shadow-2xl border border-gray-800">
+                <div class="text-center">
+                    <div class="w-16 h-16 rounded-full bg-red-500/20 flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-sign-out-alt text-red-400 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2">¿Cerrar Sesión?</h3>
+                    <p class="text-gray-400 text-sm mb-6">Tendrás que iniciar sesión nuevamente para acceder a tu panel.</p>
+                    <div class="flex gap-3">
+                        <button onclick="closeLogoutModal()" class="flex-1 py-3 border border-gray-700 hover:border-gray-600 text-gray-400 hover:text-white rounded-xl font-semibold transition-colors">
+                            Cancelar
+                        </button>
+                        <button onclick="confirmLogout()" class="flex-1 py-3 bg-red-500 hover:bg-red-600 text-white rounded-xl font-semibold transition-colors">
+                            Sí, Cerrar Sesión
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FontAwesome -->
+    <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
+
+    <!-- Scripts -->
+    <script>
+        // Check if user is logged in
+        function checkAuth() {
+            const isLoggedIn = localStorage.getItem('qori_user_logged_in') === 'true';
+            if (!isLoggedIn) {
+                // Redirigir al login si no está logueado
+                window.location.href = 'index.html?login=required';
+            }
+        }
+
+        // Logout Functions
+        function logout() {
+            document.getElementById('logout-modal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLogoutModal() {
+            document.getElementById('logout-modal').classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+
+        function confirmLogout() {
+            localStorage.removeItem('qori_user_logged_in');
+            window.location.href = 'index.html?logged=out';
+        }
+
+        // Close modal on Escape
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeLogoutModal();
+            }
+        });
+
+        // Quick Reserve Form Handler
+        document.getElementById('quick-reserve-form')?.addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('Funcionalidad de reserva rápida en desarrollo. Esto es una demo.');
+        });
+
+        // Check auth on load
+        checkAuth();
+    </script>
+</body>
+</html>
