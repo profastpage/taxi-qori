@@ -1,5 +1,5 @@
 // Service Worker para QORI PWA - Actualización inmediata en móviles
-const CACHE_NAME = 'qori-v3'; // Incrementado para forzar nueva instalación
+const CACHE_NAME = 'qori-v4'; // Nueva versión para forzar reinstalación
 const urlsToCache = [
   '/',
   '/index.html',
@@ -12,11 +12,11 @@ self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then(cache => {
-        console.log('Cache abierto');
+        console.log('[SW] Cacheando recursos críticos');
         return cache.addAll(urlsToCache);
       })
       .then(() => {
-        console.log('[SW] Forzando skipWaiting inmediatamente');
+        console.log('[SW] Forzando activación inmediata');
         self.skipWaiting();
       })
   );
@@ -30,49 +30,45 @@ self.addEventListener('activate', event => {
       return Promise.all(
         cacheNames.map(cacheName => {
           if (cacheName !== CACHE_NAME) {
-            console.log('Eliminando cache viejo:', cacheName);
+            console.log('[SW] Eliminando cache viejo:', cacheName);
             return caches.delete(cacheName);
           }
         })
       );
     })
     .then(() => {
-      console.log('[SW] Tomando control inmediato de todos los clientes');
+      console.log('[SW] Tomando control de todos los clientes');
       return self.clients.claim();
     })
   );
 });
 
-// Fetch event - Network first con cache-busting para HTML
+// Fetch event - Network first con fallback a cache
 self.addEventListener('fetch', event => {
+  // Solo manejar peticiones GET
+  if (event.request.method !== 'GET') {
+    return;
+  }
+
   const requestUrl = new URL(event.request.url);
   
-  // Para navegación HTML, SIEMPRE ir a red con cache-busting
-  if (event.request.mode === 'navigate' || event.request.headers.get('accept')?.includes('text/html')) {
+  // Para navegación HTML (páginas)
+  if (event.request.mode === 'navigate') {
     event.respondWith(
       (async () => {
         try {
-          // Agregar cache-busting para forzar nueva versión
-          const bustUrl = new URL(event.request.url);
-          bustUrl.searchParams.set('_swCacheBust', Date.now().toString());
+          // Intentar obtener de la red primero
+          const networkResponse = await fetch(event.request);
           
-          const networkResponse = await fetch(new Request(bustUrl.toString(), {
-            method: event.request.method,
-            headers: event.request.headers,
-            mode: event.request.mode,
-            credentials: event.request.credentials,
-            cache: 'no-cache' // Forzar no usar cache del navegador
-          }));
-          
-          // Clonar y actualizar cache
+          // Clonar y actualizar cache en segundo plano
           const responseClone = networkResponse.clone();
           const cache = await caches.open(CACHE_NAME);
-          await cache.put(event.request, responseClone);
+          cache.put(event.request, responseClone);
           
-          console.log('[SW] Contenido actualizado desde red:', event.request.url);
+          console.log('[SW] HTML actualizado desde red:', requestUrl.pathname);
           return networkResponse;
         } catch (error) {
-          console.log('[SW] Sin conexión, usando fallback de cache:', error);
+          console.log('[SW] Sin conexión, usando fallback de cache');
           // Fallback a cache si no hay red
           const cachedResponse = await caches.match(event.request);
           return cachedResponse || caches.match('/index.html');
@@ -82,25 +78,36 @@ self.addEventListener('fetch', event => {
     return;
   }
 
-  // Para recursos estáticos (CSS, JS, imágenes): stale-while-revalidate
+  // Para recursos estáticos (CSS, JS, imágenes): cache primero, luego red
   event.respondWith(
     (async () => {
       const cache = await caches.open(CACHE_NAME);
       const cachedResponse = await cache.match(event.request);
-      
+
       if (cachedResponse) {
         // Devolver cache inmediatamente
-        const networkFetch = fetch(event.request).then(async networkResponse => {
-          if (networkResponse.ok) {
+        fetch(event.request).then(async networkResponse => {
+          if (networkResponse && networkResponse.ok) {
             await cache.put(event.request, networkResponse.clone());
           }
         }).catch(() => {}); // Ignorar errores de red
         
         return cachedResponse;
       }
-      
+
       // Si no hay cache, ir a red
-      return fetch(event.request);
+      try {
+        const networkResponse = await fetch(event.request);
+        // Cachea para próxima vez
+        if (networkResponse && networkResponse.ok) {
+          const cache = await caches.open(CACHE_NAME);
+          cache.put(event.request, networkResponse.clone());
+        }
+        return networkResponse;
+      } catch (error) {
+        console.log('[SW] Recurso no disponible:', event.request.url);
+        return new Response('Recurso no disponible', { status: 404 });
+      }
     })()
   );
 });

@@ -641,6 +641,22 @@
             }
         }
 
+        /* Modal Animations */
+        @keyframes modal-slide {
+            from {
+                opacity: 0;
+                transform: translateY(-20px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .animate-modal-slide {
+            animation: modal-slide 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
         /* FAQ Accordion */
         .faq-item {
             background: linear-gradient(180deg, rgba(26, 26, 26, 0.9) 0%, rgba(15, 15, 15, 0.9) 100%);
@@ -3147,57 +3163,20 @@ Probe el cotizador con estos datos:
             // Initialize Hero Slider
             initHeroSlider();
 
-            // Register Service Worker (PWA) - Con actualización inmediata en móviles
+            // Register Service Worker (PWA) - Simple y robusto
             if ('serviceWorker' in navigator) {
-                navigator.serviceWorker.register('/sw.js', { scope: '/' })
+                navigator.serviceWorker.register('/sw.js')
                     .then(registration => {
-                        console.log('Service Worker registrado:', registration);
+                        console.log('[SW] Service Worker registrado:', registration.scope);
                         
-                        // Forzar verificación de actualización inmediatamente
-                        registration.update();
-                        
-                        // Verificar si hay un nuevo service worker esperando
-                        registration.addEventListener('updatefound', () => {
-                            console.log('[SW] Nueva versión del Service Worker encontrada');
-                            const newWorker = registration.installing;
-                            
-                            newWorker.addEventListener('statechange', () => {
-                                console.log('[SW] Estado del nuevo worker:', newWorker.state);
-                                
-                                if (newWorker.state === 'installed') {
-                                    if (navigator.serviceWorker.controller) {
-                                        // Hay una nueva versión esperando - activar inmediatamente
-                                        console.log('[SW] Nueva versión disponible, activando...');
-                                        if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                                            const updateBtn = document.getElementById('update-app-btn');
-                                            if (updateBtn) {
-                                                updateBtn.style.display = 'flex';
-                                                updateBtn.addEventListener('click', () => {
-                                                    newWorker.postMessage({ action: 'skipWaiting' });
-                                                    window.location.reload();
-                                                });
-                                            }
-                                        }
-                                    } else {
-                                        // Primera carga, activar inmediatamente
-                                        console.log('[SW] Primera carga, activando service worker');
-                                        newWorker.postMessage({ action: 'skipWaiting' });
-                                        newWorker.postMessage({ action: 'claimClients' });
-                                    }
-                                }
-                            });
-                        });
+                        // Verificar si hay un service worker esperando
+                        if (registration.waiting) {
+                            console.log('[SW] Hay version esperando');
+                        }
                     })
                     .catch(error => {
-                        console.error('Error al registrar Service Worker:', error);
+                        console.error('[SW] Error al registrar:', error);
                     });
-                
-                // Escuchar mensajes del service worker
-                navigator.serviceWorker.addEventListener('message', event => {
-                    if (event.data && event.data.type === 'SKIP_WAITING') {
-                        window.location.reload();
-                    }
-                });
             }
 
             // PWA Install Button Logic
@@ -3382,6 +3361,48 @@ Probe el cotizador con estos datos:
 
         menuLinks.forEach(link => {
             link.addEventListener('click', closeMenu);
+        });
+
+        // Auth Modal Functions
+        function openLoginModal() {
+            document.getElementById('login-modal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLoginModal() {
+            document.getElementById('login-modal').classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+
+        function openRegisterModal() {
+            document.getElementById('register-modal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeRegisterModal() {
+            document.getElementById('register-modal').classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+
+        // Close modals on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeLoginModal();
+                closeRegisterModal();
+            }
+        });
+
+        // Handle form submissions (demo)
+        document.getElementById('login-form')?.addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('Funcionalidad de login en desarrollo. Esto es una demo.');
+            closeLoginModal();
+        });
+
+        document.getElementById('register-form')?.addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('Funcionalidad de registro en desarrollo. Esto es una demo.');
+            closeRegisterModal();
         });
 
         // Navbar Scroll Effect
