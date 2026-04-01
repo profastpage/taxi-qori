@@ -3889,6 +3889,40 @@ Probe el cotizador con estos datos:
             }
         });
 
+        // Toast Notification System
+        function showToast(message, type = 'info') {
+            const toast = document.createElement('div');
+            toast.className = `fixed top-4 right-4 z-[10000] px-6 py-4 rounded-xl shadow-2xl transform transition-all duration-300 translate-x-full opacity-0 ${
+                type === 'success' ? 'bg-green-600' :
+                type === 'error' ? 'bg-red-600' :
+                type === 'warning' ? 'bg-yellow-600' :
+                'bg-[#0D3B4A]'
+            } text-white font-medium`;
+            toast.innerHTML = `
+                <div class="flex items-center gap-3">
+                    <i class="fas ${
+                        type === 'success' ? 'fa-check-circle' :
+                        type === 'error' ? 'fa-exclamation-circle' :
+                        type === 'warning' ? 'fa-exclamation-triangle' :
+                        'fa-info-circle'
+                    }"></i>
+                    <span>${message}</span>
+                </div>
+            `;
+            document.body.appendChild(toast);
+            
+            // Animate in
+            setTimeout(() => {
+                toast.classList.remove('translate-x-full', 'opacity-0');
+            }, 100);
+            
+            // Remove after 3 seconds
+            setTimeout(() => {
+                toast.classList.add('translate-x-full', 'opacity-0');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
         // Google Auth Handler (Placeholder para Fase 2)
         function handleGoogleAuth(type) {
             const actionText = type === 'login' ? 'Iniciando sesión' : 'Creando cuenta';
@@ -3996,19 +4030,25 @@ Probe el cotizador con estos datos:
             alert('Funcionalidad de reserva rápida en desarrollo. Esto es una demo.');
         });
 
-        // Handle form submissions (demo)
+        // Handle form submissions (demo con toasts)
         document.getElementById('login-form')?.addEventListener('submit', (e) => {
             e.preventDefault();
-            // Simular login exitoso y redirigir al dashboard
+            showToast('¡Bienvenido de nuevo!', 'success');
+            // Simular login exitoso
             localStorage.setItem('qori_user_logged_in', 'true');
-            window.location.href = 'dashboard.html';
+            setTimeout(() => {
+                window.location.href = 'dashboard.html';
+            }, 1000);
         });
 
         document.getElementById('register-form')?.addEventListener('submit', (e) => {
             e.preventDefault();
-            // Simular registro exitoso y redirigir al dashboard
+            showToast('¡Cuenta creada exitosamente!', 'success');
+            // Simular registro exitoso
             localStorage.setItem('qori_user_logged_in', 'true');
-            window.location.href = 'dashboard.html';
+            setTimeout(() => {
+                window.location.href = 'dashboard.html';
+            }, 1000);
         });
 
         // Check login state on page load
