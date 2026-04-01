@@ -184,13 +184,7 @@
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
         }
 
-        /* Navbar Auth Buttons - Mobile */
-        .navbar-auth-mobile {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
+        /* Navbar Auth Buttons - Mobile/Tablet */
         .navbar-login-btn {
             display: flex;
             align-items: center;
@@ -228,13 +222,8 @@
             box-shadow: 0 4px 12px rgba(244, 180, 26, 0.4);
         }
 
-        @media (min-width: 768px) {
-            .navbar-auth-mobile {
-                display: none;
-            }
-        }
-
-        @media (max-width: 767px) {
+        /* Mobile: Login button shows only icon */
+        @media (max-width: 1023px) {
             .navbar-login-btn span {
                 display: none;
             }
@@ -869,10 +858,10 @@
                     <a href="#como-funciona" class="text-gray-400 hover:text-[#F4B41A] transition-colors text-sm font-medium">Cómo Funciona</a>
                 </div>
 
-                <!-- Auth Buttons - Always Visible (Desktop & Mobile) -->
+                <!-- Auth Buttons - Unified (Desktop & Mobile) -->
                 <div class="flex items-center gap-3">
                     <!-- User Menu - Desktop (visible cuando logueado) -->
-                    <button id="desktop-user-menu-btn" onclick="openClientDashboard()" class="hidden md:flex items-center gap-3 hover:opacity-80 transition-opacity" style="display: none;" aria-label="Mi Perfil">
+                    <button id="desktop-user-menu-btn" onclick="openClientDashboard()" class="hidden lg:flex items-center gap-3 hover:opacity-80 transition-opacity" style="display: none;" aria-label="Mi Perfil">
                         <div class="w-8 h-8 rounded-full bg-gradient-to-br from-[#F4B41A] to-[#D49A12] flex items-center justify-center text-black font-bold text-sm">
                             JP
                         </div>
@@ -880,7 +869,7 @@
                     </button>
 
                     <!-- Auth Buttons - Desktop (visible cuando NO logueado) -->
-                    <div id="desktop-auth-buttons" class="hidden md:flex items-center gap-3">
+                    <div id="desktop-auth-buttons" class="hidden lg:flex items-center gap-3">
                         <button onclick="openLoginModal()" class="text-gray-400 hover:text-[#F4B41A] transition-colors font-medium text-sm flex items-center gap-2 group" aria-label="Iniciar Sesión">
                             <i class="fas fa-sign-in-alt text-[#F4B41A] group-hover:scale-110 transition-transform"></i>
                             <span>Iniciar Sesión</span>
@@ -890,8 +879,8 @@
                         </button>
                     </div>
 
-                    <!-- Auth Buttons - Mobile (visible cuando NO logueado) -->
-                    <div id="mobile-auth-buttons-navbar" class="navbar-auth-mobile md:hidden">
+                    <!-- Auth Buttons - Mobile/Tablet (visible cuando NO logueado) -->
+                    <div id="mobile-auth-buttons-navbar" class="flex lg:hidden items-center gap-2">
                         <button onclick="openLoginModal()" class="navbar-login-btn" aria-label="Iniciar Sesión">
                             <i class="fas fa-sign-in-alt"></i>
                             <span>Iniciar Sesión</span>
@@ -902,7 +891,7 @@
                     </div>
 
                     <!-- Mobile Menu Button -->
-                    <button id="mobile-menu-btn" class="md:hidden text-gray-400 hover:text-white p-2 transition-colors" aria-label="Menu">
+                    <button id="mobile-menu-btn" class="text-gray-400 hover:text-white p-2 transition-colors" aria-label="Menu">
                         <i class="fas fa-bars text-xl"></i>
                     </button>
                 </div>
@@ -3964,16 +3953,16 @@ Probe el cotizador con estos datos:
                 // Usuario logueado: mostrar menu de usuario, ocultar botones de auth
                 desktopAuthBtns.style.display = 'none';
                 desktopUserMenu.style.display = 'flex';
-                mobileAuthBtns.style.display = 'none';
                 mobileAuthBtnsNavbar.style.display = 'none';
-                mobileUserMenu.style.display = 'block';
+                if (mobileAuthBtns) mobileAuthBtns.style.display = 'none';
+                if (mobileUserMenu) mobileUserMenu.style.display = 'block';
             } else {
                 // Usuario NO logueado: mostrar botones de auth, ocultar menu de usuario
-                desktopAuthBtns.style.display = 'flex';
+                desktopAuthBtns.style.display = 'none';
                 desktopUserMenu.style.display = 'none';
-                mobileAuthBtns.style.display = 'block';
                 mobileAuthBtnsNavbar.style.display = 'flex';
-                mobileUserMenu.style.display = 'none';
+                if (mobileAuthBtns) mobileAuthBtns.style.display = 'block';
+                if (mobileUserMenu) mobileUserMenu.style.display = 'none';
             }
         }
 
