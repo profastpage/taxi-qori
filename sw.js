@@ -1,5 +1,5 @@
 // Service Worker para QORI PWA
-const CACHE_NAME = 'qori-v1';
+const CACHE_NAME = 'qori-v2';
 const urlsToCache = [
   '/',
   '/index.html',
@@ -35,8 +35,29 @@ self.addEventListener('activate', event => {
   self.clients.claim();
 });
 
-// Fetch event - sirve desde cache, fallback a network
+// Fetch event - Network first, fallback a cache (para contenido actualizado)
 self.addEventListener('fetch', event => {
+  // Para navegación HTML, siempre intentar network primero
+  if (event.request.mode === 'navigate') {
+    event.respondWith(
+      fetch(event.request)
+        .then(response => {
+          // Si hay respuesta de red, actualizar cache
+          const responseClone = response.clone();
+          caches.open(CACHE_NAME).then(cache => {
+            cache.put(event.request, responseClone);
+          });
+          return response;
+        })
+        .catch(() => {
+          // Fallback a cache si no hay red
+          return caches.match(event.request);
+        })
+    );
+    return;
+  }
+  
+  // Para otros recursos (CSS, JS, imágenes), usar cache primero
   event.respondWith(
     caches.match(event.request)
       .then(response => {
@@ -46,4 +67,11 @@ self.addEventListener('fetch', event => {
         return fetch(event.request);
       })
   );
+});
+
+// Manejar mensaje para saltar espera
+self.addEventListener('message', event => {
+  if (event.data && event.data.action === 'skipWaiting') {
+    self.skipWaiting();
+  }
 });

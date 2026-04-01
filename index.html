@@ -9,6 +9,11 @@
     <meta name="author" content="Fast Page Pro">
     <meta name="robots" content="index, follow">
     
+    <!-- Control de Cache - Para actualizaciones inmediatas -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    
     <!-- PWA Meta Tags -->
     <meta name="theme-color" content="#0D3B4A">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -765,6 +770,12 @@
             <button id="install-app-btn" class="w-full mt-4 py-3 px-4 bg-[#F4B41A] hover:bg-[#D49A12] text-black rounded-full font-bold flex items-center justify-center gap-2 transition-all" style="display: none;">
                 <i class="fas fa-download"></i>
                 <span>Instalar App</span>
+            </button>
+            
+            <!-- Boton Actualizar (visible si hay nueva version) -->
+            <button id="update-app-btn" class="w-full mt-3 py-3 px-4 bg-green-600 hover:bg-green-700 text-white rounded-full font-bold flex items-center justify-center gap-2 transition-all" style="display: none;">
+                <i class="fas fa-sync"></i>
+                <span>Actualizar App</span>
             </button>
             
             <div class="mobile-menu-cta">
@@ -2954,6 +2965,27 @@ Probe el cotizador con estos datos:
                 console.log('PWA instalada exitosamente');
                 installBtn.style.display = 'none';
             });
+
+            // Detectar actualizaciones del Service Worker
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.ready.then(registration => {
+                    registration.addEventListener('updatefound', () => {
+                        const newWorker = registration.installing;
+                        newWorker.addEventListener('statechange', () => {
+                            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                                // Nueva version disponible
+                                const updateBtn = document.getElementById('update-app-btn');
+                                updateBtn.style.display = 'flex';
+                                
+                                updateBtn.addEventListener('click', () => {
+                                    newWorker.postMessage({ action: 'skipWaiting' });
+                                    window.location.reload();
+                                });
+                            }
+                        });
+                    });
+                });
+            }
         });
 
         // Professional Hero Slider with Crossfade Effect and Preloading
