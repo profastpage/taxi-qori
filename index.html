@@ -9,27 +9,18 @@
     <meta name="author" content="Fast Page Pro">
     <meta name="robots" content="index, follow">
     
-    <!-- Skip Link para accesibilidad -->
+    <!-- Critical CSS Inline para FCP rapido -->
     <style>
-        .skip-link {
-            position: absolute;
-            top: -40px;
-            left: 0;
-            background: #F4B41A;
-            color: #0a0a0a;
-            padding: 8px 16px;
-            z-index: 10000;
-            text-decoration: none;
-            font-weight: 600;
-        }
-        .skip-link:focus {
-            top: 0;
-        }
+        /* Critical CSS - Above the fold */
+        body{font-family:'Plus Jakarta Sans',sans-serif;background:#0a0a0a;color:#fff;margin:0;overflow-x:hidden}
+        .glass-nav{background:rgba(13,59,74,.9);backdrop-filter:blur(20px);border-bottom:1px solid rgba(244,180,26,.2)}
+        .hero-bg{position:relative;min-height:100vh;background:linear-gradient(135deg,#0D3B4A 0%,#082830 50%,#0a0a0a 100%)}
+        .btn-primary{background:linear-gradient(135deg,#F4B41A,#D49A12);color:#0a0a0a;font-weight:700;border-radius:9999px}
+        .skip-link{position:absolute;top:-40px;left:0;background:#F4B41A;color:#0a0a0a;padding:8px 16px;z-index:10000;text-decoration:none;font-weight:600}
+        .skip-link:focus{top:0}
     </style>
-</head>
-<body>
-    <a href="#cotizador" class="skip-link">Saltar al cotizador</a>
-    <meta property="og:type" content="website">
+    
+    <!-- Open Graph / Facebook -->
     <meta property="og:url" content="https://taxi-qori.pages.dev/">
     <meta property="og:title" content="QORI Traslados Ejecutivos - Transporte Premium">
     <meta property="og:description" content="Servicio de transporte ejecutivo A1. Lujo, seguridad y puntualidad.">
@@ -58,13 +49,16 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" media="print" onload="this.media='all'">
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"></noscript>
 
-    <!-- Tailwind CSS (con loading diferido) -->
-    <script src="https://cdn.tailwindcss.com"></script>
-
     <!-- FontAwesome (cargado asíncronamente) -->
     <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
     <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
+</head>
+<body>
+    <a href="#cotizador" class="skip-link">Saltar al cotizador</a>
+
+    <!-- Tailwind diferido para no bloquear render -->
+    <script src="https://cdn.tailwindcss.com" defer></script>
 
     <script>
         tailwind.config = {
@@ -2912,9 +2906,9 @@ Probe el cotizador con estos datos:
 
         // Professional Hero Slider with Crossfade Effect and Preloading
         function initHeroSlider() {
-            // Imagenes optimizadas para movil: 640px width, q=60, format webp
+            // Primera imagen critica con fetchpriority=high
             const heroImages = [
-                'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=640&q=60&fit=crop&auto=format',
+                'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=640&q=60&fit=crop&auto=format&fetchpriority=high',
                 'https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?w=640&q=60&fit=crop&auto=format',
                 'https://images.unsplash.com/photo-1550355291-bbee04a92027?w=640&q=60&fit=crop&auto=format',
                 'https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=640&q=60&fit=crop&auto=format'
