@@ -3169,14 +3169,35 @@ Probe el cotizador con estos datos:
                     .then(registration => {
                         console.log('[SW] Service Worker registrado:', registration.scope);
                         
-                        // Verificar si hay un service worker esperando
-                        if (registration.waiting) {
-                            console.log('[SW] Hay version esperando');
-                        }
+                        // Detectar cuando hay una nueva version
+                        registration.addEventListener('updatefound', () => {
+                            const newWorker = registration.installing;
+                            console.log('[SW] Nueva version encontrada');
+                            
+                            newWorker.addEventListener('statechange', () => {
+                                if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                                    // Mostrar boton de actualizar
+                                    const updateBtn = document.getElementById('update-app-btn');
+                                    if (updateBtn) {
+                                        updateBtn.style.display = 'flex';
+                                        updateBtn.onclick = () => {
+                                            newWorker.postMessage({ action: 'skipWaiting' });
+                                            window.location.reload();
+                                        };
+                                    }
+                                }
+                            });
+                        });
                     })
                     .catch(error => {
                         console.error('[SW] Error al registrar:', error);
                     });
+                
+                // Recargar cuando el SW tome control
+                navigator.serviceWorker.addEventListener('controllerchange', () => {
+                    console.log('[SW] Service Worker actualizado, recargando...');
+                    window.location.reload();
+                });
             }
 
             // PWA Install Button Logic

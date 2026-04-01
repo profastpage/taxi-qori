@@ -2,7 +2,7 @@
   "name": "QORI Traslados Ejecutivos",
   "short_name": "QORI",
   "description": "Servicio de transporte ejecutivo A1. Lujo, seguridad y puntualidad.",
-  "start_url": "/index.html",
+  "start_url": "/",
   "display": "standalone",
   "background_color": "#0a0a0a",
   "theme_color": "#0D3B4A",
@@ -29,7 +29,7 @@
       "name": "Cotizar Ahora",
       "short_name": "Cotizar",
       "description": "Cotizar traslado ejecutivo",
-      "url": "/index.html#cotizador",
+      "url": "/#cotizador",
       "icons": [{ "src": "icon-192.png", "sizes": "192x192" }]
     },
     {
