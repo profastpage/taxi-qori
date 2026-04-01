@@ -1108,33 +1108,23 @@
                     <a href="#como-funciona" class="text-gray-400 hover:text-[#F4B41A] transition-colors text-sm font-medium">Cómo Funciona</a>
                 </div>
 
-                <!-- Auth Buttons - Unified (Icon Only - All Devices) -->
+                <!-- Auth Buttons - Icon Only (All Devices) -->
                 <div class="flex items-center gap-2">
-                    <!-- User Menu - Desktop (visible cuando logueado) -->
-                    <button id="desktop-user-menu-btn" onclick="openClientDashboard()" class="hidden md:flex items-center gap-2 hover:opacity-80 transition-opacity" style="display: none;" aria-label="Mi Perfil">
+                    <!-- User Menu - Logged in -->
+                    <button id="desktop-user-menu-btn" onclick="openClientDashboard()" class="hidden items-center gap-2 hover:opacity-80 transition-opacity" style="display: none;" aria-label="Mi Perfil">
                         <div class="w-8 h-8 rounded-full bg-gradient-to-br from-[#F4B41A] to-[#D49A12] flex items-center justify-center text-black font-bold text-sm">
                             <span class="user-avatar-initials">JP</span>
                         </div>
-                        <span class="text-white text-sm font-medium user-menu-name hidden lg:inline">Juan Pérez</span>
+                        <span class="text-white text-sm font-medium user-menu-name hidden sm:inline">Juan Pérez</span>
                     </button>
 
-                    <!-- Auth Buttons - Desktop (visible cuando NO logueado) -->
-                    <div id="desktop-auth-buttons" class="hidden md:flex items-center gap-2">
+                    <!-- Auth Buttons - Not logged in -->
+                    <div id="auth-buttons-navbar" class="flex items-center gap-2">
                         <button onclick="openLoginModal()" class="w-9 h-9 rounded-full border border-gray-600 text-gray-400 hover:text-[#F4B41A] hover:border-[#F4B41A] transition-all flex items-center justify-center group" aria-label="Iniciar Sesión">
                             <i class="fas fa-sign-in-alt text-sm group-hover:scale-110 transition-transform"></i>
                         </button>
                         <button onclick="openRegisterModal()" class="w-9 h-9 rounded-full bg-gradient-to-br from-[#F4B41A] to-[#D49A12] hover:from-[#FFC947] hover:to-[#F4B41A] text-black transition-all shadow-lg hover:shadow-xl hover:scale-105 flex items-center justify-center group" aria-label="Registrarse">
                             <i class="fas fa-user-plus text-sm group-hover:rotate-12 transition-transform"></i>
-                        </button>
-                    </div>
-
-                    <!-- Auth Buttons - Mobile (visible cuando NO logueado) -->
-                    <div id="mobile-auth-buttons-navbar" class="flex md:hidden items-center gap-2">
-                        <button onclick="openLoginModal()" class="w-9 h-9 rounded-full border border-gray-600 text-gray-400 hover:text-[#F4B41A] hover:border-[#F4B41A] transition-all flex items-center justify-center" aria-label="Iniciar Sesión">
-                            <i class="fas fa-sign-in-alt text-sm"></i>
-                        </button>
-                        <button onclick="openRegisterModal()" class="w-9 h-9 rounded-full bg-gradient-to-br from-[#F4B41A] to-[#D49A12] text-black transition-all shadow-lg flex items-center justify-center" aria-label="Registrarse">
-                            <i class="fas fa-user-plus text-sm"></i>
                         </button>
                     </div>
 
@@ -4279,30 +4269,26 @@ Probe el cotizador con estos datos:
 
         // Update Auth UI (show/hide login or user menu)
         function updateAuthUI(isLoggedIn) {
-            const desktopAuthBtns = document.getElementById('desktop-auth-buttons');
+            const authBtnsNavbar = document.getElementById('auth-buttons-navbar');
             const desktopUserMenu = document.getElementById('desktop-user-menu-btn');
-            const mobileAuthBtns = document.getElementById('mobile-auth-buttons');
-            const mobileAuthBtnsNavbar = document.getElementById('mobile-auth-buttons-navbar');
             const mobileUserMenu = document.getElementById('mobile-user-menu');
-            
+
             // Obtener usuario actual (mock o real)
             const user = window.QORI_USER || { name: 'Juan Pérez', email: 'juan@qori.com' };
-            
+
             if (isLoggedIn) {
                 // Usuario logueado: mostrar menu de usuario, ocultar botones de auth
-                desktopAuthBtns.style.display = 'none';
+                authBtnsNavbar.style.display = 'none';
                 desktopUserMenu.style.display = 'flex';
-                mobileAuthBtnsNavbar.style.display = 'none';
-                if (mobileAuthBtns) mobileAuthBtns.style.display = 'none';
                 if (mobileUserMenu) mobileUserMenu.style.display = 'block';
-                
+
                 // Actualizar avatar con iniciales
                 const initials = user.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
                 const avatarElement = desktopUserMenu.querySelector('.user-avatar-initials');
                 if (avatarElement) {
                     avatarElement.textContent = initials;
                 }
-                
+
                 // Actualizar nombre de usuario
                 const userNameElement = desktopUserMenu.querySelector('.user-menu-name');
                 if (userNameElement) {
@@ -4310,10 +4296,8 @@ Probe el cotizador con estos datos:
                 }
             } else {
                 // Usuario NO logueado: mostrar botones de auth, ocultar menu de usuario
-                desktopAuthBtns.style.display = 'flex';
+                authBtnsNavbar.style.display = 'flex';
                 desktopUserMenu.style.display = 'none';
-                mobileAuthBtnsNavbar.style.display = 'flex';
-                if (mobileAuthBtns) mobileAuthBtns.style.display = 'block';
                 if (mobileUserMenu) mobileUserMenu.style.display = 'none';
             }
         }
