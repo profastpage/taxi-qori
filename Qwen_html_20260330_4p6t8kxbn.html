@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Propuesta Técnica QORI | Fast Page Pro</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            color: #1e293b;
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container { max-width: 900px; margin: 0 auto; }
+        
+        /* Header */
+        .header { 
+            text-align: center; 
+            margin-bottom: 30px; 
+            animation: fadeIn 0.6s;
+            padding: 30px;
+            background: #ffffff;
+            border-radius: 16px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+        
+        .logo {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #2563EB 0%, #1E40AF 100%);
+            border-radius: 12px;
+            margin-bottom: 16px;
+        }
+        
+        .logo i { font-size: 28px; color: #ffffff; }
+        
+        .company-name {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #0f172a;
+            margin-bottom: 4px;
+        }
+        
+        h1 { 
+            font-size: 2rem; 
+            margin: 16px 0 8px 0; 
+            color: #0f172a;
+            font-weight: 800;
+        }
+        
+        .gold-text {
+            color: #D4AF37;
+            font-weight: 700;
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #D4AF37 0%, #F59E0B 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .subtitle { 
+            color: #64748b; 
+            font-size: 1rem;
+            font-weight: 500;
+        }
+        
+        .client-info {
+            background: #f8fafc;
+            padding: 16px;
+            border-radius: 12px;
+            margin-top: 16px;
+            border-left: 4px solid #D4AF37;
+            text-align: left;
+        }
+        
+        .client-info strong { color: #0f172a; }
+        
+        /* Sections */
+        .section {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .section-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #0f172a;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #f1f5f9;
+        }
+        
+        .section-title i { color: #D4AF37; }
+        
+        /* Features Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 12px;
+        }
+        
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 12px;
+            background: #f8fafc;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .feature-item i {
+            color: #10B981;
+            margin-top: 3px;
+            font-size: 0.9rem;
+        }
+        
+        .feature-text {
+            color: #334155;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        /* Timeline */
+        .timeline {
+            display: grid;
+            gap: 12px;
+        }
+        
+        .timeline-item {
+            display: flex;
+            gap: 16px;
+            padding: 14px;
+            background: #f8fafc;
+            border-radius: 8px;
+            border-left: 3px solid #D4AF37;
+        }
+        
+        .timeline-week {
+            font-weight: 700;
+            color: #D4AF37;
+            min-width: 100px;
+        }
+        
+        .timeline-content {
+            color: #475569;
+            font-size: 0.9rem;
+        }
+        
+        /* Pricing Cards */
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+        }
+        
+        .pricing-card {
+            background: #ffffff;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 20px;
+            position: relative;
+        }
+        
+        .pricing-card.recommended {
+            border-color: #D4AF37;
+            background: linear-gradient(135deg, #fefce8 0%, #ffffff 100%);
+        }
+        
+        .badge-recommended {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: linear-gradient(135deg, #D4AF37 0%, #F59E0B 100%);
+            color: #ffffff;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.7rem;
+            font-weight: 800;
+        }
+        
+        .pricing-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 8px;
+        }
+        
+        .price {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #10B981;
+            margin: 12px 0;
+        }
+        
+        .price-detail {
+            color: #64748b;
+            font-size: 0.9rem;
+            margin-bottom: 12px;
+        }
+        
+        .payment-schedule {
+            background: #f8fafc;
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 12px;
+        }
+        
+        .payment-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 6px 0;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 0.85rem;
+        }
+        
+        .payment-item:last-child { border-bottom: none; }
+        
+        .payment-label { color: #475569; }
+        .payment-amount { font-weight: 700; color: #0f172a; }
+        
+        /* Bonus */
+        .bonus-box {
+            background: linear-gradient(135deg, #fefce8 0%, #fef3c7 100%);
+            border: 2px solid #D4AF37;
+            border-radius: 12px;
+            padding: 16px;
+            margin-top: 16px;
+        }
+        
+        .bonus-title {
+            font-weight: 700;
+            color: #D4AF37;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .bonus-list {
+            list-style: none;
+            font-size: 0.9rem;
+        }
+        
+        .bonus-list li {
+            padding: 4px 0;
+            color: #475569;
+        }
+        
+        .bonus-list li:before {
+            content: "✓ ";
+            color: #10B981;
+            font-weight: bold;
+            margin-right: 6px;
+        }
+        
+        /* Not Included */
+        .not-included {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            border-radius: 8px;
+            padding: 12px;
+            font-size: 0.85rem;
+        }
+        
+        .not-included strong {
+            color: #dc2626;
+            display: block;
+            margin-bottom: 8px;
+        }
+        
+        .not-included ul {
+            margin-left: 16px;
+            color: #7f1d1d;
+        }
+        
+        .not-included li { margin: 4px 0; }
+        
+        /* Footer */
+        .footer {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e2e8f0;
+        }
+        
+        .footer-content {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 12px 20px;
+            margin-bottom: 12px;
+        }
+        
+        .footer-link {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: #2563EB;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        
+        .footer-link i { color: #D4AF37; }
+        .footer-link.whatsapp i { color: #25D366; }
+        
+        .separator {
+            display: none;
+            width: 1px;
+            height: 20px;
+            background: #cbd5e1;
+        }
+        
+        @media (min-width: 640px) { .separator { display: block; } }
+        
+        .footer-copy {
+            color: #64748b;
+            font-size: 0.75rem;
+            margin-top: 12px;
+        }
+        
+        /* Download Button */
+        .download-btn {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: linear-gradient(135deg, #D4AF37 0%, #F59E0B 100%);
+            color: #ffffff;
+            padding: 14px 28px;
+            border-radius: 9999px;
+            border: none;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 10px 40px rgba(212, 175, 55, 0.4);
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+        
+        .download-btn:hover { transform: scale(1.05); }
+        
+        /* Animations */
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        
+        @media print {
+            body {
+                background: #f8fafc !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+            .download-btn { display: none !important; }
+            .section, .pricing-card {
+                background: #ffffff !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+        }
+        
+        @media (max-width: 640px) {
+            h1 { font-size: 1.5rem !important; }
+            .section { padding: 16px; }
+            .features-grid, .pricing-grid { grid-template-columns: 1fr !important; }
+        }
+    </style>
+</head>
+<body>
+
+    <button onclick="generatePDF()" class="download-btn">
+        <i class="fas fa-file-pdf"></i>
+        <span>Descargar PDF</span>
+    </button>
+
+    <div class="container" id="proposal-content">
+        
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <i class="fas fa-bolt"></i>
+            </div>
+            <div class="company-name">Fast Page Pro</div>
+            <h1>Propuesta <span class="gradient-text">Técnica</span></h1>
+            <p class="subtitle">Sistema de Reservas Avanzado - QORI</p>
+            
+            <div class="client-info">
+                <strong>Cliente:</strong> Edinson - QORI Taxi<br>
+                <strong>Fecha:</strong> <span id="current-date"></span><br>
+                <strong>Validez:</strong> 15 días
+            </div>
+        </header>
+
+        <!-- Project Overview -->
+        <section class="section">
+            <h2 class="section-title">
+                <i class="fas fa-rocket"></i>
+                Descripción del <span class="gold-text">Proyecto</span>
+            </h2>
+            <p style="color: #475569; line-height: 1.7; margin-bottom: 12px;">
+                Desarrollo de un sistema web avanzado de reservas automatizadas para QORI, 
+                integrando pasarela de pagos IziPay, facturación electrónica SUNAT, autenticación 
+                Google + email, y notificaciones automáticas por WhatsApp/SMS.
+            </p>
+        </section>
+
+        <!-- Features -->
+        <section class="section">
+            <h2 class="section-title">
+                <i class="fas fa-check-circle"></i>
+                Alcance del <span class="gold-text">Sistema</span>
+            </h2>
+            <div class="features-grid">
+                <div class="feature-item">
+                    <i class="fas fa-check"></i>
+                    <span class="feature-text">Sistema de reservas automáticas 24/7</span>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-check"></i>
+                    <span class="feature-text">Panel de administradores/operadores completo</span>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-check"></i>
+                    <span class="feature-text">Integración IziPay (tarjetas + Yape/Plin)</span>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-check"></i>
+                    <span class="feature-text">Facturación electrónica SUNAT integrada</span>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-check"></i>
+                    <span class="feature-text">Autenticación Google OAuth + email/contraseña</span>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-check"></i>
+                    <span class="feature-text">Notificaciones automáticas WhatsApp + SMS</span>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-check"></i>
+                    <span class="feature-text">Envío automático de vouchers por WhatsApp</span>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-check"></i>
+                    <span class="feature-text">Dashboard con estadísticas en tiempo real</span>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-check"></i>
+                    <span class="feature-text">Gestión de usuarios y permisos</span>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-check"></i>
+                    <span class="feature-text">Reportes exportables (Excel/PDF)</span>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-check"></i>
+                    <span class="feature-text">Base de datos segura con backups automáticos</span>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-check"></i>
+                    <span class="feature-text">Diseño responsive (móvil, tablet, PC)</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Timeline -->
+        <section class="section">
+            <h2 class="section-title">
+                <i class="fas fa-calendar-alt"></i>
+                Cronograma de <span class="gold-text">Desarrollo</span>
+            </h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-week">Semanas 1-2</div>
+                    <div class="timeline-content">
+                        <strong>Backend + API + Autenticación</strong><br>
+                        Base de datos, API RESTful, JWT, Google OAuth, email auth
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-week">Semanas 3-4</div>
+                    <div class="timeline-content">
+                        <strong>Frontend + Paneles de Control</strong><br>
+                        Interfaz de usuario, panel de operadores, dashboard
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-week">Semana 5</div>
+                    <div class="timeline-content">
+                        <strong>Integración IziPay + SUNAT</strong><br>
+                        Pasarela de pagos, facturación electrónica, comprobantes
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-week">Semana 6</div>
+                    <div class="timeline-content">
+                        <strong>Notificaciones + Testing</strong><br>
+                        WhatsApp API, SMS gateway, pruebas de seguridad
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-week">Semana 7</div>
+                    <div class="timeline-content">
+                        <strong>Deploy + Capacitación</strong><br>
+                        Puesta en producción, capacitación al personal, ajustes finales
+                    </div>
+                </div>
+            </div>
+            <p style="text-align: center; margin-top: 16px; color: #64748b; font-weight: 600;">
+                ⏱️ Tiempo total estimado: <span class="gold-text">7-8 semanas</span>
+            </p>
+        </section>
+
+        <!-- Pricing -->
+        <section class="section">
+            <h2 class="section-title">
+                <i class="fas fa-coins"></i>
+                Inversión <span class="gold-text">Especial</span>
+            </h2>
+            
+            <div style="background: #fefce8; padding: 12px; border-radius: 8px; margin-bottom: 16px; border-left: 4px solid #D4AF37;">
+                <p style="color: #475569; font-size: 0.9rem;">
+                    💎 <strong>Descuento por fidelidad:</strong> Precio regular S/6,000 → 
+                    <span class="gold-text">Tu precio especial: S/5,600</span> (ahorro S/400)
+                </p>
+            </div>
+
+            <div class="pricing-grid">
+                <!-- Option 1 -->
+                <div class="pricing-card">
+                    <h3 class="pricing-title">Opción 1: Pago Único</h3>
+                    <div class="price">S/5,600</div>
+                    <div class="price-detail">En 3 cuotas sin intereses</div>
+                    
+                    <div class="payment-schedule">
+                        <div class="payment-item">
+                            <span class="payment-label">Anticipo (40%)</span>
+                            <span class="payment-amount">S/2,240</span>
+                        </div>
+                        <div class="payment-item">
+                            <span class="payment-label">Avance 50% (30%)</span>
+                            <span class="payment-amount">S/1,680</span>
+                        </div>
+                        <div class="payment-item">
+                            <span class="payment-label">Entrega (30%)</span>
+                            <span class="payment-amount">S/1,680</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Option 2 -->
+                <div class="pricing-card recommended">
+                    <span class="badge-recommended">⭐ RECOMENDADO</span>
+                    <h3 class="pricing-title">Opción 2: Plan Flexible</h3>
+                    <div class="price">S/1,800</div>
+                    <div class="price-detail">+ S/350/mes (6 meses)</div>
+                    <div style="color: #64748b; font-size: 0.85rem; margin-top: 8px;">
+                        Total: <strong>S/3,900</strong> (ahorro S/1,700)
+                    </div>
+                    
+                    <div class="payment-schedule">
+                        <div class="payment-item">
+                            <span class="payment-label">Inicial</span>
+                            <span class="payment-amount">S/1,800</span>
+                        </div>
+                        <div class="payment-item">
+                            <span class="payment-label">Mensualidad (6 meses)</span>
+                            <span class="payment-amount">S/350</span>
+                        </div>
+                        <div class="payment-item">
+                            <span class="payment-label">Incluye:</span>
+                            <span class="payment-amount">✓ Todo</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bonus -->
+            <div class="bonus-box">
+                <div class="bonus-title">
+                    <i class="fas fa-gift"></i>
+                    BONUS ESPECIAL - Si confirmas esta semana
+                </div>
+                <ul class="bonus-list">
+                    <li>1 mes de mantenimiento gratis (valor S/350)</li>
+                    <li>Capacitación extendida sin costo adicional (2 horas extra)</li>
+                    <li>Soporte prioritario durante 30 días</li>
+                    <li>Configuración inicial de redes sociales incluida</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- What's Included -->
+        <section class="section">
+            <h2 class="section-title">
+                <i class="fas fa-box-open"></i>
+                Todo <span class="gold-text">Incluido</span>
+            </h2>
+            <div class="features-grid">
+                <div class="feature-item">
+                    <i class="fas fa-check"></i>
+                    <span class="feature-text">Hosting premium de alta velocidad</span>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-check"></i>
+                    <span class="feature-text">Certificado SSL (HTTPS seguro)</span>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-check"></i>
+                    <span class="feature-text">Backups automáticos diarios</span>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-check"></i>
+                    <span class="feature-text">Soporte técnico por WhatsApp/email</span>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-check"></i>
+                    <span class="feature-text">Mantenimiento preventivo mensual</span>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-check"></i>
+                    <span class="feature-text">Actualizaciones de seguridad</span>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-check"></i>
+                    <span class="feature-text">Capacitación al personal (2 horas)</span>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-check"></i>
+                    <span class="feature-text">Garantía de 30 días post-entrega</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Not Included -->
+        <section class="section">
+            <h2 class="section-title">
+                <i class="fas fa-exclamation-triangle"></i>
+                No <span class="gold-text">Incluye</span>
+            </h2>
+            <div class="not-included">
+                <strong>Costos adicionales (paga directamente el cliente):</strong>
+                <ul>
+                    <li>Dominio (.com/.pe) - aprox. S/50-150/año</li>
+                    <li>Comisiones IziPay - 2.9% + S/0.30 por transacción</li>
+                    <li>WhatsApp Business API - USD $15-30/mes (aprox. S/60-120)</li>
+                    <li>SMS Gateway - S/0.05 por mensaje enviado</li>
+                    <li>Servicio PSE SUNAT (NubeFact/Facturama) - S/50-150/mes</li>
+                </ul>
+                <p style="margin-top: 12px; font-size: 0.8rem; color: #991b1b;">
+                    <strong>Nota:</strong> Nosotros integramos todos estos servicios, pero los costos son pagados 
+                    directamente por el cliente a los proveedores.
+                </p>
+            </div>
+        </section>
+
+        <!-- Technical Specs -->
+        <section class="section">
+            <h2 class="section-title">
+                <i class="fas fa-code"></i>
+                Especificaciones <span class="gold-text">Técnicas</span>
+            </h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px;">
+                <div style="background: #f8fafc; padding: 12px; border-radius: 8px;">
+                    <strong style="color: #D4AF37; display: block; margin-bottom: 6px;">Frontend</strong>
+                    <span style="color: #475569; font-size: 0.9rem;">React.js / Next.js</span>
+                </div>
+                <div style="background: #f8fafc; padding: 12px; border-radius: 8px;">
+                    <strong style="color: #D4AF37; display: block; margin-bottom: 6px;">Backend</strong>
+                    <span style="color: #475569; font-size: 0.9rem;">Node.js + Express</span>
+                </div>
+                <div style="background: #f8fafc; padding: 12px; border-radius: 8px;">
+                    <strong style="color: #D4AF37; display: block; margin-bottom: 6px;">Base de Datos</strong>
+                    <span style="color: #475569; font-size: 0.9rem;">PostgreSQL / MySQL</span>
+                </div>
+                <div style="background: #f8fafc; padding: 12px; border-radius: 8px;">
+                    <strong style="color: #D4AF37; display: block; margin-bottom: 6px;">Hosting</strong>
+                    <span style="color: #475569; font-size: 0.9rem;">AWS / Vercel / DigitalOcean</span>
+                </div>
+                <div style="background: #f8fafc; padding: 12px; border-radius: 8px;">
+                    <strong style="color: #D4AF37; display: block; margin-bottom: 6px;">Seguridad</strong>
+                    <span style="color: #475569; font-size: 0.9rem;">JWT + HTTPS + Encriptación</span>
+                </div>
+                <div style="background: #f8fafc; padding: 12px; border-radius: 8px;">
+                    <strong style="color: #D4AF37; display: block; margin-bottom: 6px;">Autenticación</strong>
+                    <span style="color: #475569; font-size: 0.9rem;">Google OAuth + Email</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Terms -->
+        <section class="section">
+            <h2 class="section-title">
+                <i class="fas fa-file-contract"></i>
+                Términos y <span class="gold-text">Condiciones</span>
+            </h2>
+            <ul style="color: #475569; font-size: 0.9rem; margin-left: 20px; line-height: 1.8;">
+                <li>Propuesta válida por <strong>15 días</strong> a partir de la fecha de emisión</li>
+                <li>El cliente debe proporcionar: logo, branding, textos y contenido</li>
+                <li>Cambios adicionales fuera del alcance se cotizarán por separado</li>
+                <li>Tiempo de respuesta de soporte: 24-48 horas hábiles</li>
+                <li>Garantía de 30 días cubre bugs y errores de funcionamiento</li>
+                <li>La garantía no incluye nuevas funcionalidades o cambios de diseño</li>
+                <li>El proyecto inicia tras la confirmación y pago del anticipo</li>
+            </ul>
+        </section>
+
+        <!-- CTA -->
+        <section class="section" style="text-align: center; background: linear-gradient(135deg, #fefce8 0%, #ffffff 100%); border: 2px solid #D4AF37;">
+            <div style="font-size: 3rem; margin-bottom: 12px;">🚀</div>
+            <h2 style="color: #0f172a; margin-bottom: 12px;">¿Listo para llevar QORI al siguiente nivel?</h2>
+            <p style="color: #475569; margin-bottom: 20px;">
+                Un sistema profesional que trabajará 24/7 para generar más reservas y clientes automáticos
+            </p>
+            <a href="https://wa.me/51933667414?text=Hola,%20confirmo%20la%20propuesta%20QORI%20avanzada" 
+               target="_blank"
+               style="display: inline-flex; align-items: center; gap: 10px; background: linear-gradient(135deg, #25D366, #128C7E); color: white; padding: 14px 28px; border-radius: 12px; text-decoration: none; font-weight: 700; font-size: 1.1rem; box-shadow: 0 10px 30px rgba(37, 211, 102, 0.3);">
+                <i class="fab fa-whatsapp"></i>
+                <span>Confirmar Proyecto</span>
+            </a>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="footer-links">
+                    <a href="https://www.fastpagepro.com" target="_blank" class="footer-link">
+                        <i class="fas fa-bolt"></i>
+                        <span><strong>Fast Page Pro</strong></span>
+                    </a>
+                    <span class="separator"></span>
+                    <a href="https://www.fastpagepro.com" target="_blank" class="footer-link">
+                        <i class="fas fa-globe"></i>
+                        <span>www.fastpagepro.com</span>
+                    </a>
+                    <span class="separator"></span>
+                    <a href="https://wa.me/51933667414" target="_blank" class="footer-link whatsapp">
+                        <i class="fab fa-whatsapp"></i>
+                        <span>+51 933 667 414</span>
+                    </a>
+                </div>
+                <p class="footer-copy">
+                    <i class="fas fa-copyright"></i> 2024 Fast Page Pro - Todos los derechos reservados<br>
+                    Propuesta generada el <span id="footer-date"></span> | Válida por 15 días
+                </p>
+            </div>
+        </footer>
+
+    </div>
+
+    <script>
+        // Fecha actual
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        const today = new Date().toLocaleDateString('es-PE', options);
+        document.getElementById('current-date').textContent = today;
+        document.getElementById('footer-date').textContent = today;
+
+        // Generar PDF
+        function generatePDF() {
+            const element = document.getElementById('proposal-content');
+            const btn = document.querySelector('.download-btn');
+            const originalContent = btn.innerHTML;
+            
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> <span>Generando...</span>';
+            
+            const opt = {
+                margin: [0.3, 0.3, 0.3, 0.3],
+                filename: 'Propuesta_Tecnica_QORI_FastPagePro.pdf',
+                image: { type: 'jpeg', quality: 1.0 },
+                html2canvas: { 
+                    scale: 2, 
+                    useCORS: true, 
+                    backgroundColor: '#ffffff',
+                    logging: false,
+                    letterRendering: true,
+                    allowTaint: false,
+                    imageTimeout: 0,
+                    windowWidth: 900
+                },
+                jsPDF: { 
+                    unit: 'in', 
+                    format: 'a4', 
+                    orientation: 'portrait',
+                    compress: true
+                },
+                pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+            };
+
+            html2pdf().set(opt).from(element).save().then(() => {
+                btn.innerHTML = originalContent;
+                btn.disabled = false;
+            }).catch(err => {
+                console.error('Error PDF:', err);
+                alert('💡 Tip: Presiona Ctrl+P → "Guardar como PDF"');
+                btn.innerHTML = originalContent;
+                btn.disabled = false;
+            });
+        }
+    </script>
+</body>
+</html>

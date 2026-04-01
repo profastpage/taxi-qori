@@ -5,17 +5,47 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>QORI Traslados Ejecutivos - Transporte Premium y Seguro</title>
     <meta name="description" content="Servicio de transporte ejecutivo A1. Lujo, seguridad y puntualidad en cada traslado. Reserva por WhatsApp.">
+    <meta name="keywords" content="taxi ejecutivo, transporte lima, aeropuerto, traslados premium, qori">
+    <meta name="author" content="Fast Page Pro">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://taxi-qori.pages.dev/">
+    <meta property="og:title" content="QORI Traslados Ejecutivos - Transporte Premium">
+    <meta property="og:description" content="Servicio de transporte ejecutivo A1. Lujo, seguridad y puntualidad.">
+    <meta property="og:image" content="https://taxi-qori.pages.dev/og-image.jpg">
 
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://taxi-qori.pages.dev/">
+    <meta property="twitter:title" content="QORI Traslados Ejecutivos">
+    <meta property="twitter:description" content="Servicio de transporte ejecutivo A1. Lujo y seguridad.">
+    <meta property="twitter:image" content="https://taxi-qori.pages.dev/og-image.jpg">
 
-    <!-- Google Fonts -->
+    <!-- Preconnect a dominios externos -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://cdn.tailwindcss.com">
+    <link rel="preconnect" href="https://images.unsplash.com">
 
-    <!-- FontAwesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- DNS Prefetch -->
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+
+    <!-- Google Fonts (cargadas asíncronamente) -->
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"></noscript>
+
+    <!-- Tailwind CSS (con loading diferido) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- FontAwesome (cargado asíncronamente) -->
+    <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
 
     <script>
         tailwind.config = {
@@ -1882,7 +1912,7 @@
                 <!-- Sedan -->
                 <div class="feature-card overflow-hidden fade-in-up">
                     <div class="relative h-48 overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1550355291-bbee04a92027?q=80&w=800&auto=format&fit=crop" alt="Sedán Ejecutivo" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
+                        <img src="https://images.unsplash.com/photo-1550355291-bbee04a92027?w=800&q=80&fit=crop" alt="Sedán Ejecutivo" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110" loading="lazy" width="800" height="600">
                         <div class="absolute top-3 right-3 bg-[#F4B41A] text-black px-3 py-1 rounded-full text-xs font-bold">
                             MÁS POPULAR
                         </div>
@@ -1908,7 +1938,7 @@
                 <!-- Camioneta -->
                 <div class="feature-card overflow-hidden fade-in-up delay-1">
                     <div class="relative h-48 overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?q=80&w=800&auto=format&fit=crop" alt="Camioneta Premium" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
+                        <img src="https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=800&q=80&fit=crop" alt="Camioneta Premium" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110" loading="lazy" width="800" height="600">
                     </div>
                     <div class="p-6">
                         <h3 class="text-xl font-bold text-white mb-2">Camioneta Premium</h3>
@@ -1931,7 +1961,7 @@
                 <!-- Van -->
                 <div class="feature-card overflow-hidden fade-in-up delay-2">
                     <div class="relative h-48 overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1570125909232-eb263c188f7e?q=80&w=800&auto=format&fit=crop" alt="Van Ejecutiva" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
+                        <img src="https://images.unsplash.com/photo-1570125909232-eb263c188f7e?w=800&q=80&fit=crop" alt="Van Ejecutiva" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110" loading="lazy" width="800" height="600">
                     </div>
                     <div class="p-6">
                         <h3 class="text-xl font-bold text-white mb-2">Van Ejecutiva</h3>
@@ -2028,7 +2058,7 @@
                     </div>
                     <p class="text-gray-300 mb-4 italic">"Excelente servicio ejecutivo. Puntuales y profesionales. Los uso para todas mis reuniones corporativas."</p>
                     <div class="flex items-center gap-3">
-                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200&auto=format&fit=crop" alt="Carlos Mendoza" class="w-12 h-12 rounded-full object-cover">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&q=80&fit=crop" alt="Carlos Mendoza" class="w-12 h-12 rounded-full object-cover" loading="lazy" width="100" height="100">
                         <div>
                             <div class="text-white font-semibold text-sm">Carlos Mendoza</div>
                             <div class="text-gray-500 text-xs">Gerente General</div>
@@ -2046,7 +2076,7 @@
                     </div>
                     <p class="text-gray-300 mb-4 italic">"Servicio impecable para nuestros clientes VIP. QORI es nuestro aliado estratégico en transporte."</p>
                     <div class="flex items-center gap-3">
-                        <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=200&auto=format&fit=crop" alt="Patricia Vega" class="w-12 h-12 rounded-full object-cover">
+                        <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&q=80&fit=crop" alt="Patricia Vega" class="w-12 h-12 rounded-full object-cover" loading="lazy" width="100" height="100">
                         <div>
                             <div class="text-white font-semibold text-sm">Patricia Vega</div>
                             <div class="text-gray-500 text-xs">Directora de Operaciones</div>
@@ -2064,7 +2094,7 @@
                     </div>
                     <p class="text-gray-300 mb-4 italic">"Choferes altamente profesionales y vehículos impecables. El mejor servicio ejecutivo de la ciudad."</p>
                     <div class="flex items-center gap-3">
-                        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=200&auto=format&fit=crop" alt="Roberto Castillo" class="w-12 h-12 rounded-full object-cover">
+                        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&q=80&fit=crop" alt="Roberto Castillo" class="w-12 h-12 rounded-full object-cover" loading="lazy" width="100" height="100">
                         <div>
                             <div class="text-white font-semibold text-sm">Roberto Castillo</div>
                             <div class="text-gray-500 text-xs">Empresario</div>
@@ -2862,10 +2892,10 @@ Probe el cotizador con estos datos:
         // Professional Hero Slider with Crossfade Effect and Preloading
         function initHeroSlider() {
             const heroImages = [
-                'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=1600&h=900&fit=crop',
-                'https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?w=1600&h=900&fit=crop',
-                'https://images.unsplash.com/photo-1550355291-bbee04a92027?w=1600&h=900&fit=crop',
-                'https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=1600&h=900&fit=crop'
+                'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=1200&q=80&fit=crop',
+                'https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?w=1200&q=80&fit=crop',
+                'https://images.unsplash.com/photo-1550355291-bbee04a92027?w=1200&q=80&fit=crop',
+                'https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=1200&q=80&fit=crop'
             ];
 
             const sliderContainer = document.getElementById('hero-slider');

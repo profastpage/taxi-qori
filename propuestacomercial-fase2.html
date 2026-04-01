@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Propuesta Fase 2 QORI | Fast Page Pro</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            color: #1e293b;
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container { max-width: 900px; margin: 0 auto; }
+        
+        /* Header */
+        .header { 
+            text-align: center; 
+            margin-bottom: 30px; 
+            animation: fadeIn 0.6s;
+            padding: 30px;
+            background: #ffffff;
+            border-radius: 16px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+        
+        .logo {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #2563EB 0%, #1E40AF 100%);
+            border-radius: 12px;
+            margin-bottom: 16px;
+        }
+        
+        .logo i { font-size: 28px; color: #ffffff; }
+        
+        .company-name {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #0f172a;
+            margin-bottom: 4px;
+        }
+        
+        .phase-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #D4AF37 0%, #F59E0B 100%);
+            color: white;
+            padding: 6px 20px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin: 12px 0;
+        }
+        
+        h1 { 
+            font-size: 2rem; 
+            margin: 16px 0 8px 0; 
+            color: #0f172a;
+            font-weight: 800;
+        }
+        
+        .gold-text {
+            color: #D4AF37;
+            font-weight: 700;
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #D4AF37 0%, #F59E0B 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .subtitle { 
+            color: #64748b; 
+            font-size: 1rem;
+            font-weight: 500;
+        }
+        
+        .client-info {
+            background: #f8fafc;
+            padding: 16px;
+            border-radius: 12px;
+            margin-top: 16px;
+            border-left: 4px solid #D4AF37;
+            text-align: left;
+        }
+        
+        .client-info strong { color: #0f172a; }
+        
+        /* Sections */
+        .section {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .section-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #0f172a;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #f1f5f9;
+        }
+        
+        .section-title i { color: #D4AF37; }
+        
+        /* Features Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 12px;
+        }
+        
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 14px;
+            background: #f8fafc;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s;
+        }
+        
+        .feature-item:hover {
+            border-color: #D4AF37;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(212, 175, 55, 0.15);
+        }
+        
+        .feature-item i {
+            color: #10B981;
+            margin-top: 3px;
+            font-size: 0.9rem;
+        }
+        
+        .feature-text {
+            color: #334155;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        /* Timeline */
+        .timeline {
+            display: grid;
+            gap: 12px;
+        }
+        
+        .timeline-item {
+            display: flex;
+            gap: 16px;
+            padding: 14px;
+            background: #f8fafc;
+            border-radius: 8px;
+            border-left: 3px solid #D4AF37;
+        }
+        
+        .timeline-week {
+            font-weight: 700;
+            color: #D4AF37;
+            min-width: 120px;
+        }
+        
+        .timeline-content {
+            color: #475569;
+            font-size: 0.9rem;
+        }
+        
+        /* Pricing Cards */
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+        }
+        
+        .pricing-card {
+            background: #ffffff;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 20px;
+            position: relative;
+        }
+        
+        .pricing-card.recommended {
+            border-color: #D4AF37;
+            background: linear-gradient(135deg, #fefce8 0%, #ffffff 100%);
+        }
+        
+        .pricing-card.best-value {
+            border-color: #10B981;
+            background: linear-gradient(135deg, #d1fae5 0%, #ffffff 100%);
+        }
+        
+        .badge-recommended {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: linear-gradient(135deg, #D4AF37 0%, #F59E0B 100%);
+            color: #ffffff;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.7rem;
+            font-weight: 800;
+        }
+        
+        .badge-best-value {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: linear-gradient(135deg, #10B981 0%, #34D399 100%);
+            color: #ffffff;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.7rem;
+            font-weight: 800;
+        }
+        
+        .pricing-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 8px;
+        }
+        
+        .pricing-subtitle {
+            color: #64748b;
+            font-size: 0.85rem;
+            margin-bottom: 12px;
+        }
+        
+        .price {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #10B981;
+            margin: 12px 0;
+        }
+        
+        .price-savings {
+            background: #d1fae5;
+            color: #065f46;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            display: inline-block;
+        }
+        
+        .price-comparison {
+            background: #fef2f2;
+            padding: 8px;
+            border-radius: 6px;
+            margin-bottom: 12px;
+            font-size: 0.85rem;
+        }
+        
+        .price-comparison regular {
+            text-decoration: line-through;
+            color: #dc2626;
+        }
+        
+        .payment-schedule {
+            background: #f8fafc;
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 12px;
+        }
+        
+        .payment-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 6px 0;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 0.85rem;
+        }
+        
+        .payment-item:last-child { border-bottom: none; }
+        
+        .payment-label { color: #475569; }
+        .payment-amount { font-weight: 700; color: #0f172a; }
+        
+        /* Bonus */
+        .bonus-box {
+            background: linear-gradient(135deg, #fefce8 0%, #fef3c7 100%);
+            border: 2px solid #D4AF37;
+            border-radius: 12px;
+            padding: 16px;
+            margin-top: 16px;
+        }
+        
+        .bonus-title {
+            font-weight: 700;
+            color: #D4AF37;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .bonus-list {
+            list-style: none;
+            font-size: 0.9rem;
+        }
+        
+        .bonus-list li {
+            padding: 4px 0;
+            color: #475569;
+        }
+        
+        .bonus-list li:before {
+            content: "✓ ";
+            color: #10B981;
+            font-weight: bold;
+            margin-right: 6px;
+        }
+        
+        /* Not Included */
+        .not-included {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            border-radius: 8px;
+            padding: 12px;
+            font-size: 0.85rem;
+        }
+        
+        .not-included strong {
+            color: #dc2626;
+            display: block;
+            margin-bottom: 8px;
+        }
+        
+        .not-included ul {
+            margin-left: 16px;
+            color: #7f1d1d;
+        }
+        
+        .not-included li { margin: 4px 0; }
+        
+        /* Tech Stack */
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+        }
+        
+        .tech-item {
+            background: #f8fafc;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .tech-item i {
+            font-size: 2rem;
+            color: #D4AF37;
+            margin-bottom: 8px;
+        }
+        
+        .tech-label {
+            font-weight: 700;
+            color: #D4AF37;
+            display: block;
+            margin-bottom: 4px;
+        }
+        
+        .tech-value {
+            color: #475569;
+            font-size: 0.9rem;
+        }
+        
+        /* CTA */
+        .cta-box {
+            text-align: center;
+            background: linear-gradient(135deg, #fefce8 0%, #ffffff 100%);
+            border: 2px solid #D4AF37;
+            border-radius: 12px;
+            padding: 24px;
+            margin-top: 20px;
+        }
+        
+        .cta-box h3 {
+            color: #0f172a;
+            margin-bottom: 12px;
+            font-size: 1.3rem;
+        }
+        
+        .cta-box p {
+            color: #475569;
+            margin-bottom: 16px;
+        }
+        
+        /* Footer */
+        .footer {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e2e8f0;
+        }
+        
+        .footer-content {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 12px 20px;
+            margin-bottom: 12px;
+        }
+        
+        .footer-link {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: #2563EB;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        
+        .footer-link i { color: #D4AF37; }
+        .footer-link.whatsapp i { color: #25D366; }
+        
+        .separator {
+            display: none;
+            width: 1px;
+            height: 20px;
+            background: #cbd5e1;
+        }
+        
+        @media (min-width: 640px) { .separator { display: block; } }
+        
+        .footer-copy {
+            color: #64748b;
+            font-size: 0.75rem;
+            margin-top: 12px;
+        }
+        
+        /* Download Button */
+        .download-btn {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: linear-gradient(135deg, #D4AF37 0%, #F59E0B 100%);
+            color: #ffffff;
+            padding: 14px 28px;
+            border-radius: 9999px;
+            border: none;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 10px 40px rgba(212, 175, 55, 0.4);
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+        
+        .download-btn:hover { transform: scale(1.05); }
+        
+        /* Animations */
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        
+        @media print {
+            body {
+                background: #f8fafc !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+            .download-btn { display: none !important; }
+            .section, .pricing-card {
+                background: #ffffff !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+        }
+        
+        @media (max-width: 640px) {
+            h1 { font-size: 1.5rem !important; }
+            .section { padding: 16px; }
+            .features-grid, .pricing-grid, .tech-grid { grid-template-columns: 1fr !important; }
+        }
+    </style>
+</head>
+<body>
+
+    <button onclick="generatePDF()" class="download-btn">
+        <i class="fas fa-file-pdf"></i>
+        <span>Descargar PDF</span>
+    </button>
+
+    <div class="container" id="proposal-content">
+        
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <i class="fas fa-bolt"></i>
+            </div>
+            <div class="company-name">Fast Page Pro</div>
+            <div class="phase-badge">FASE 2</div>
+            <h1>Propuesta <span class="gradient-text">Técnica</span></h1>
+            <p class="subtitle">Sistema Avanzado de Reservas - QORI</p>
+            
+            <div class="client-info">
+                <strong>Cliente:</strong> Edinson - QORI Taxi<br>
+                <strong>Fecha:</strong> <span id="current-date"></span><br>
+                <strong>Validez:</strong> 15 días
+            </div>
+        </header>
+
+        <!-- Project Overview -->
+        <section class="section">
+            <h2 class="section-title">
+                <i class="fas fa-rocket"></i>
+                Descripción del <span class="gold-text">Proyecto</span>
+            </h2>
+            <p style="color: #475569; line-height: 1.7; margin-bottom: 12px;">
+                Desarrollo de un sistema web avanzado de reservas automatizadas para QORI, 
+                integrando pasarela de pagos IziPay, facturación electrónica SUNAT, autenticación 
+                Google + email, y notificaciones automáticas por WhatsApp/SMS.
+            </p>
+            <div style="background: #fefce8; padding: 12px; border-radius: 8px; border-left: 4px solid #D4AF37; margin-top: 12px;">
+                <p style="color: #475569; font-size: 0.9rem; margin: 0;">
+                    <strong>Nota:</strong> Esta propuesta es independiente de la Fase 1 (Landing Page con Cotizador).
+                </p>
+            </div>
+        </section>
+
+        <!-- Features -->
+        <section class="section">
+            <h2 class="section-title">
+                <i class="fas fa-check-circle"></i>
+                Alcance del <span class="gold-text">Sistema</span>
+            </h2>
+            <div class="features-grid">
+                <div class="feature-item">
+                    <i class="fas fa-check"></i>
+                    <span class="feature-text">Sistema de reservas automáticas 24/7</span>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-check"></i>
+                    <span class="feature-text">Panel de administradores/operadores completo</span>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-check"></i>
+                    <span class="feature-text">Integración IziPay (tarjetas + Yape/Plin)</span>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-check"></i>
+                    <span class="feature-text">Facturación electrónica SUNAT integrada</span>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-check"></i>
+                    <span class="feature-text">Autenticación Google OAuth + email/contraseña</span>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-check"></i>
+                    <span class="feature-text">Notificaciones automáticas WhatsApp + SMS</span>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-check"></i>
+                    <span class="feature-text">Envío automático de vouchers por WhatsApp</span>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-check"></i>
+                    <span class="feature-text">Dashboard con estadísticas en tiempo real</span>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-check"></i>
+                    <span class="feature-text">Gestión de usuarios y permisos</span>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-check"></i>
+                    <span class="feature-text">Reportes exportables (Excel/PDF)</span>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-check"></i>
+                    <span class="feature-text">Base de datos segura con backups automáticos</span>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-check"></i>
+                    <span class="feature-text">Diseño responsive (móvil, tablet, PC)</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Timeline -->
+        <section class="section">
+            <h2 class="section-title">
+                <i class="fas fa-calendar-alt"></i>
+                Cronograma de <span class="gold-text">Desarrollo</span>
+            </h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-week">Semanas 1-2</div>
+                    <div class="timeline-content">
+                        <strong>Backend + API + Autenticación</strong><br>
+                        Base de datos, API RESTful, JWT, Google OAuth, email auth
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-week">Semanas 3-4</div>
+                    <div class="timeline-content">
+                        <strong>Frontend + Paneles de Control</strong><br>
+                        Interfaz de usuario, panel de operadores, dashboard
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-week">Semana 5</div>
+                    <div class="timeline-content">
+                        <strong>Integración IziPay + SUNAT</strong><br>
+                        Pasarela de pagos, facturación electrónica, comprobantes
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-week">Semana 6</div>
+                    <div class="timeline-content">
+                        <strong>Notificaciones + Testing</strong><br>
+                        WhatsApp API, SMS gateway, pruebas de seguridad
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-week">Semana 7</div>
+                    <div class="timeline-content">
+                        <strong>Deploy + Capacitación</strong><br>
+                        Puesta en producción, capacitación al personal, ajustes finales
+                    </div>
+                </div>
+            </div>
+            <p style="text-align: center; margin-top: 16px; color: #64748b; font-weight: 600;">
+                ⏱️ Tiempo total estimado: <span class="gold-text">7-8 semanas</span>
+            </p>
+        </section>
+
+        <!-- Tech Stack -->
+        <section class="section">
+            <h2 class="section-title">
+                <i class="fas fa-code"></i>
+                Stack <span class="gold-text">Tecnológico</span>
+            </h2>
+            <div class="tech-grid">
+                <div class="tech-item">
+                    <i class="fab fa-react"></i>
+                    <span class="tech-label">Frontend</span>
+                    <span class="tech-value">React.js / Next.js</span>
+                </div>
+                <div class="tech-item">
+                    <i class="fab fa-node"></i>
+                    <span class="tech-label">Backend</span>
+                    <span class="tech-value">Node.js + Express</span>
+                </div>
+                <div class="tech-item">
+                    <i class="fas fa-database"></i>
+                    <span class="tech-label">Base de Datos</span>
+                    <span class="tech-value">PostgreSQL / MySQL</span>
+                </div>
+                <div class="tech-item">
+                    <i class="fas fa-cloud"></i>
+                    <span class="tech-label">Hosting</span>
+                    <span class="tech-value">AWS / Vercel / DigitalOcean</span>
+                </div>
+                <div class="tech-item">
+                    <i class="fas fa-shield-alt"></i>
+                    <span class="tech-label">Seguridad</span>
+                    <span class="tech-value">JWT + HTTPS + Encriptación</span>
+                </div>
+                <div class="tech-item">
+                    <i class="fab fa-google"></i>
+                    <span class="tech-label">Autenticación</span>
+                    <span class="tech-value">Google OAuth + Email</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pricing -->
+        <section class="section">
+            <h2 class="section-title">
+                <i class="fas fa-coins"></i>
+                Inversión <span class="gold-text">Especial</span>
+            </h2>
+            
+            <div style="background: #fefce8; padding: 16px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #D4AF37;">
+                <p style="color: #475569; font-size: 0.95rem; margin: 0;">
+                    💎 <strong>Descuento por fidelidad:</strong> Precio regular S/6,000<br>
+                    <span style="font-size: 1.1rem; color: #D4AF37; font-weight: 700;">
+                        Elige Pago Único y ahorra S/1,500 → Solo S/4,500
+                    </span>
+                </p>
+            </div>
+
+            <div class="pricing-grid">
+                <!-- Option 1 - Best Value -->
+                <div class="pricing-card best-value">
+                    <span class="badge-best-value">⭐ MEJOR OPCIÓN</span>
+                    <h3 class="pricing-title">Opción 1: Pago Único</h3>
+                    <p class="pricing-subtitle">¡Ahorra S/1,000 vs el plan flexible!</p>
+                    <div class="price">S/4,500</div>
+                    <div class="price-savings">
+                        💰 Ahorras S/1,500 (25% de descuento)
+                    </div>
+                    <div class="price-comparison">
+                        Precio regular: <regular>S/6,000</regular>
+                    </div>
+                    
+                    <div class="payment-schedule">
+                        <div class="payment-item">
+                            <span class="payment-label">Anticipo (50%)</span>
+                            <span class="payment-amount">S/2,250</span>
+                        </div>
+                        <div class="payment-item">
+                            <span class="payment-label">Avance 50% (30%)</span>
+                            <span class="payment-amount">S/1,350</span>
+                        </div>
+                        <div class="payment-item">
+                            <span class="payment-label">Entrega (20%)</span>
+                            <span class="payment-amount">S/900</span>
+                        </div>
+                    </div>
+                    <div style="margin-top: 12px; padding: 10px; background: #d1fae5; border-radius: 6px; text-align: center;">
+                        <strong style="color: #065f46;">✓ Mejor valor - Máximo ahorro</strong>
+                    </div>
+                </div>
+
+                <!-- Option 2 - Flexible -->
+                <div class="pricing-card recommended">
+                    <span class="badge-recommended">⭐ RECOMENDADO</span>
+                    <h3 class="pricing-title">Opción 2: Plan Flexible</h3>
+                    <p class="pricing-subtitle">Más accesible - Menos inversión inicial</p>
+                    <div class="price">S/2,200</div>
+                    <div style="color: #D4AF37; font-size: 1.2rem; font-weight: 700; margin: 8px 0;">
+                        + S/550/mes (6 meses)
+                    </div>
+                    <div class="price-comparison">
+                        Total: <regular>S/5,500</regular><br>
+                        <span style="color: #64748b; font-size: 0.8rem;">
+                            (S/1,000 más que pago único)
+                        </span>
+                    </div>
+                    
+                    <div class="payment-schedule">
+                        <div class="payment-item">
+                            <span class="payment-label">Inicial</span>
+                            <span class="payment-amount">S/2,200</span>
+                        </div>
+                        <div class="payment-item">
+                            <span class="payment-label">Mensualidad (6 meses)</span>
+                            <span class="payment-amount">S/550</span>
+                        </div>
+                        <div class="payment-item">
+                            <span class="payment-label">Total</span>
+                            <span class="payment-amount" style="color: #D4AF37;">S/5,500</span>
+                        </div>
+                        <div class="payment-item" style="background: #fefce8; margin-top: 8px; padding: 8px; border-radius: 6px;">
+                            <span class="payment-label"><i class="fas fa-check-circle" style="color: #D4AF37;"></i> Incluye:</span>
+                            <span class="payment-amount">Hosting + Mantenimiento</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bonus -->
+            <div class="bonus-box">
+                <div class="bonus-title">
+                    <i class="fas fa-gift"></i>
+                    BONUS ESPECIAL - Si confirmas esta semana
+                </div>
+                <ul class="bonus-list">
+                    <li>1 mes de mantenimiento gratis (valor S/350)</li>
+                    <li>Capacitación extendida sin costo adicional (2 horas extra)</li>
+                    <li>Soporte prioritario durante 30 días</li>
+                    <li>Configuración inicial de redes sociales incluida</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- What's Included -->
+        <section class="section">
+            <h2 class="section-title">
+                <i class="fas fa-box-open"></i>
+                Todo <span class="gold-text">Incluido</span>
+            </h2>
+            <div class="features-grid">
+                <div class="feature-item">
+                    <i class="fas fa-check"></i>
+                    <span class="feature-text">Hosting premium de alta velocidad</span>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-check"></i>
+                    <span class="feature-text">Certificado SSL (HTTPS seguro)</span>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-check"></i>
+                    <span class="feature-text">Backups automáticos diarios</span>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-check"></i>
+                    <span class="feature-text">Soporte técnico por WhatsApp/email</span>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-check"></i>
+                    <span class="feature-text">Mantenimiento preventivo mensual</span>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-check"></i>
+                    <span class="feature-text">Actualizaciones de seguridad</span>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-check"></i>
+                    <span class="feature-text">Capacitación al personal (2 horas)</span>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-check"></i>
+                    <span class="feature-text">Garantía de 30 días post-entrega</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Not Included -->
+        <section class="section">
+            <h2 class="section-title">
+                <i class="fas fa-exclamation-triangle"></i>
+                No <span class="gold-text">Incluye</span>
+            </h2>
+            <div class="not-included">
+                <strong>Costos adicionales (paga directamente el cliente):</strong>
+                <ul>
+                    <li>Comisiones IziPay - 2.9% + S/0.30 por transacción</li>
+                    <li>WhatsApp Business API - USD $15-30/mes (aprox. S/60-120)</li>
+                    <li>SMS Gateway - S/0.05 por mensaje enviado</li>
+                    <li>Servicio PSE SUNAT (NubeFact/Facturama) - S/50-150/mes</li>
+                </ul>
+                <p style="margin-top: 12px; font-size: 0.8rem; color: #991b1d;">
+                    <strong>Nota:</strong> Nosotros integramos todos estos servicios, pero los costos son pagados 
+                    directamente por el cliente a los proveedores.
+                </p>
+            </div>
+        </section>
+
+        <!-- CTA -->
+        <div class="cta-box">
+            <div style="font-size: 3rem; margin-bottom: 12px;">🚀</div>
+            <h3>¿Listo para automatizar QORI?</h3>
+            <p>
+                <strong style="color: #10B981; font-size: 1.1rem;">
+                    💡 Elige Pago Único y ahorra S/1,500
+                </strong><br>
+                Un sistema profesional que trabajará 24/7 para generar más reservas
+            </p>
+            <a href="https://wa.me/51933667414?text=Hola,%20confirmo%20la%20propuesta%20FASE%202%20(Sistema%20Avanzado)%20-%20Opcion%201%20Pago%20Unico" 
+               target="_blank"
+               style="display: inline-flex; align-items: center; gap: 10px; background: linear-gradient(135deg, #25D366, #128C7E); color: white; padding: 16px 32px; border-radius: 12px; text-decoration: none; font-weight: 700; font-size: 1.1rem; box-shadow: 0 10px 30px rgba(37, 211, 102, 0.3);">
+                <i class="fab fa-whatsapp"></i>
+                <span>Confirmar Fase 2 Ahora</span>
+            </a>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="footer-links">
+                    <a href="https://www.fastpagepro.com" target="_blank" class="footer-link">
+                        <i class="fas fa-bolt"></i>
+                        <span><strong>Fast Page Pro</strong></span>
+                    </a>
+                    <span class="separator"></span>
+                    <a href="https://www.fastpagepro.com" target="_blank" class="footer-link">
+                        <i class="fas fa-globe"></i>
+                        <span>www.fastpagepro.com</span>
+                    </a>
+                    <span class="separator"></span>
+                    <a href="https://wa.me/51933667414" target="_blank" class="footer-link whatsapp">
+                        <i class="fab fa-whatsapp"></i>
+                        <span>+51 933 667 414</span>
+                    </a>
+                </div>
+                <p class="footer-copy">
+                    <i class="fas fa-copyright"></i> 2024 Fast Page Pro - Todos los derechos reservados<br>
+                    Propuesta generada el <span id="footer-date"></span> | Válida por 15 días
+                </p>
+            </div>
+        </footer>
+
+    </div>
+
+    <script>
+        // Fecha actual
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        const today = new Date().toLocaleDateString('es-PE', options);
+        document.getElementById('current-date').textContent = today;
+        document.getElementById('footer-date').textContent = today;
+
+        // Generar PDF
+        function generatePDF() {
+            const element = document.getElementById('proposal-content');
+            const btn = document.querySelector('.download-btn');
+            const originalContent = btn.innerHTML;
+            
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> <span>Generando...</span>';
+            
+            const opt = {
+                margin: [0.3, 0.3, 0.3, 0.3],
+                filename: 'Propuesta_Fase2_QORI_FastPagePro.pdf',
+                image: { type: 'jpeg', quality: 1.0 },
+                html2canvas: { 
+                    scale: 2, 
+                    useCORS: true, 
+                    backgroundColor: '#ffffff',
+                    logging: false,
+                    letterRendering: true,
+                    allowTaint: false,
+                    imageTimeout: 0,
+                    windowWidth: 900
+                },
+                jsPDF: { 
+                    unit: 'in', 
+                    format: 'a4', 
+                    orientation: 'portrait',
+                    compress: true
+                },
+                pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+            };
+
+            html2pdf().set(opt).from(element).save().then(() => {
+                btn.innerHTML = originalContent;
+                btn.disabled = false;
+            }).catch(err => {
+                console.error('Error PDF:', err);
+                alert('💡 Tip: Presiona Ctrl+P → "Guardar como PDF"');
+                btn.innerHTML = originalContent;
+                btn.disabled = false;
+            });
+        }
+    </script>
+</body>
+</html>

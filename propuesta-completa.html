@@ -1,0 +1,1203 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Propuesta Bundle QORI + App PWA | Fast Page Pro</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            color: #1e293b;
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container { max-width: 900px; margin: 0 auto; }
+        
+        /* Header */
+        .header { 
+            text-align: center; 
+            margin-bottom: 30px; 
+            animation: fadeIn 0.6s;
+            padding: 30px;
+            background: #ffffff;
+            border-radius: 16px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+        
+        .logo {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #2563EB 0%, #1E40AF 100%);
+            border-radius: 12px;
+            margin-bottom: 16px;
+        }
+        
+        .logo i { font-size: 28px; color: #ffffff; }
+        
+        .company-name {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #0f172a;
+            margin-bottom: 4px;
+        }
+        
+        .badge-bundle {
+            display: inline-block;
+            background: linear-gradient(135deg, #10B981 0%, #34D399 100%);
+            color: white;
+            padding: 8px 24px;
+            border-radius: 20px;
+            font-size: 0.95rem;
+            font-weight: 800;
+            margin: 12px 0;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+        }
+        
+        .badge-pwa {
+            display: inline-block;
+            background: linear-gradient(135deg, #F59E0B 0%, #D4AF37 100%);
+            color: white;
+            padding: 10px 28px;
+            border-radius: 24px;
+            font-size: 1rem;
+            font-weight: 800;
+            margin: 12px 0;
+            box-shadow: 0 6px 20px rgba(245, 158, 11, 0.4);
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        h1 { 
+            font-size: 2rem; 
+            margin: 16px 0 8px 0; 
+            color: #0f172a;
+            font-weight: 800;
+        }
+        
+        .gold-text {
+            color: #D4AF37;
+            font-weight: 700;
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #D4AF37 0%, #F59E0B 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .subtitle { 
+            color: #64748b; 
+            font-size: 1rem;
+            font-weight: 500;
+        }
+        
+        .savings-banner {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border: 2px solid #D4AF37;
+            border-radius: 12px;
+            padding: 16px;
+            margin: 16px 0;
+            text-align: center;
+        }
+        
+        .savings-banner .amount {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #D4AF37;
+            display: block;
+        }
+        
+        .pwa-banner {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border: 3px solid #F59E0B;
+            border-radius: 16px;
+            padding: 24px;
+            margin: 24px 0;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(245, 158, 11, 0.3);
+        }
+        
+        .pwa-banner .icon {
+            font-size: 3rem;
+            margin-bottom: 12px;
+        }
+        
+        .pwa-banner .title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #D4AF37;
+            margin-bottom: 8px;
+        }
+        
+        .pwa-banner .value {
+            font-size: 1.2rem;
+            color: #10B981;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+        
+        .client-info {
+            background: #f8fafc;
+            padding: 16px;
+            border-radius: 12px;
+            margin-top: 16px;
+            border-left: 4px solid #D4AF37;
+            text-align: left;
+        }
+        
+        .client-info strong { color: #0f172a; }
+        
+        /* Sections */
+        .section {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .section-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #0f172a;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #f1f5f9;
+        }
+        
+        .section-title i { color: #D4AF37; }
+        
+        /* Phase Boxes */
+        .phase-box {
+            background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 16px;
+            position: relative;
+        }
+        
+        .phase-box.phase1 {
+            border-color: #3B82F6;
+            border-left: 5px solid #3B82F6;
+        }
+        
+        .phase-box.phase2 {
+            border-color: #D4AF37;
+            border-left: 5px solid #D4AF37;
+        }
+        
+        .phase-box.pwa {
+            border-color: #F59E0B;
+            border-left: 5px solid #F59E0B;
+            background: linear-gradient(135deg, #fefce8 0%, #ffffff 100%);
+        }
+        
+        .phase-badge {
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            background: #3B82F6;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+        
+        .phase-box.phase2 .phase-badge {
+            background: #D4AF37;
+        }
+        
+        .phase-box.pwa .phase-badge {
+            background: #F59E0B;
+        }
+        
+        .phase-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #0f172a;
+            margin: 8px 0 12px 0;
+        }
+        
+        .phase-features {
+            list-style: none;
+        }
+        
+        .phase-features li {
+            padding: 6px 0;
+            color: #475569;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+        }
+        
+        .phase-features li:before {
+            content: "✓";
+            color: #10B981;
+            font-weight: bold;
+        }
+        
+        .delivery-time {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #f1f5f9;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #64748b;
+            margin-top: 12px;
+        }
+        
+        /* PWA Features */
+        .pwa-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+            margin-top: 16px;
+        }
+        
+        .pwa-feature {
+            background: #ffffff;
+            border: 2px solid #F59E0B;
+            border-radius: 8px;
+            padding: 12px;
+            text-align: center;
+        }
+        
+        .pwa-feature i {
+            font-size: 2rem;
+            color: #F59E0B;
+            margin-bottom: 8px;
+        }
+        
+        .pwa-feature-title {
+            font-weight: 700;
+            color: #0f172a;
+            font-size: 0.9rem;
+            margin-bottom: 4px;
+        }
+        
+        .pwa-feature-desc {
+            color: #64748b;
+            font-size: 0.8rem;
+        }
+        
+        /* Features Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 12px;
+        }
+        
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 12px;
+            background: #f8fafc;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .feature-item i {
+            color: #10B981;
+            margin-top: 3px;
+            font-size: 0.9rem;
+        }
+        
+        .feature-text {
+            color: #334155;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        /* Timeline */
+        .timeline {
+            display: grid;
+            gap: 12px;
+        }
+        
+        .timeline-item {
+            display: flex;
+            gap: 16px;
+            padding: 14px;
+            background: #f8fafc;
+            border-radius: 8px;
+            border-left: 3px solid #D4AF37;
+        }
+        
+        .timeline-week {
+            font-weight: 700;
+            color: #D4AF37;
+            min-width: 120px;
+        }
+        
+        .timeline-content {
+            color: #475569;
+            font-size: 0.9rem;
+        }
+        
+        /* Pricing Alert */
+        .pricing-alert {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border: 3px solid #D4AF37;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 24px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2);
+        }
+        
+        .pricing-alert-text {
+            font-size: 1.1rem;
+            color: #475569;
+            margin-bottom: 8px;
+        }
+        
+        .pricing-alert-highlight {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #10B981;
+            display: block;
+            margin: 12px 0;
+        }
+        
+        .pricing-alert-savings {
+            background: #10B981;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-weight: 700;
+            display: inline-block;
+            margin-top: 8px;
+        }
+        
+        /* Pricing Cards */
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        
+        .pricing-card {
+            background: #ffffff;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 24px;
+            position: relative;
+        }
+        
+        .pricing-card.best-deal {
+            border: 3px solid #10B981 !important;
+            background: linear-gradient(135deg, #d1fae5 0%, #ffffff 100%) !important;
+            transform: scale(1.05);
+            box-shadow: 0 15px 40px rgba(16, 185, 129, 0.3);
+            z-index: 10;
+        }
+        
+        .pricing-card.flexible {
+            border-color: #94a3b8;
+            background: #f8fafc;
+            opacity: 0.95;
+        }
+        
+        .badge-best-deal {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #10B981 0%, #34D399 100%);
+            color: #ffffff;
+            padding: 6px 20px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 800;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+        }
+        
+        .badge-flexible {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: #94a3b8;
+            color: #ffffff;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.7rem;
+            font-weight: 700;
+        }
+        
+        .pricing-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+        
+        .pricing-subtitle {
+            color: #64748b;
+            font-size: 0.9rem;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+        
+        .price {
+            font-size: 3rem;
+            font-weight: 800;
+            color: #10B981;
+            margin: 16px 0;
+            text-align: center;
+        }
+        
+        .pricing-card.flexible .price {
+            color: #64748b;
+        }
+        
+        .price-savings {
+            background: #d1fae5;
+            color: #065f46;
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            display: block;
+            text-align: center;
+        }
+        
+        .price-comparison {
+            background: #fef2f2;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+        
+        .price-comparison regular {
+            text-decoration: line-through;
+            color: #dc2626;
+        }
+        
+        .payment-schedule {
+            background: #f8fafc;
+            padding: 16px;
+            border-radius: 8px;
+            margin-top: 16px;
+        }
+        
+        .payment-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 0.9rem;
+        }
+        
+        .payment-item:last-child { border-bottom: none; }
+        
+        .payment-label { color: #475569; }
+        .payment-amount { font-weight: 700; color: #0f172a; }
+        
+        /* Bonus */
+        .bonus-box {
+            background: linear-gradient(135deg, #fefce8 0%, #fef3c7 100%);
+            border: 2px solid #D4AF37;
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        
+        .bonus-title {
+            font-weight: 700;
+            color: #D4AF37;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1.1rem;
+        }
+        
+        .bonus-list {
+            list-style: none;
+            font-size: 0.95rem;
+        }
+        
+        .bonus-list li {
+            padding: 6px 0;
+            color: #475569;
+        }
+        
+        .bonus-list li:before {
+            content: "✓ ";
+            color: #10B981;
+            font-weight: bold;
+            margin-right: 6px;
+        }
+        
+        /* Not Included */
+        .not-included {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            border-radius: 8px;
+            padding: 16px;
+            font-size: 0.9rem;
+        }
+        
+        .not-included strong {
+            color: #dc2626;
+            display: block;
+            margin-bottom: 12px;
+            font-size: 1rem;
+        }
+        
+        .not-included ul {
+            margin-left: 20px;
+            color: #7f1d1d;
+        }
+        
+        .not-included li { margin: 6px 0; }
+        
+        /* CTA */
+        .cta-box {
+            text-align: center;
+            background: linear-gradient(135deg, #fefce8 0%, #ffffff 100%);
+            border: 3px solid #D4AF37;
+            border-radius: 16px;
+            padding: 32px;
+            margin-top: 24px;
+        }
+        
+        .cta-box h3 {
+            color: #0f172a;
+            margin-bottom: 16px;
+            font-size: 1.5rem;
+        }
+        
+        .cta-box p {
+            color: #475569;
+            margin-bottom: 20px;
+            font-size: 1.05rem;
+        }
+        
+        /* Footer */
+        .footer {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e2e8f0;
+        }
+        
+        .footer-content {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 12px 20px;
+            margin-bottom: 12px;
+        }
+        
+        .footer-link {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: #2563EB;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        
+        .footer-link i { color: #D4AF37; }
+        .footer-link.whatsapp i { color: #25D366; }
+        
+        .separator {
+            display: none;
+            width: 1px;
+            height: 20px;
+            background: #cbd5e1;
+        }
+        
+        @media (min-width: 640px) { .separator { display: block; } }
+        
+        .footer-copy {
+            color: #64748b;
+            font-size: 0.75rem;
+            margin-top: 12px;
+        }
+        
+        /* Download Button */
+        .download-btn {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: linear-gradient(135deg, #D4AF37 0%, #F59E0B 100%);
+            color: #ffffff;
+            padding: 14px 28px;
+            border-radius: 9999px;
+            border: none;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 10px 40px rgba(212, 175, 55, 0.4);
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+        
+        .download-btn:hover { transform: scale(1.05); }
+        
+        /* Animations */
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        
+        @media print {
+            body {
+                background: #f8fafc !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+            .download-btn { display: none !important; }
+            .section, .pricing-card, .phase-box {
+                background: #ffffff !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+            .pricing-card.best-deal {
+                transform: none !important;
+                border: 2px solid #10B981 !important;
+            }
+        }
+        
+        @media (max-width: 640px) {
+            h1 { font-size: 1.5rem !important; }
+            .section { padding: 16px; }
+            .features-grid, .pricing-grid { grid-template-columns: 1fr !important; }
+            .pricing-card.best-deal { transform: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <button onclick="generatePDF()" class="download-btn">
+        <i class="fas fa-file-pdf"></i>
+        <span>Descargar PDF</span>
+    </button>
+
+    <div class="container" id="proposal-content">
+        
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <i class="fas fa-bolt"></i>
+            </div>
+            <div class="company-name">Fast Page Pro</div>
+            <div class="badge-bundle">🎁 SUPER BUNDLE - EDICIÓN ESPECIAL</div>
+            <div class="badge-pwa">📱 APP PWA GRATIS - VALOR S/1,500</div>
+            <h1>Propuesta <span class="gradient-text">Bundle</span></h1>
+            <p class="subtitle">Sistema Completo QORI + App Tipo Uber/Yango</p>
+            
+            <div class="savings-banner">
+                <span style="color: #475569; font-size: 1.1rem;">AHORRO TOTAL:</span>
+                <span class="amount">S/3,100</span>
+                <span style="color: #64748b; font-size: 0.95rem;">vs contratar por separado</span>
+            </div>
+            
+            <div class="client-info">
+                <strong>Cliente:</strong> Edinson - QORI Taxi<br>
+                <strong>Fecha:</strong> <span id="current-date"></span><br>
+                <strong>Validez:</strong> 15 días
+            </div>
+        </header>
+
+        <!-- PWA Special Banner -->
+        <div class="pwa-banner">
+            <div class="icon">🚀</div>
+            <div class="title">📱 APP PWA INCLUIDA - TOTALMENTE GRATIS</div>
+            <div class="value">Valor: S/1,500 → S/0 (Incluido en Bundle)</div>
+            <p style="color: #475569; margin: 12px 0;">
+                <strong>Tus clientes tendrán una app como Uber o Yango</strong> instalada en sus celulares<br>
+                Sin necesidad de App Store ni Google Play
+            </p>
+        </div>
+
+        <!-- Bundle Overview -->
+        <section class="section">
+            <h2 class="section-title">
+                <i class="fas fa-gift"></i>
+                Paquete <span class="gold-text">QORI Completo</span>
+            </h2>
+            <p style="color: #475569; line-height: 1.7; margin-bottom: 20px;">
+                Solución integral que incluye desde tu landing page profesional hasta el sistema 
+                avanzado de reservas con pagos en línea, facturación electrónica, automatización completa
+                <strong style="color: #F59E0B;"> Y UNA APP PWA tipo Uber/Yango totalmente GRATIS</strong>.
+            </p>
+            
+            <!-- Phase 1 -->
+            <div class="phase-box phase1">
+                <div class="phase-badge">FASE 1</div>
+                <h3 class="phase-title">🚀 Landing Page con Cotizador Inteligente</h3>
+                <ul class="phase-features">
+                    <li>Diseño web profesional adaptado a tu marca</li>
+                    <li>Cotizador inteligente de viajes (origen, destino, vehículo, horario)</li>
+                    <li>Integración directa con WhatsApp para recibir pedidos</li>
+                    <li>Optimización para móviles, tablets y PC</li>
+                    <li>Sección de servicios, beneficios y testimonios</li>
+                    <li>Botones estratégicos para generar más reservas</li>
+                    <li>Hosting optimizado de alta velocidad</li>
+                </ul>
+                <div class="delivery-time">
+                    <i class="fas fa-clock"></i>
+                    Entrega: 24-48 horas
+                </div>
+            </div>
+
+            <!-- Phase 2 -->
+            <div class="phase-box phase2">
+                <div class="phase-badge">FASE 2</div>
+                <h3 class="phase-title">💎 Sistema Avanzado de Reservas</h3>
+                <ul class="phase-features">
+                    <li>Panel de administradores/operadores completo</li>
+                    <li>Integración IziPay (tarjetas + Yape/Plin)</li>
+                    <li>Facturación electrónica SUNAT integrada</li>
+                    <li>Autenticación Google OAuth + email/contraseña</li>
+                    <li>Notificaciones automáticas WhatsApp + SMS</li>
+                    <li>Envío automático de vouchers por WhatsApp</li>
+                    <li>Dashboard con estadísticas en tiempo real</li>
+                    <li>Gestión de usuarios y permisos</li>
+                    <li>Reportes exportables (Excel/PDF)</li>
+                    <li>Base de datos segura con backups automáticos</li>
+                </ul>
+                <div class="delivery-time">
+                    <i class="fas fa-clock"></i>
+                    Entrega: 7-8 semanas (después de Fase 1)
+                </div>
+            </div>
+
+            <!-- PWA Feature -->
+            <div class="phase-box pwa">
+                <div class="phase-badge">BONUS ESPECIAL</div>
+                <h3 class="phase-title">📱 App PWA Tipo Uber/Yango - GRATIS</h3>
+                <p style="color: #475569; margin-bottom: 12px; font-size: 0.95rem;">
+                    Tus clientes podrán instalar la app directamente desde el navegador, 
+                    sin pasar por App Store o Google Play. Funciona como una app nativa.
+                </p>
+                <div class="pwa-features">
+                    <div class="pwa-feature">
+                        <i class="fas fa-mobile-alt"></i>
+                        <div class="pwa-feature-title">Instalación Directa</div>
+                        <div class="pwa-feature-desc">Sin App Store</div>
+                    </div>
+                    <div class="pwa-feature">
+                        <i class="fas fa-bell"></i>
+                        <div class="pwa-feature-title">Push Notifications</div>
+                        <div class="pwa-feature-desc">Alertas en tiempo real</div>
+                    </div>
+                    <div class="pwa-feature">
+                        <i class="fas fa-wifi"></i>
+                        <div class="pwa-feature-title">Modo Offline</div>
+                        <div class="pwa-feature-desc">Funciona sin internet</div>
+                    </div>
+                    <div class="pwa-feature">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <div class="pwa-feature-title">Ultra Rápida</div>
+                        <div class="pwa-feature-desc">Carga instantánea</div>
+                    </div>
+                    <div class="pwa-feature">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div class="pwa-feature-title">GPS Integrado</div>
+                        <div class="pwa-feature-desc">Ubicación en tiempo real</div>
+                    </div>
+                    <div class="pwa-feature">
+                        <i class="fas fa-sync"></i>
+                        <div class="pwa-feature-title">Auto-Actualizable</div>
+                        <div class="pwa-feature-desc">Siempre actualizada</div>
+                    </div>
+                </div>
+                <div class="delivery-time" style="background: #fef3c7; color: #D4AF37; margin-top: 16px;">
+                    <i class="fas fa-gift"></i>
+                    <strong>Valor: S/1,500 → INCLUIDO GRATIS</strong>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pricing Alert -->
+        <div class="pricing-alert">
+            <div class="pricing-alert-text">
+                Precio Regular (por separado): <span style="text-decoration: line-through; color: #dc2626;">S/8,100</span>
+            </div>
+            <div class="pricing-alert-highlight">
+                Tu Precio Bundle: Desde S/5,000
+            </div>
+            <div class="pricing-alert-savings">
+                💰 Ahorras hasta: S/3,100 (38% de descuento)
+            </div>
+            <p style="color: #475569; margin-top: 12px; font-size: 0.95rem;">
+                <strong>¡Incluye App PWA valorada en S/1,500 totalmente GRATIS!</strong>
+            </p>
+        </div>
+
+        <!-- Pricing -->
+        <section class="section">
+            <h2 class="section-title">
+                <i class="fas fa-coins"></i>
+                Opciones de <span class="gold-text">Pago</span>
+            </h2>
+            
+            <div class="pricing-grid">
+                <!-- Option 1 - Best Deal (PAGO ÚNICO) -->
+                <div class="pricing-card best-deal">
+                    <span class="badge-best-deal">⭐ MEJOR OPCIÓN - AHORRA S/1,000 + APP GRATIS</span>
+                    <h3 class="pricing-title">Opción 1: Pago Único</h3>
+                    <p class="pricing-subtitle">¡Máximo ahorro - TODO incluido!</p>
+                    <div class="price">S/5,000</div>
+                    <div class="price-savings">
+                        💰 Ahorras S/3,100 + App PWA GRATIS (S/1,500)
+                    </div>
+                    <div class="price-comparison">
+                        Precio regular: <regular>S/8,100</regular><br>
+                        <span style="color: #10B981; font-weight: 700;">
+                            Descuento total: S/3,100 + App Gratis
+                        </span>
+                    </div>
+                    
+                    <div class="payment-schedule">
+                        <div class="payment-item">
+                            <span class="payment-label">Anticipo (40%)</span>
+                            <span class="payment-amount">S/2,000</span>
+                        </div>
+                        <div class="payment-item">
+                            <span class="payment-label">Avance Fase 1 (30%)</span>
+                            <span class="payment-amount">S/1,500</span>
+                        </div>
+                        <div class="payment-item">
+                            <span class="payment-label">Entrega Fase 2 (30%)</span>
+                            <span class="payment-amount">S/1,500</span>
+                        </div>
+                    </div>
+                    <div style="margin-top: 16px; padding: 12px; background: #d1fae5; border-radius: 8px; text-align: center; border: 1px solid #10B981;">
+                        <strong style="color: #065f46; font-size: 0.95rem;">
+                            ✓ Mejor valor - Máximo ahorro<br>
+                            <span style="font-size: 0.85rem; color: #10B981; font-weight: 700;">
+                                📱 Incluye App PWA GRATIS (S/1,500)
+                            </span>
+                        </strong>
+                    </div>
+                </div>
+
+                <!-- Option 2 - Flexible (más caro) -->
+                <div class="pricing-card flexible">
+                    <span class="badge-flexible">Flexible</span>
+                    <h3 class="pricing-title">Opción 2: Plan Flexible</h3>
+                    <p class="pricing-subtitle">Menos inversión inicial</p>
+                    <div class="price">S/6,000</div>
+                    <div style="color: #64748b; font-size: 1.1rem; font-weight: 700; margin: 8px 0; text-align: center;">
+                        S/2,400 inicial + S/600/mes
+                    </div>
+                    <div class="price-comparison" style="background: #fef2f2;">
+                        Total: <strong style="color: #dc2626;">S/6,000</strong><br>
+                        <span style="color: #dc2626; font-weight: 700;">
+                            S/1,000 más que pago único
+                        </span>
+                    </div>
+                    
+                    <div class="payment-schedule">
+                        <div class="payment-item">
+                            <span class="payment-label">Inicial</span>
+                            <span class="payment-amount">S/2,400</span>
+                        </div>
+                        <div class="payment-item">
+                            <span class="payment-label">Mensualidad (6 meses)</span>
+                            <span class="payment-amount">S/600</span>
+                        </div>
+                        <div class="payment-item">
+                            <span class="payment-label">Total</span>
+                            <span class="payment-amount" style="color: #dc2626;">S/6,000</span>
+                        </div>
+                        <div class="payment-item" style="background: #fef3c7; margin-top: 12px; padding: 10px; border-radius: 6px; border: 1px solid #F59E0B;">
+                            <span class="payment-label"><i class="fas fa-mobile-alt" style="color: #F59E0B;"></i> Incluye:</span>
+                            <span class="payment-amount">App PWA + Todo</span>
+                        </div>
+                    </div>
+                    <div style="margin-top: 16px; padding: 10px; background: #f1f5f9; border-radius: 6px; text-align: center; font-size: 0.85rem; color: #64748b;">
+                        Ideal si prefieres pagar mes a mes<br>
+                        <span style="color: #F59E0B; font-weight: 600;">📱 Incluye App PWA GRATIS</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bonus -->
+            <div class="bonus-box">
+                <div class="bonus-title">
+                    <i class="fas fa-gift"></i>
+                    BONUS ESPECIAL - Si confirmas esta semana
+                </div>
+                <ul class="bonus-list">
+                    <li><strong style="color: #F59E0B;">📱 App PWA tipo Uber/Yango (Valor S/1,500) - GRATIS</strong></li>
+                    <li>2 meses de mantenimiento gratis (valor S/700)</li>
+                    <li>Capacitación extendida sin costo adicional (4 horas extra)</li>
+                    <li>Soporte prioritario durante 60 días</li>
+                    <li>Configuración inicial de redes sociales incluida</li>
+                    <li>Dominio .com o .pe incluido (1er año - valor S/100)</li>
+                    <li>Logo digital optimizado para web (valor S/150)</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Timeline -->
+        <section class="section">
+            <h2 class="section-title">
+                <i class="fas fa-calendar-alt"></i>
+                Cronograma <span class="gold-text">Total</span>
+            </h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-week">Días 1-2</div>
+                    <div class="timeline-content">
+                        <strong style="color: #3B82F6;">FASE 1: Landing Page</strong><br>
+                        Diseño, desarrollo y entrega de landing con cotizador
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-week">Semanas 1-2</div>
+                    <div class="timeline-content">
+                        <strong style="color: #D4AF37;">FASE 2: Backend + API</strong><br>
+                        Base de datos, API RESTful, autenticación Google + email
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-week">Semanas 3-4</div>
+                    <div class="timeline-content">
+                        <strong style="color: #D4AF37;">FASE 2: Frontend + Paneles</strong><br>
+                        Interfaz de usuario, panel de operadores, dashboard
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-week">Semana 5</div>
+                    <div class="timeline-content">
+                        <strong style="color: #D4AF37;">FASE 2: IziPay + SUNAT</strong><br>
+                        Pasarela de pagos, facturación electrónica
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-week">Semana 6</div>
+                    <div class="timeline-content">
+                        <strong style="color: #D4AF37;">FASE 2 + PWA: App + Notificaciones</strong><br>
+                        App PWA, WhatsApp API, SMS gateway, testing
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-week">Semana 7-8</div>
+                    <div class="timeline-content">
+                        <strong style="color: #D4AF37;">FASE 2: Deploy + Capacitación</strong><br>
+                        Puesta en producción, capacitación, ajustes finales
+                    </div>
+                </div>
+            </div>
+            <p style="text-align: center; margin-top: 16px; color: #64748b; font-weight: 600;">
+                ⏱️ Tiempo total: <span class="gold-text">Fase 1 en 48h + Todo en 7-8 semanas</span>
+            </p>
+        </section>
+
+        <!-- What's Included -->
+        <section class="section">
+            <h2 class="section-title">
+                <i class="fas fa-box-open"></i>
+                Todo <span class="gold-text">Incluido</span>
+            </h2>
+            <div class="features-grid">
+                <div class="feature-item">
+                    <i class="fas fa-check"></i>
+                    <span class="feature-text">Hosting premium de alta velocidad</span>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-check"></i>
+                    <span class="feature-text">Certificado SSL (HTTPS seguro)</span>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-check"></i>
+                    <span class="feature-text">Backups automáticos diarios</span>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-check"></i>
+                    <span class="feature-text">Soporte técnico por WhatsApp/email</span>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-check"></i>
+                    <span class="feature-text">Mantenimiento preventivo mensual</span>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-check"></i>
+                    <span class="feature-text">Actualizaciones de seguridad</span>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-check"></i>
+                    <span class="feature-text">Capacitación al personal (4 horas)</span>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-check"></i>
+                    <span class="feature-text">Garantía de 30 días post-entrega</span>
+                </div>
+                <div class="feature-item" style="background: #fef3c7; border: 2px solid #F59E0B;">
+                    <i class="fas fa-mobile-alt" style="color: #F59E0B;"></i>
+                    <span class="feature-text" style="color: #D4AF37; font-weight: 700;">📱 App PWA (S/1,500) - GRATIS</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Not Included -->
+        <section class="section">
+            <h2 class="section-title">
+                <i class="fas fa-exclamation-triangle"></i>
+                No <span class="gold-text">Incluye</span>
+            </h2>
+            <div class="not-included">
+                <strong>Costos adicionales (paga directamente el cliente):</strong>
+                <ul>
+                    <li>Comisiones IziPay - 2.9% + S/0.30 por transacción</li>
+                    <li>WhatsApp Business API - USD $15-30/mes (aprox. S/60-120)</li>
+                    <li>SMS Gateway - S/0.05 por mensaje enviado</li>
+                    <li>Servicio PSE SUNAT (NubeFact/Facturama) - S/50-150/mes</li>
+                </ul>
+                <p style="margin-top: 12px; font-size: 0.85rem; color: #991b1d;">
+                    <strong>Nota:</strong> Nosotros integramos todos estos servicios, pero los costos son pagados 
+                    directamente por el cliente a los proveedores.
+                </p>
+            </div>
+        </section>
+
+        <!-- CTA -->
+        <div class="cta-box">
+            <div style="font-size: 3.5rem; margin-bottom: 16px;">🚀📱</div>
+            <h3>¿Listo para transformar QORI digitalmente?</h3>
+            <p>
+                <strong style="color: #F59E0B; font-size: 1.3rem; display: block; margin-bottom: 12px;">
+                    📱 APP PWA TIPO UBER/YANGO INCLUIDA GRATIS
+                </strong>
+                <strong style="color: #10B981; font-size: 1.15rem; display: block; margin-bottom: 8px;">
+                    💡 AHORRA S/3,100 + App Gratis (S/1,500)
+                </strong>
+                Landing + Sistema Avanzado + App PWA en 8 semanas.<br>
+                <span style="color: #D4AF37; font-weight: 700; font-size: 1.1rem;">
+                    ¡Oferta única - App PWA incluida solo esta semana!
+                </span>
+            </p>
+            <a href="https://wa.me/51933667414?text=Hola,%20confirmo%20el%20SUPER%20BUNDLE%20QORI%20con%20APP%20PWA%20-%20Opcion%201%20Pago%20Unico%20S/5000" 
+               target="_blank"
+               style="display: inline-flex; align-items: center; gap: 10px; background: linear-gradient(135deg, #25D366, #128C7E); color: white; padding: 18px 36px; border-radius: 12px; text-decoration: none; font-weight: 700; font-size: 1.15rem; box-shadow: 0 10px 30px rgba(37, 211, 102, 0.3);">
+                <i class="fab fa-whatsapp"></i>
+                <span>Confirmar Bundle con App PWA</span>
+            </a>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="footer-links">
+                    <a href="https://www.fastpagepro.com" target="_blank" class="footer-link">
+                        <i class="fas fa-bolt"></i>
+                        <span><strong>Fast Page Pro</strong></span>
+                    </a>
+                    <span class="separator"></span>
+                    <a href="https://www.fastpagepro.com" target="_blank" class="footer-link">
+                        <i class="fas fa-globe"></i>
+                        <span>www.fastpagepro.com</span>
+                    </a>
+                    <span class="separator"></span>
+                    <a href="https://wa.me/51933667414" target="_blank" class="footer-link whatsapp">
+                        <i class="fab fa-whatsapp"></i>
+                        <span>+51 933 667 414</span>
+                    </a>
+                </div>
+                <p class="footer-copy">
+                    <i class="fas fa-copyright"></i> 2024 Fast Page Pro - Todos los derechos reservados<br>
+                    Propuesta generada el <span id="footer-date"></span> | Válida por 15 días
+                </p>
+            </div>
+        </footer>
+
+    </div>
+
+    <script>
+        // Fecha actual
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        const today = new Date().toLocaleDateString('es-PE', options);
+        document.getElementById('current-date').textContent = today;
+        document.getElementById('footer-date').textContent = today;
+
+        // Generar PDF
+        function generatePDF() {
+            const element = document.getElementById('proposal-content');
+            const btn = document.querySelector('.download-btn');
+            const originalContent = btn.innerHTML;
+            
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> <span>Generando...</span>';
+            
+            const opt = {
+                margin: [0.3, 0.3, 0.3, 0.3],
+                filename: 'Propuesta_Bundle_QORI_AppPWA_FastPagePro.pdf',
+                image: { type: 'jpeg', quality: 1.0 },
+                html2canvas: { 
+                    scale: 2, 
+                    useCORS: true, 
+                    backgroundColor: '#ffffff',
+                    logging: false,
+                    letterRendering: true,
+                    allowTaint: false,
+                    imageTimeout: 0,
+                    windowWidth: 900
+                },
+                jsPDF: { 
+                    unit: 'in', 
+                    format: 'a4', 
+                    orientation: 'portrait',
+                    compress: true
+                },
+                pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+            };
+
+            html2pdf().set(opt).from(element).save().then(() => {
+                btn.innerHTML = originalContent;
+                btn.disabled = false;
+            }).catch(err => {
+                console.error('Error PDF:', err);
+                alert('💡 Tip: Presiona Ctrl+P → "Guardar como PDF"');
+                btn.innerHTML = originalContent;
+                btn.disabled = false;
+            });
+        }
+    </script>
+</body>
+</html>
