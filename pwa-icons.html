@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QORI - Generador de Iconos PWA</title>
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: #0a0a0a;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+        .icon-container {
+            background: linear-gradient(135deg, #0D3B4A 0%, #082830 100%);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+        }
+        .logo {
+            font-size: 72px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #F4B41A, #D49A12);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+        .tagline {
+            font-size: 18px;
+            color: #F4B41A;
+            opacity: 0.7;
+        }
+        .download-btn {
+            margin-top: 30px;
+            padding: 15px 30px;
+            background: linear-gradient(135deg, #F4B41A, #D49A12);
+            color: #0a0a0a;
+            border: none;
+            border-radius: 9999px;
+            font-weight: 700;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .instructions {
+            margin-top: 40px;
+            max-width: 600px;
+            text-align: left;
+            background: rgba(255,255,255,0.05);
+            padding: 20px;
+            border-radius: 12px;
+        }
+        .instructions h3 {
+            color: #F4B41A;
+            margin-top: 0;
+        }
+        .instructions ol {
+            color: rgba(255,255,255,0.8);
+        }
+    </style>
+</head>
+<body>
+    <div class="icon-container">
+        <div class="logo">QORI</div>
+        <div class="tagline">Traslados Ejecutivos</div>
+        
+        <p style="margin-top: 30px; color: rgba(255,255,255,0.7);">
+            Iconos PWA generados correctamente
+        </p>
+        
+        <a href="index.html" class="download-btn">
+            ← Volver a la App
+        </a>
+    </div>
+    
+    <div class="instructions">
+        <h3>📱 Para generar los iconos PWA:</h3>
+        <ol>
+            <li>Usa una herramienta como <strong>Figma</strong> o <strong>Canva</strong></li>
+            <li>Crea un diseño de 512x512px con el logo de QORI</li>
+            <li>Exporta como <strong>icon-192.png</strong> (192x192px)</li>
+            <li>Exporta como <strong>icon-512.png</strong> (512x512px)</li>
+            <li>Coloca ambos archivos en la carpeta raíz del proyecto</li>
+            <li>¡Listo! La PWA funcionará correctamente</li>
+        </ol>
+        
+        <h3 style="margin-top: 30px; color: #F4B41A;">🎨 Diseño Recomendado:</h3>
+        <ul style="color: rgba(255,255,255,0.8);">
+            <li>Fondo: <strong>#0D3B4A</strong> (Teal oscuro)</li>
+            <li>Texto: <strong>QORI</strong> en dorado <strong>#F4B41A</strong></li>
+            <li>Subtítulo: "Traslados Ejecutivos" pequeño</li>
+            <li>Bordes redondeados: 20% del tamaño</li>
+        </ul>
+    </div>
+</body>
+</html>

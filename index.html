@@ -9,6 +9,14 @@
     <meta name="author" content="Fast Page Pro">
     <meta name="robots" content="index, follow">
     
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#0D3B4A">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="QORI">
+    <link rel="apple-touch-icon" href="icon-192.png">
+    <link rel="manifest" href="manifest.json">
+    
     <!-- Critical CSS Inline para FCP rapido -->
     <style>
         /* Critical CSS - Above the fold */
@@ -752,6 +760,13 @@
             <a href="#beneficios" class="mobile-menu-link"><i class="fas fa-star mr-3 text-[#F4B41A]"></i>Beneficios</a>
             <a href="#servicios" class="mobile-menu-link"><i class="fas fa-car mr-3 text-[#F4B41A]"></i>Servicios</a>
             <a href="#como-funciona" class="mobile-menu-link"><i class="fas fa-info-circle mr-3 text-[#F4B41A]"></i>Cómo Funciona</a>
+            
+            <!-- Boton Instalar App PWA -->
+            <button id="install-app-btn" class="w-full mt-4 py-3 px-4 bg-[#F4B41A] hover:bg-[#D49A12] text-black rounded-full font-bold flex items-center justify-center gap-2 transition-all" style="display: none;">
+                <i class="fas fa-download"></i>
+                <span>Instalar App</span>
+            </button>
+            
             <div class="mobile-menu-cta">
                 <a href="https://wa.me/51933667414?text=Hola%20vi%20la%20demo%20de%20QORI%20y%20me%20interesa%20el%20servicio%20de%20traslados%20ejecutivos.%0A%0AQuiero%20activar%20esta%20web%20para%20mi%20negocio%20de%20transporte.%20Me%20pueden%20dar%20mas%20informacion%3F" class="btn-primary w-full py-3 rounded-full font-bold flex items-center justify-center gap-2">
                     <i class="fab fa-whatsapp"></i>Activar Demo
@@ -2893,7 +2908,7 @@ Probe el cotizador con estos datos:
         document.addEventListener('DOMContentLoaded', () => {
             // Set minimum date and default time
             setMinDate();
-            
+
             // Desktop calculator
             initCalculator('calculator-form', 'origen', 'destino', 'estimated-price');
 
@@ -2902,6 +2917,43 @@ Probe el cotizador con estos datos:
 
             // Initialize Hero Slider
             initHeroSlider();
+
+            // Register Service Worker (PWA)
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(registration => {
+                        console.log('Service Worker registrado:', registration);
+                    })
+                    .catch(error => {
+                        console.log('Error al registrar Service Worker:', error);
+                    });
+            }
+
+            // PWA Install Button Logic
+            let deferredPrompt;
+            const installBtn = document.getElementById('install-app-btn');
+
+            window.addEventListener('beforeinstallprompt', (e) => {
+                e.preventDefault();
+                deferredPrompt = e;
+                installBtn.style.display = 'flex';
+                console.log('Evento beforeinstallprompt disparado');
+            });
+
+            installBtn.addEventListener('click', async () => {
+                if (deferredPrompt) {
+                    deferredPrompt.prompt();
+                    const { outcome } = await deferredPrompt.userChoice;
+                    console.log('Usuario aceptó instalación:', outcome);
+                    deferredPrompt = null;
+                    installBtn.style.display = 'none';
+                }
+            });
+
+            window.addEventListener('appinstalled', () => {
+                console.log('PWA instalada exitosamente');
+                installBtn.style.display = 'none';
+            });
         });
 
         // Professional Hero Slider with Crossfade Effect and Preloading
