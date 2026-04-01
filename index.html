@@ -1107,9 +1107,9 @@
                     <!-- User Menu - Desktop (visible cuando logueado) -->
                     <button id="desktop-user-menu-btn" onclick="openClientDashboard()" class="hidden lg:flex items-center gap-3 hover:opacity-80 transition-opacity" style="display: none;" aria-label="Mi Perfil">
                         <div class="w-8 h-8 rounded-full bg-gradient-to-br from-[#F4B41A] to-[#D49A12] flex items-center justify-center text-black font-bold text-sm">
-                            JP
+                            <span class="user-avatar-initials">JP</span>
                         </div>
-                        <span class="text-white text-sm font-medium">Juan Pérez</span>
+                        <span class="text-white text-sm font-medium user-menu-name">Juan Pérez</span>
                     </button>
 
                     <!-- Auth Buttons - Desktop (visible cuando NO logueado) -->
@@ -4229,7 +4229,10 @@ Probe el cotizador con estos datos:
             const mobileAuthBtns = document.getElementById('mobile-auth-buttons');
             const mobileAuthBtnsNavbar = document.getElementById('mobile-auth-buttons-navbar');
             const mobileUserMenu = document.getElementById('mobile-user-menu');
-
+            
+            // Obtener usuario actual (mock o real)
+            const user = window.QORI_USER || { name: 'Juan Pérez', email: 'juan@qori.com' };
+            
             if (isLoggedIn) {
                 // Usuario logueado: mostrar menu de usuario, ocultar botones de auth
                 desktopAuthBtns.style.display = 'none';
@@ -4237,9 +4240,22 @@ Probe el cotizador con estos datos:
                 mobileAuthBtnsNavbar.style.display = 'none';
                 if (mobileAuthBtns) mobileAuthBtns.style.display = 'none';
                 if (mobileUserMenu) mobileUserMenu.style.display = 'block';
+                
+                // Actualizar avatar con iniciales
+                const initials = user.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+                const avatarElement = desktopUserMenu.querySelector('.user-avatar-initials');
+                if (avatarElement) {
+                    avatarElement.textContent = initials;
+                }
+                
+                // Actualizar nombre de usuario
+                const userNameElement = desktopUserMenu.querySelector('.user-menu-name');
+                if (userNameElement) {
+                    userNameElement.textContent = user.name;
+                }
             } else {
                 // Usuario NO logueado: mostrar botones de auth, ocultar menu de usuario
-                desktopAuthBtns.style.display = 'none';
+                desktopAuthBtns.style.display = 'flex';
                 desktopUserMenu.style.display = 'none';
                 mobileAuthBtnsNavbar.style.display = 'flex';
                 if (mobileAuthBtns) mobileAuthBtns.style.display = 'block';
@@ -4276,13 +4292,31 @@ Probe el cotizador con estos datos:
         // Handle form submissions (demo con toasts)
         document.getElementById('login-form')?.addEventListener('submit', (e) => {
             e.preventDefault();
-            showToast('¡Bienvenido de nuevo!', 'success');
-            // Simular login exitoso (limpiando session de admin)
-            localStorage.removeItem('qori_admin_logged_in');
-            localStorage.setItem('qori_user_logged_in', 'true');
-            setTimeout(() => {
-                window.location.href = 'dashboard.html';
-            }, 1000);
+            const email = e.target.querySelector('input[type="email"]').value.trim().toLowerCase();
+            const password = e.target.querySelector('input[type="password"]').value;
+            
+            // Verificar si es login de administrador
+            if (email === 'admin@qori.com') {
+                // Validar contraseña de admin
+                if (password === '1234') {
+                    showToast('¡Autenticación exitosa! Redirigiendo...', 'success');
+                    localStorage.removeItem('qori_user_logged_in'); // Clear user session
+                    localStorage.setItem('qori_admin_logged_in', 'true');
+                    setTimeout(() => {
+                        window.location.href = 'admin-dashboard.html';
+                    }, 1500);
+                } else {
+                    showToast('Contraseña incorrecta', 'error');
+                }
+            } else {
+                // Login de usuario normal
+                showToast('¡Bienvenido de nuevo!', 'success');
+                localStorage.removeItem('qori_admin_logged_in'); // Clear admin session
+                localStorage.setItem('qori_user_logged_in', 'true');
+                setTimeout(() => {
+                    window.location.href = 'dashboard.html';
+                }, 1000);
+            }
         });
 
         document.getElementById('register-form')?.addEventListener('submit', (e) => {
