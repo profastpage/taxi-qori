@@ -104,6 +104,9 @@
     <!-- QORI Single-Tenant Configuration -->
     <script src="qori-config.js"></script>
 
+    <!-- QORI i18n Language System -->
+    <script src="i18n.js"></script>
+
     <script>
         tailwind.config = {
             theme: {
@@ -1103,13 +1106,19 @@
 
                 <!-- Desktop Navigation Links -->
                 <div class="hidden md:flex items-center gap-6">
-                    <a href="#beneficios" class="text-gray-400 hover:text-[#F4B41A] transition-colors text-sm font-medium">Beneficios</a>
-                    <a href="#servicios" class="text-gray-400 hover:text-[#F4B41A] transition-colors text-sm font-medium">Servicios</a>
-                    <a href="#como-funciona" class="text-gray-400 hover:text-[#F4B41A] transition-colors text-sm font-medium">Cómo Funciona</a>
+                    <a href="#beneficios" class="text-gray-400 hover:text-[#F4B41A] transition-colors text-sm font-medium" data-i18n="nav.beneficios">Beneficios</a>
+                    <a href="#servicios" class="text-gray-400 hover:text-[#F4B41A] transition-colors text-sm font-medium" data-i18n="nav.servicios">Servicios</a>
+                    <a href="#como-funciona" class="text-gray-400 hover:text-[#F4B41A] transition-colors text-sm font-medium" data-i18n="nav.como-funciona">Cómo Funciona</a>
                 </div>
 
-                <!-- Auth Buttons - Icon Only (All Devices) -->
+                <!-- Language Toggle + Auth Buttons -->
                 <div class="flex items-center gap-2">
+                    <!-- Language Toggle - Desktop -->
+                    <div class="hidden sm:flex items-center gap-1 mr-2">
+                        <button onclick="setLanguage('es')" class="lang-btn w-7 h-7 rounded-full border border-gray-600 text-xs font-bold transition-all" data-lang="es">ES</button>
+                        <button onclick="setLanguage('en')" class="lang-btn w-7 h-7 rounded-full border border-gray-600 text-xs font-bold transition-all" data-lang="en">EN</button>
+                    </div>
+                    
                     <!-- User Menu - Logged in -->
                     <button id="desktop-user-menu-btn" onclick="openClientDashboard()" class="hidden items-center gap-2 hover:opacity-80 transition-opacity" style="display: none;" aria-label="Mi Perfil">
                         <div class="w-8 h-8 rounded-full bg-gradient-to-br from-[#F4B41A] to-[#D49A12] flex items-center justify-center text-black font-bold text-sm">
@@ -1152,17 +1161,23 @@
             </button>
         </div>
         <div class="mobile-menu-content">
-            <a href="#beneficios" class="mobile-menu-link"><i class="fas fa-star mr-3 text-[#F4B41A]"></i>Beneficios</a>
-            <a href="#servicios" class="mobile-menu-link"><i class="fas fa-car mr-3 text-[#F4B41A]"></i>Servicios</a>
-            <a href="#como-funciona" class="mobile-menu-link"><i class="fas fa-info-circle mr-3 text-[#F4B41A]"></i>Cómo Funciona</a>
+            <!-- Language Toggle - Mobile -->
+            <div class="flex items-center justify-center gap-2 mb-6 pb-6 border-b border-gray-800">
+                <button onclick="setLanguage('es')" class="lang-btn w-10 h-10 rounded-full border border-gray-600 text-sm font-bold transition-all" data-lang="es">ES</button>
+                <button onclick="setLanguage('en')" class="lang-btn w-10 h-10 rounded-full border border-gray-600 text-sm font-bold transition-all" data-lang="en">EN</button>
+            </div>
+            
+            <a href="#beneficios" class="mobile-menu-link" data-i18n="nav.beneficios"><i class="fas fa-star mr-3 text-[#F4B41A]"></i>Beneficios</a>
+            <a href="#servicios" class="mobile-menu-link" data-i18n="nav.servicios"><i class="fas fa-car mr-3 text-[#F4B41A]"></i>Servicios</a>
+            <a href="#como-funciona" class="mobile-menu-link" data-i18n="nav.como-funciona"><i class="fas fa-info-circle mr-3 text-[#F4B41A]"></i>Cómo Funciona</a>
 
             <!-- Auth Buttons - Mobile Menu (visible cuando NO logueado) -->
             <div id="mobile-auth-buttons" class="mt-6 pt-6 border-t border-gray-800">
-                <button onclick="openLoginModal()" class="w-full py-3.5 text-gray-300 hover:text-white border border-gray-700 rounded-full text-sm font-medium transition-colors mb-3 flex items-center justify-center gap-2">
+                <button onclick="openLoginModal()" class="w-full py-3.5 text-gray-300 hover:text-white border border-gray-700 rounded-full text-sm font-medium transition-colors mb-3 flex items-center justify-center gap-2" data-i18n="nav.ingresar">
                     <i class="fas fa-sign-in-alt text-[#F4B41A]"></i>
                     <span>Iniciar Sesión</span>
                 </button>
-                <button onclick="openRegisterModal()" class="w-full bg-gradient-to-br from-[#F4B41A] to-[#D49A12] hover:from-[#FFC947] hover:to-[#F4B41A] text-black py-3.5 rounded-full font-bold flex items-center justify-center gap-2 transition-all shadow-lg">
+                <button onclick="openRegisterModal()" class="w-full bg-gradient-to-br from-[#F4B41A] to-[#D49A12] hover:from-[#FFC947] hover:to-[#F4B41A] text-black py-3.5 rounded-full font-bold flex items-center justify-center gap-2 transition-all shadow-lg" data-i18n="nav.registrarse">
                     <i class="fas fa-user-plus text-base"></i>
                     <span>Registrarse</span>
                 </button>
@@ -4421,6 +4436,9 @@ Probe el cotizador con estos datos:
 
         // Check login state on page load
         checkLoginState();
+        
+        // Initialize language system
+        initLanguage();
 
         // Navbar Scroll Effect
         const navbar = document.getElementById('navbar');
